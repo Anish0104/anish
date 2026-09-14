@@ -1,0 +1,285 @@
+{
+  "canvas": {
+    "width": 320,
+    "height": 372
+  },
+  "smallScale": 0.45,
+  "frames": {
+    "idle": [
+      {
+        "file": "idle-01.png",
+        "placedW": 204,
+        "placedH": 324
+      },
+      {
+        "file": "idle-02.png",
+        "placedW": 204,
+        "placedH": 324
+      },
+      {
+        "file": "idle-03.png",
+        "placedW": 206,
+        "placedH": 323
+      },
+      {
+        "file": "idle-04.png",
+        "placedW": 206,
+        "placedH": 323
+      }
+    ],
+    "wave": [
+      {
+        "file": "wave-01.png",
+        "placedW": 209,
+        "placedH": 321
+      },
+      {
+        "file": "wave-02.png",
+        "placedW": 221,
+        "placedH": 321
+      },
+      {
+        "file": "wave-03.png",
+        "placedW": 213,
+        "placedH": 318
+      },
+      {
+        "file": "wave-04.png",
+        "placedW": 208,
+        "placedH": 320
+      }
+    ],
+    "read": [
+      {
+        "file": "read-01.png",
+        "placedW": 195,
+        "placedH": 272
+      },
+      {
+        "file": "read-02.png",
+        "placedW": 194,
+        "placedH": 272
+      },
+      {
+        "file": "read-03.png",
+        "placedW": 194,
+        "placedH": 271
+      },
+      {
+        "file": "read-04.png",
+        "placedW": 195,
+        "placedH": 271
+      }
+    ],
+    "dance": [
+      {
+        "file": "dance-01.png",
+        "placedW": 223,
+        "placedH": 327
+      },
+      {
+        "file": "dance-02.png",
+        "placedW": 211,
+        "placedH": 326
+      },
+      {
+        "file": "dance-03.png",
+        "placedW": 222,
+        "placedH": 326
+      },
+      {
+        "file": "dance-04.png",
+        "placedW": 207,
+        "placedH": 326
+      }
+    ],
+    "code": [
+      {
+        "file": "code-01.png",
+        "placedW": 203,
+        "placedH": 285
+      },
+      {
+        "file": "code-02.png",
+        "placedW": 200,
+        "placedH": 284
+      },
+      {
+        "file": "code-03.png",
+        "placedW": 198,
+        "placedH": 284
+      },
+      {
+        "file": "code-04.png",
+        "placedW": 198,
+        "placedH": 284
+      }
+    ],
+    "cricket": [
+      {
+        "file": "cricket-01.png",
+        "placedW": 182,
+        "placedH": 297
+      },
+      {
+        "file": "cricket-02.png",
+        "placedW": 202,
+        "placedH": 292
+      },
+      {
+        "file": "cricket-03.png",
+        "placedW": 243,
+        "placedH": 290
+      },
+      {
+        "file": "cricket-04.png",
+        "placedW": 222,
+        "placedH": 294
+      }
+    ],
+    "barbell": [
+      {
+        "file": "barbell-01.png",
+        "placedW": 248,
+        "placedH": 302
+      },
+      {
+        "file": "barbell-02.png",
+        "placedW": 233,
+        "placedH": 301
+      },
+      {
+        "file": "barbell-03.png",
+        "placedW": 231,
+        "placedH": 302
+      },
+      {
+        "file": "barbell-04.png",
+        "placedW": 233,
+        "placedH": 301
+      }
+    ],
+    "climbReach": [
+      {
+        "file": "climbReach-01.png",
+        "placedW": 183,
+        "placedH": 324
+      },
+      {
+        "file": "climbReach-02.png",
+        "placedW": 224,
+        "placedH": 326
+      },
+      {
+        "file": "climbReach-03.png",
+        "placedW": 205,
+        "placedH": 328
+      },
+      {
+        "file": "climbReach-04.png",
+        "placedW": 223,
+        "placedH": 290
+      }
+    ],
+    "climbLoop": [
+      {
+        "file": "climbLoop-01.png",
+        "placedW": 214,
+        "placedH": 306
+      },
+      {
+        "file": "climbLoop-02.png",
+        "placedW": 206,
+        "placedH": 303
+      },
+      {
+        "file": "climbLoop-03.png",
+        "placedW": 186,
+        "placedH": 305
+      },
+      {
+        "file": "climbLoop-04.png",
+        "placedW": 222,
+        "placedH": 307
+      }
+    ],
+    "climbPullUp": [
+      {
+        "file": "climbPullUp-01.png",
+        "placedW": 201,
+        "placedH": 299
+      },
+      {
+        "file": "climbPullUp-02.png",
+        "placedW": 219,
+        "placedH": 268
+      },
+      {
+        "file": "climbPullUp-03.png",
+        "placedW": 212,
+        "placedH": 317
+      },
+      {
+        "file": "climbPullUp-04.png",
+        "placedW": 176,
+        "placedH": 309
+      }
+    ],
+    "climbDown": [
+      {
+        "file": "climbDown-01.png",
+        "placedW": 218,
+        "placedH": 298
+      },
+      {
+        "file": "climbDown-02.png",
+        "placedW": 223,
+        "placedH": 309
+      },
+      {
+        "file": "climbDown-03.png",
+        "placedW": 198,
+        "placedH": 316
+      },
+      {
+        "file": "climbDown-04.png",
+        "placedW": 181,
+        "placedH": 314
+      }
+    ],
+    "walk": [
+      {
+        "file": "walk-01.png",
+        "placedW": 202,
+        "placedH": 324
+      },
+      {
+        "file": "walk-02.png",
+        "placedW": 204,
+        "placedH": 328
+      }
+    ],
+    "run": [
+      {
+        "file": "run-01.png",
+        "placedW": 241,
+        "placedH": 320
+      },
+      {
+        "file": "run-02.png",
+        "placedW": 244,
+        "placedH": 298
+      },
+      {
+        "file": "run-03.png",
+        "placedW": 245,
+        "placedH": 316
+      },
+      {
+        "file": "run-04.png",
+        "placedW": 245,
+        "placedH": 303
+      }
+    ]
+  }
+}

@@ -1,0 +1,520 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Colour tokens live as CSS variables so the dark theme is a variable swap
+ * rather than a second set of utility classes on every element.
+ */
+:root {
+  /*
+   * Warm off-white rather than the old near-blue white, so the plaster
+   * texture and the window light in `components/WallBackground` read as a wall
+   * rather than as dirt on a screen. Kept close enough to white that the
+   * `--surface` cards still separate from it cleanly.
+   */
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --surface-2: #f5f5f7;
+  --text: #1d1d1f;
+  --text-soft: #3c3c43;
+  --muted: #62626a;
+  --faint: #7c7c85;
+  --border: #e3e3e8;
+  --border-strong: #d0d0d7;
+  --accent: #0b5fce;
+  --accent-hover: #0a52b0;
+  --accent-soft: #eaf1fd;
+  --accent-ring: rgba(11, 95, 206, 0.35);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 4px 16px rgba(16, 24, 40, 0.07);
+
+  /*
+   * The wall. Deliberately weak numbers: the texture is meant to be felt
+   * rather than seen, and the window is meant to be light rather than a
+   * pattern. Anything stronger starts competing with the text.
+   */
+  --wall-grain: 0.1;
+  --wall-mottle-a: rgba(148, 138, 122, 0.09);
+  --wall-mottle-b: rgba(255, 255, 255, 0.55);
+  --wall-pane: rgba(255, 255, 255, 0.92);
+  --wall-bar: rgba(116, 104, 86, 0.3);
+  /* The same colour at zero alpha, so a soft edge fades rather than greys. */
+  --wall-bar-0: rgba(116, 104, 86, 0);
+  --wall-light-height: 1180px;
+  --wall-light-scale: 1;
+
+  /*
+   * System sans only: nothing downloaded, nothing redistributed. The stack
+   * resolves to SF on Apple platforms, Segoe UI on Windows, Roboto on Android.
+   */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  /* Used only for the hand-lettered labels inside the desk illustration. */
+  --font-hand: var(--font-caveat), "Bradley Hand", "Segoe Print", cursive;
+
+  /*
+   * Desk-illustration palette. Object fills are explicit colours so the
+   * artwork keeps its identity (sky-blue laptop, green leaves, silver can);
+   * only the outline colour follows the theme via currentColor. The SVG is
+   * never inverted wholesale.
+   */
+  --il-surface: #ffffff;
+  --il-laptop: #a8cbe6;
+  --il-laptop-2: #8ab6d8;
+  --il-laptop-hi: #d2e6f4;
+  --il-apple: #eaf3fb;
+  --il-leaf-a: #7ba86a;
+  --il-leaf-b: #689a59;
+  --il-leaf-c: #8fba7c;
+  --il-pot: #e6dacb;
+  --il-pot-2: #d6c7b4;
+  --il-coffee: #6b4423;
+  --il-coffee-top: #8a5c33;
+  --il-glass: rgba(255, 255, 255, 0.55);
+  --il-can: #dbe0e5;
+  --il-can-2: #c0c7ce;
+  --il-can-hi: #f2f5f8;
+  --il-red: #c8102e;
+  --il-pen-cap: #7c7f6e;
+  --il-pen-grip: #9a9c88;
+  --il-pen-label: #23252b;
+  --il-pen-metal: #b9bcc2;
+  --il-pen-blue: #2f5fd0;
+
+  color-scheme: light;
+
+}
+
+.dark {
+  --bg: #131215;
+  --surface: #17171b;
+  --surface-2: #1e1e24;
+  --text: #f2f2f5;
+  --text-soft: #d3d3da;
+  --muted: #a0a0aa;
+  --faint: #86868f;
+  --border: #2a2a31;
+  --border-strong: #3a3a43;
+  --accent: #6aa9ff;
+  --accent-hover: #8bbcff;
+  --accent-soft: #17243a;
+  --accent-ring: rgba(106, 169, 255, 0.4);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.45);
+
+  /*
+   * A different wall, not the same one dimmed. Charcoal plaster takes a
+   * coarser grain before it shows, and the window becomes a faint wash rather
+   * than a bright pane, because a bright pane on a dark page reads as glare.
+   */
+  --wall-grain: 0.13;
+  --wall-mottle-a: rgba(0, 0, 0, 0.3);
+  --wall-mottle-b: rgba(255, 255, 255, 0.05);
+  --wall-pane: rgba(255, 255, 255, 0.085);
+  --wall-bar: rgba(0, 0, 0, 0.46);
+  --wall-bar-0: rgba(0, 0, 0, 0);
+
+  --il-surface: #17171b;
+  --il-laptop: #6e9ec4;
+  --il-laptop-2: #5a88ae;
+  --il-laptop-hi: #93bedd;
+  --il-apple: #c8dff2;
+  --il-leaf-a: #5f8d51;
+  --il-leaf-b: #4f7a44;
+  --il-leaf-c: #6fa060;
+  --il-pot: #4b4339;
+  --il-pot-2: #5c5348;
+  --il-coffee: #5b3b1f;
+  --il-coffee-top: #77502e;
+  --il-glass: rgba(255, 255, 255, 0.09);
+  --il-can: #9ba3ab;
+  --il-can-2: #7e868e;
+  --il-can-hi: #bcc4cc;
+  --il-red: #d6293f;
+  --il-pen-cap: #6a6d5e;
+  --il-pen-grip: #868873;
+  --il-pen-label: #1a1c21;
+  --il-pen-metal: #9ba0a7;
+  --il-pen-blue: #6f97ee;
+
+  color-scheme: dark;
+
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.022em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--text);
+  }
+}
+
+@layer components {
+  /* Headline wrapping: let the browser balance it instead of hard <br>s. */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .link-underline {
+    position: relative;
+  }
+
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms ease;
+  }
+
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .row-arrow {
+    transition: transform 200ms ease;
+  }
+
+  .group:hover .row-arrow {
+    transform: translateX(3px);
+  }
+}
+
+/* Gentle rise-and-fade for the illustration's coffee steam. */
+@keyframes steam-drift {
+  0% {
+    opacity: 0;
+    transform: translateY(4px) scaleX(1);
+  }
+  35% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scaleX(1.12);
+  }
+}
+
+.steam-wisp {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: steam-drift 5.5s ease-in-out infinite;
+}
+
+.steam-wisp:nth-child(2) {
+  animation-delay: 1.7s;
+}
+
+.steam-wisp:nth-child(3) {
+  animation-delay: 3.4s;
+}
+
+/* Rendered README markdown. Scoped so it can't leak into the site's own type. */
+.markdown-body {
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.markdown-body > *:first-child {
+  margin-top: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1.8em 0 0.6em;
+}
+
+.markdown-body h1 {
+  font-size: 1.5em;
+}
+.markdown-body h2 {
+  font-size: 1.25em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3em;
+}
+.markdown-body h3 {
+  font-size: 1.08em;
+}
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body p,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body blockquote {
+  margin: 0.9em 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.4em;
+}
+
+.markdown-body ul {
+  list-style: disc;
+}
+.markdown-body ol {
+  list-style: decimal;
+}
+.markdown-body li {
+  margin: 0.3em 0;
+}
+
+.markdown-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown-body strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.markdown-body code {
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.12em 0.36em;
+}
+
+.markdown-body pre {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 1.1em 0;
+}
+
+.markdown-body pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 0.84em;
+  line-height: 1.55;
+}
+
+.markdown-body blockquote {
+  border-left: 3px solid var(--border-strong);
+  padding-left: 1em;
+  color: var(--muted);
+}
+
+/* Tables scroll inside their own wrapper rather than widening the dialog. */
+.markdown-body .table-scroll {
+  overflow-x: auto;
+  margin: 1.1em 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  font-size: 0.92em;
+  min-width: 100%;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid var(--border);
+  padding: 7px 11px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown-body th {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.markdown-body hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1.8em 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .steam-wisp {
+    opacity: 0.5;
+    animation: none !important;
+  }
+}
+
+/*
+ * The wall: plaster texture and window light.
+ *
+ * Rendered by `components/WallBackground`, behind everything, inside a
+ * `[data-decorative]` wrapper that is aria-hidden, click-through and skipped
+ * by the companion's obstacle detection.
+ *
+ * Nothing here animates and nothing here affects layout: both layers are taken
+ * out of flow and neither has a size that depends on content.
+ */
+@layer components {
+  .wall-texture,
+  .wall-light {
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /*
+   * Grain, fixed to the viewport so it sits behind the whole document however
+   * long the page is, and so it cannot scroll a tile boundary into view.
+   *
+   * The tile is `feTurbulence` with `stitchTiles="stitch"`, which is the part
+   * that makes the tile edges match: without it a 200px grid of seams appears
+   * across a wide page.
+   */
+  .wall-texture {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    opacity: var(--wall-grain);
+  }
+
+  /*
+   * The uneven patches in the plaster, on their own layer at full opacity
+   * because their colours already carry the alpha they need. These gradients
+   * never repeat, so they contribute no seams at any page width. A tile alone
+   * reads as screen noise; this is what makes it read as a wall.
+   */
+  .wall-texture::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(120% 80% at 12% 8%, var(--wall-mottle-b), transparent 60%),
+      radial-gradient(100% 70% at 88% 78%, var(--wall-mottle-a), transparent 65%);
+  }
+
+  /*
+   * The window. Absolute at the top of the document, not fixed, so the light
+   * falls once at the top and scrolls away rather than following the reader
+   * down the page or repeating at every section.
+   *
+   * The bars are a repeating gradient at a shallow angle. Every stop fades
+   * over about 55px rather than switching at a hard line, because a window
+   * shadow on plaster has no edge; the zero-alpha stop is the same colour
+   * rather than `transparent`, which would interpolate through grey and leave
+   * a dirty rim.
+   *
+   * The mask does the rest of the work: a radial fade anchored in the top
+   * right corner means only two or three bars ever appear, they are strongest
+   * in that corner, and they are gone before the content column has much in
+   * it.
+   */
+  .wall-light {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: var(--wall-light-height);
+    background-image:
+      repeating-linear-gradient(
+        116deg,
+        var(--wall-bar-0) 0,
+        var(--wall-bar-0) calc(96px * var(--wall-light-scale)),
+        var(--wall-bar) calc(130px * var(--wall-light-scale)),
+        var(--wall-bar) calc(214px * var(--wall-light-scale)),
+        var(--wall-bar-0) calc(248px * var(--wall-light-scale)),
+        var(--wall-bar-0) calc(368px * var(--wall-light-scale))
+      ),
+      linear-gradient(116deg, var(--wall-pane) 0%, transparent 64%);
+    -webkit-mask-image: radial-gradient(
+      102% 74% at 100% 0%,
+      #000 0%,
+      rgba(0, 0, 0, 0.92) 26%,
+      rgba(0, 0, 0, 0.45) 56%,
+      transparent 80%
+    );
+    mask-image: radial-gradient(
+      102% 74% at 100% 0%,
+      #000 0%,
+      rgba(0, 0, 0, 0.92) 26%,
+      rgba(0, 0, 0, 0.45) 56%,
+      transparent 80%
+    );
+  }
+
+  /*
+   * On a phone the window is a smaller room. The bars scale down so the
+   * pattern does not become stripes across the whole screen, and the light
+   * fades further so it never competes with a single column of text.
+   */
+  @media (max-width: 639px) {
+    .wall-light {
+      --wall-light-scale: 0.52;
+      height: 620px;
+      opacity: 0.6;
+    }
+
+    .wall-texture {
+      opacity: calc(var(--wall-grain) * 0.8);
+    }
+  }
+}
