@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { profile } from "@/data/profile";
+import { profile, resume } from "@/data/profile";
 import DeskIllustration, { CAN_IMAGE_PATH } from "./DeskIllustration";
 import { hasPublicAsset } from "@/lib/assets";
 
@@ -49,6 +49,26 @@ export default function Hero() {
               <span aria-hidden="true" className="text-[10px]">↗</span>
             </a>
           ))}
+
+          {/*
+            The resume sits with the contact links rather than in `profile.links`
+            so it keeps reading its path from the `resume` config, which is the
+            one place that knows whether the PDF is actually there. Same classes
+            as the mapped links above, so it inherits their colour, type and
+            arrow rather than restating them. The row already wraps, so this is
+            simply a fourth item on it.
+          */}
+          {resume.available ? (
+            <a
+              href={resume.path}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline inline-flex items-center gap-1.5 font-mono text-[13px] text-accent"
+            >
+              View resume
+              <span aria-hidden="true" className="text-[10px]">↗</span>
+            </a>
+          ) : null}
         </div>
 
         <p className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
