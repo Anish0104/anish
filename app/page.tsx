@@ -12,12 +12,6 @@ export default function HomePage() {
   return (
     <ImageCursorTrail>
       <Hero />
-      <p className="mt-3 text-right font-mono text-[10px] leading-relaxed text-faint">
-        Cursor stickers ·{" "}
-        <a href="https://skiper-ui.com/v1/skiper18" target="_blank" rel="noopener noreferrer" className="link-underline hover:text-text">Skiper UI</a>
-        {" / "}
-        <a href="https://www.befreaky.co/" target="_blank" rel="noopener noreferrer" className="link-underline hover:text-text">BeFreaky</a>
-      </p>
       <AskBar />
 
       <section className="relative mt-16 border-t border-border pt-12 sm:mt-20">
