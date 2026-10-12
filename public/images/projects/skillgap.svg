@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Warm cream sketchbook background -->
+  <rect width="800" height="500" fill="#faf7f0"/>
+
+  <g stroke="#18181b" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Base grounding stroke -->
+    <path d="M 80 435 C 280 440, 520 440, 720 435" stroke="#cf4b2a" stroke-width="4.5" stroke-dasharray="14 16" opacity="0.35"/>
+
+    <!-- Left side: Flat Resume sheet beginning to fold upward dynamically -->
+    <g transform="translate(85, 230)">
+      <!-- Resume paper base -->
+      <path d="M 0 170 C 40 172, 90 170, 130 160 L 140 30 C 95 35, 45 32, 0 45 Z" fill="#ffffff" stroke-width="5.5"/>
+      <!-- Terracotta header band on résumé -->
+      <path d="M 15 65 C 50 60, 90 58, 125 56" stroke="#cf4b2a" stroke-width="6"/>
+      <!-- Abstract profile avatar circle and resume lines -->
+      <circle cx="35" cy="95" r="12" fill="#fcedea" stroke="#cf4b2a" stroke-width="3.5"/>
+      <path d="M 58 92 L 115 88 M 58 102 L 95 99" stroke="#cf4b2a" stroke-width="3.5"/>
+      <!-- Abstract resume bullets -->
+      <path d="M 20 125 L 110 120 M 20 142 L 90 138" stroke="#18181b" stroke-width="3.5"/>
+    </g>
+
+    <!-- The Accordion-Folding Staircase Ascending to Career Summit -->
+    <!-- Transition fold: sheet folding up into step 1 -->
+    <path d="M 215 390 L 255 390 L 255 325 L 340 325 L 340 260" stroke-width="6"/>
+    <!-- Step 1 riser & tread -->
+    <path d="M 215 390 L 255 390" fill="none"/>
+    <polygon points="215,390 255,390 255,325 215,325" fill="#fcedea" stroke="#18181b" stroke-width="5"/>
+    <polygon points="255,325 340,325 340,260 255,260" fill="#ffffff" stroke="#18181b" stroke-width="5"/>
+
+    <!-- GAP IN STAIRS (The Skill Gap waiting for the missing piece) -->
+    <!-- Dotted ghost outline of the missing step in terracotta -->
+    <g transform="translate(340, 260)">
+      <path d="M 0 0 L 85 0 L 85 -65 L 0 -65 Z" stroke="#cf4b2a" stroke-width="4" stroke-dasharray="8 6" fill="#fcedea" fill-opacity="0.4"/>
+      <!-- Question / gap mark doodle -->
+      <path d="M 38 -45 C 38 -55, 48 -55, 48 -45 C 48 -35, 42 -32, 42 -25" stroke="#cf4b2a" stroke-width="4"/>
+      <circle cx="42" cy="-16" r="3" fill="#cf4b2a" stroke="none"/>
+    </g>
+
+    <!-- Next steps continuing up to the top flag -->
+    <polygon points="425,195 510,195 510,130 425,130" fill="#ffffff" stroke="#18181b" stroke-width="5"/>
+    <polygon points="510,130 595,130 595,70 510,70" fill="#fcedea" stroke="#18181b" stroke-width="5.5"/>
+
+    <!-- Terracotta tread highlights -->
+    <path d="M 260 325 L 335 325" stroke="#cf4b2a" stroke-width="5"/>
+    <path d="M 430 195 L 505 195" stroke="#cf4b2a" stroke-width="5"/>
+    <path d="M 515 130 L 590 130" stroke="#cf4b2a" stroke-width="6"/>
+
+    <!-- Top Summit: Fluttering Career Goal Flag (Bold Terracotta) -->
+    <g transform="translate(595, 70)">
+      <!-- Flagpole with round cap -->
+      <path d="M 0 0 L 0 -105" stroke="#18181b" stroke-width="5.5"/>
+      <circle cx="0" cy="-105" r="7" fill="#cf4b2a" stroke="#18181b" stroke-width="3.5"/>
+      
+      <!-- Big fluttering pennant in bold terracotta -->
+      <path d="M 0 -100 C 45 -115, 75 -85, 115 -100 L 115 -50 C 75 -35, 45 -65, 0 -50 Z" fill="#cf4b2a" stroke="#18181b" stroke-width="5"/>
+      <!-- Star of achievement on the flag -->
+      <g transform="translate(45, -75)">
+        <path d="M 0 -12 L 3 -3 L 12 0 L 3 3 L 0 12 L -3 3 L -12 0 L -3 -3 Z" fill="#ffffff" stroke="none"/>
+      </g>
+
+      <!-- Victory radiate sparks around flag -->
+      <path d="M 130 -115 L 140 -125 M 135 -75 L 148 -70 M 125 -40 L 138 -30" stroke="#cf4b2a" stroke-width="3.5"/>
+    </g>
+
+    <!-- The Playful Little Doodle Person (Carrying the missing block with energetic determination) -->
+    <g transform="translate(260, 160)">
+      <!-- Motion dust clouds behind feet -->
+      <path d="M -30 90 C -40 85, -50 92, -45 98 C -35 102, -25 95, -15 95" stroke="#cf4b2a" stroke-width="3"/>
+
+      <!-- Legs in running/climbing step -->
+      <path d="M 15 75 L 5 110 L -12 112" stroke="#18181b" stroke-width="5"/>
+      <path d="M 30 75 L 42 105 L 58 104" stroke="#18181b" stroke-width="5"/>
+
+      <!-- Torso tilted forward with effort -->
+      <path d="M 22 75 L 28 35" stroke="#18181b" stroke-width="6"/>
+
+      <!-- Cheerful head looking up at the gap and summit -->
+      <circle cx="32" cy="15" r="18" fill="#ffffff" stroke="#18181b" stroke-width="5"/>
+      <!-- Expressive eyes and focused smile -->
+      <circle cx="38" cy="14" r="3.5" fill="#18181b" stroke="none"/>
+      <path d="M 36 24 Q 44 26 46 20" stroke="#18181b" stroke-width="3"/>
+      <!-- Tiny sweat / effort doodle drop -->
+      <path d="M 12 10 C 10 5, 8 2, 8 0 C 12 2, 14 6, 12 10 Z" fill="#cf4b2a" stroke="none"/>
+
+      <!-- Arms hoisted high carrying the missing step block -->
+      <path d="M 28 45 L 48 30 L 65 35" stroke="#18181b" stroke-width="5"/>
+      <path d="M 28 45 L 35 25 L 55 18" stroke="#18181b" stroke-width="5"/>
+
+      <!-- THE MISSING STEP BLOCK (Bold Terracotta, held triumphantly) -->
+      <g transform="translate(50, -5) rotate(6)">
+        <polygon points="0,0 60,-5 60,35 0,40" fill="#cf4b2a" stroke="#18181b" stroke-width="5"/>
+        <!-- Inner highlight lines on the carried block -->
+        <path d="M 8 10 L 52 6 M 8 25 L 45 22" stroke="#ffffff" stroke-width="3.5"/>
+        <!-- Action lines around the block -->
+        <path d="M 68 -10 L 76 -18 M 70 15 L 82 15 M 68 40 L 78 48" stroke="#cf4b2a" stroke-width="3"/>
+      </g>
+    </g>
+
+    <!-- Whimsical doodles, sparkles, and arrows -->
+    <!-- Upward trajectory swoosh -->
+    <path d="M 220 300 C 270 210, 330 180, 410 130" stroke="#cf4b2a" stroke-width="3.5" stroke-dasharray="6 6"/>
+    <path d="M 400 128 L 415 127 L 410 142" stroke="#cf4b2a" stroke-width="3.5"/>
+
+    <g transform="translate(680, 220)">
+      <path d="M 0 -12 Q 2 -2 12 0 Q 2 2 0 12 Q -2 2 -12 0 Q -2 -2 0 -12 Z" fill="#cf4b2a" stroke="#18181b" stroke-width="2.5"/>
+    </g>
+    <circle cx="160" cy="110" r="4.5" fill="#cf4b2a" stroke="none"/>
+    <circle cx="700" cy="380" r="4" fill="#cf4b2a" stroke="none"/>
+  </g>
+</svg>

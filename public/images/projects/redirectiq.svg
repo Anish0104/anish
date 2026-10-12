@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Warm cream sketchbook background -->
+  <rect width="800" height="500" fill="#faf7f0"/>
+
+  <g stroke="#18181b" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Grounding baseline -->
+    <path d="M 80 430 C 260 435, 520 435, 720 430" stroke="#d99b16" stroke-width="4.5" stroke-dasharray="14 16" opacity="0.35"/>
+
+    <!-- Three Winding Pipes with Playful Character & Irregular Curves -->
+    <!-- PIPE 1 (Top / Fast Straight Route with gentle wave) -->
+    <g>
+      <!-- Pipe tunnel walls -->
+      <path d="M 60 120 C 130 115, 180 155, 260 150 C 330 145, 380 110, 470 115" stroke="#18181b" stroke-width="6"/>
+      <path d="M 60 160 C 130 155, 180 195, 260 190 C 330 185, 380 150, 470 155" stroke="#18181b" stroke-width="6"/>
+      <!-- Pipe entrance collar in mustard -->
+      <rect x="48" y="115" width="16" height="50" rx="6" fill="#d99b16" stroke="#18181b" stroke-width="5"/>
+      <!-- Pipe exit nozzle -->
+      <rect x="466" y="110" width="16" height="50" rx="6" fill="#d99b16" stroke="#18181b" stroke-width="5"/>
+      
+      <!-- Envelope Request in Pipe 1 zooming fast (Leading the race) -->
+      <g transform="translate(390, 122) rotate(-8)">
+        <rect x="0" y="0" width="38" height="26" rx="4" fill="#ffffff" stroke="#18181b" stroke-width="4"/>
+        <path d="M 0 0 L 19 14 L 38 0" stroke="#18181b" stroke-width="4"/>
+        <!-- Speed trail lines behind envelope -->
+        <path d="M -15 6 L -5 6 M -20 14 L -8 14 M -12 22 L -4 22" stroke="#d99b16" stroke-width="3.5"/>
+      </g>
+    </g>
+
+    <!-- PIPE 2 (Middle / Loopy S-Curve Pipe) -->
+    <g>
+      <path d="M 60 220 C 120 225, 150 295, 230 300 C 310 305, 360 215, 470 230" stroke="#18181b" stroke-width="6"/>
+      <path d="M 60 260 C 120 265, 150 335, 230 340 C 310 345, 360 255, 470 270" stroke="#18181b" stroke-width="6"/>
+      <rect x="48" y="215" width="16" height="50" rx="6" fill="#d99b16" stroke="#18181b" stroke-width="5"/>
+      <rect x="466" y="225" width="16" height="50" rx="6" fill="#d99b16" stroke="#18181b" stroke-width="5"/>
+
+      <!-- Envelope in Pipe 2 navigating curve -->
+      <g transform="translate(240, 290) rotate(10)">
+        <rect x="0" y="0" width="36" height="24" rx="4" fill="#ffffff" stroke="#18181b" stroke-width="4"/>
+        <path d="M 0 0 L 18 13 L 36 0" stroke="#18181b" stroke-width="4"/>
+        <path d="M -14 7 L -4 7 M -18 16 L -6 16" stroke="#d99b16" stroke-width="3"/>
+      </g>
+    </g>
+
+    <!-- PIPE 3 (Bottom / Long Winding Scenic Route with bold dip) -->
+    <g>
+      <path d="M 60 325 C 130 330, 160 395, 240 405 C 330 415, 400 370, 470 350" stroke="#18181b" stroke-width="6"/>
+      <path d="M 60 365 C 130 370, 160 435, 240 445 C 330 455, 400 410, 470 390" stroke="#18181b" stroke-width="6"/>
+      <rect x="48" y="320" width="16" height="50" rx="6" fill="#d99b16" stroke="#18181b" stroke-width="5"/>
+      <rect x="466" y="345" width="16" height="50" rx="6" fill="#d99b16" stroke="#18181b" stroke-width="5"/>
+
+      <!-- Envelope in Pipe 3 cruising -->
+      <g transform="translate(130, 335) rotate(16)">
+        <rect x="0" y="0" width="34" height="24" rx="4" fill="#ffffff" stroke="#18181b" stroke-width="4"/>
+        <path d="M 0 0 L 17 13 L 34 0" stroke="#18181b" stroke-width="4"/>
+      </g>
+    </g>
+
+    <!-- Shared Finish Line Banner across all three outputs -->
+    <g transform="translate(485, 95)">
+      <!-- Finish line posts -->
+      <path d="M 0 0 L 0 310" stroke="#18181b" stroke-width="6"/>
+      <!-- Checkered / banded tape effect in mustard -->
+      <path d="M 0 10 L 0 300" stroke="#d99b16" stroke-width="8" stroke-dasharray="14 14"/>
+      <!-- Finish ribbon doodle flag at top -->
+      <polygon points="0,5 35,-10 0,-25" fill="#d99b16" stroke="#18181b" stroke-width="4"/>
+    </g>
+
+    <!-- Large Hand-Drawn Stopwatch (Prominently tilted on right, vibrant mustard accent) -->
+    <g transform="translate(560, 130) rotate(8)">
+      <!-- Top pusher button & hanger loop -->
+      <path d="M 85 -20 C 65 -45, 105 -45, 85 -20" stroke="#18181b" stroke-width="5"/>
+      <rect x="74" y="-18" width="22" height="18" rx="4" fill="#d99b16" stroke="#18181b" stroke-width="5"/>
+      <!-- Side split/lap button -->
+      <rect x="156" y="14" width="15" height="12" rx="3" fill="#d99b16" stroke="#18181b" stroke-width="4" transform="rotate(35 156 14)"/>
+
+      <!-- Outer Stopwatch Body (Irregular hand-drawn round casing) -->
+      <ellipse cx="85" cy="85" rx="90" ry="92" fill="#ffffff" stroke="#18181b" stroke-width="6.5"/>
+      <!-- Inner bold mustard track ring -->
+      <ellipse cx="85" cy="85" rx="76" ry="78" fill="#fcf5e3" stroke="#d99b16" stroke-width="4"/>
+
+      <!-- Dial tick marks (Abstract, no readable numbers) -->
+      <g stroke="#18181b" stroke-width="4">
+        <!-- 12, 3, 6, 9 marks -->
+        <path d="M 85 15 L 85 28 M 85 155 L 85 142"/>
+        <path d="M 15 85 L 28 85 M 155 85 L 142 85"/>
+        <!-- Intermediate tick marks -->
+        <path d="M 36 36 L 46 46 M 134 36 L 124 46" stroke-width="3"/>
+        <path d="M 36 134 L 46 124 M 134 134 L 124 124" stroke-width="3"/>
+      </g>
+
+      <!-- Center hub and animated sweeping stopwatch hand in vibrant mustard -->
+      <circle cx="85" cy="85" r="9" fill="#18181b" stroke="none"/>
+      <!-- Stopwatch needle pointing dynamically toward speed zone -->
+      <path d="M 85 85 L 125 45" stroke="#d99b16" stroke-width="6"/>
+      <path d="M 125 45 L 132 40" stroke="#18181b" stroke-width="4"/>
+      <path d="M 85 85 L 72 98" stroke="#18181b" stroke-width="4"/>
+
+      <!-- Motion swoosh arc around needle showing fast timing -->
+      <path d="M 105 40 C 120 48, 135 65, 140 85" stroke="#d99b16" stroke-width="3.5" stroke-dasharray="6 6"/>
+      
+      <!-- Specular shine on glass -->
+      <path d="M 40 45 C 55 30, 75 25, 95 26" stroke="#ffffff" stroke-width="5"/>
+    </g>
+
+    <!-- Playful speed doodle sparks -->
+    <path d="M 525 80 L 538 72 M 530 65 L 536 78" stroke="#d99b16" stroke-width="3"/>
+    <g transform="translate(710, 360)">
+      <path d="M 0 -12 Q 2 -2 12 0 Q 2 2 0 12 Q -2 2 -12 0 Q -2 -2 0 -12 Z" fill="#d99b16" stroke="#18181b" stroke-width="2.5"/>
+    </g>
+    <circle cx="530" cy="410" r="4.5" fill="#d99b16" stroke="none"/>
+    <circle cx="210" cy="80" r="4" fill="#d99b16" stroke="none"/>
+  </g>
+</svg>

@@ -15,13 +15,13 @@
    */
   --bg: #faf8f5;
   --surface: #ffffff;
-  --surface-2: #f5f5f7;
+  --surface-2: #f2f1ef;
   --text: #1d1d1f;
   --text-soft: #3c3c43;
-  --muted: #62626a;
-  --faint: #7c7c85;
-  --border: #e3e3e8;
-  --border-strong: #d0d0d7;
+  --muted: #5e5f68;
+  --faint: #6d6e78;
+  --border: #e2dfda;
+  --border-strong: #cecbc5;
   --accent: #0b5fce;
   --accent-hover: #0a52b0;
   --accent-soft: #eaf1fd;
@@ -34,13 +34,9 @@
    * rather than seen, and the window is meant to be light rather than a
    * pattern. Anything stronger starts competing with the text.
    */
-  --wall-grain: 0.1;
+  --wall-grain: 0.055;
   --wall-mottle-a: rgba(148, 138, 122, 0.09);
   --wall-mottle-b: rgba(255, 255, 255, 0.55);
-  --wall-pane: rgba(255, 255, 255, 0.92);
-  --wall-bar: rgba(116, 104, 86, 0.3);
-  /* The same colour at zero alpha, so a soft edge fades rather than greys. */
-  --wall-bar-0: rgba(116, 104, 86, 0);
   --wall-light-height: 1180px;
   --wall-light-scale: 1;
 
@@ -89,33 +85,30 @@
 }
 
 .dark {
-  --bg: #131215;
-  --surface: #17171b;
-  --surface-2: #1e1e24;
-  --text: #f2f2f5;
-  --text-soft: #d3d3da;
-  --muted: #a0a0aa;
-  --faint: #86868f;
-  --border: #2a2a31;
-  --border-strong: #3a3a43;
-  --accent: #6aa9ff;
-  --accent-hover: #8bbcff;
-  --accent-soft: #17243a;
-  --accent-ring: rgba(106, 169, 255, 0.4);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.45);
+  --bg: #15161a;
+  --surface: #1d1e23;
+  --surface-2: #25262d;
+  --text: #f3f3f5;
+  --text-soft: #d8d9df;
+  --muted: #b0b1be;
+  --faint: #a0a1ae;
+  --border: #33343d;
+  --border-strong: #454650;
+  --accent: #8db8ff;
+  --accent-hover: #b0ceff;
+  --accent-soft: #202e45;
+  --accent-ring: rgba(141, 184, 255, 0.4);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.28);
 
   /*
    * A different wall, not the same one dimmed. Charcoal plaster takes a
    * coarser grain before it shows, and the window becomes a faint wash rather
    * than a bright pane, because a bright pane on a dark page reads as glare.
    */
-  --wall-grain: 0.13;
+  --wall-grain: 0.045;
   --wall-mottle-a: rgba(0, 0, 0, 0.3);
   --wall-mottle-b: rgba(255, 255, 255, 0.05);
-  --wall-pane: rgba(255, 255, 255, 0.085);
-  --wall-bar: rgba(0, 0, 0, 0.46);
-  --wall-bar-0: rgba(0, 0, 0, 0);
 
   --il-surface: #17171b;
   --il-laptop: #6e9ec4;
@@ -142,6 +135,84 @@
 
   color-scheme: dark;
 
+}
+
+/* Only animate the palette during an explicit theme change. The toggle has
+ * its own rolling animation, and layout/companion movement is left alone. */
+html[data-theme-transitioning] :where(body, body *):not(
+  [data-theme-toggle],
+  [data-theme-toggle] *,
+  .wall-light,
+  .wall-texture
+) {
+  transition-property: color, background-color, border-color, box-shadow, fill, stroke !important;
+  transition-duration: 450ms !important;
+  transition-timing-function: ease !important;
+}
+
+/* The new palette travels along a soft elliptical orbit. Light mode folds
+ * the old night back toward the switch, rather than repeating the reveal. */
+@property --theme-orbit-radius {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+html[data-theme-orbit] :where(body, body *):not(
+  [data-theme-toggle],
+  [data-theme-toggle] *
+) {
+  transition: none !important;
+}
+
+html[data-theme-orbit]::view-transition {
+  pointer-events: none;
+}
+
+html[data-theme-orbit]::view-transition-group(root),
+html[data-theme-orbit]::view-transition-old(root),
+html[data-theme-orbit]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-theme-orbit]::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+
+html[data-theme-orbit="dark"]::view-transition-old(root),
+html[data-theme-orbit="light"]::view-transition-new(root) {
+  z-index: 1;
+}
+
+html[data-theme-orbit="dark"]::view-transition-new(root),
+html[data-theme-orbit="light"]::view-transition-old(root) {
+  z-index: 2;
+  mask-image: radial-gradient(
+    ellipse var(--theme-orbit-radius) calc(var(--theme-orbit-radius) * 0.88)
+      at var(--theme-orbit-x) var(--theme-orbit-y),
+    #000 calc(100% - 28px),
+    transparent 100%
+  );
+}
+
+/* Daylight first opens around the droid, so its return roll stays visible
+ * while the remaining night contracts. The edge stays softly feathered. */
+html[data-theme-orbit="light"]::view-transition-old(root) {
+  mask-image:
+    radial-gradient(
+      ellipse var(--theme-orbit-radius) calc(var(--theme-orbit-radius) * 0.88)
+        at var(--theme-orbit-x) var(--theme-orbit-y),
+      #000 calc(100% - 28px),
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse calc(var(--theme-toggle-width) * 0.65) var(--theme-toggle-height)
+        at var(--theme-orbit-x) calc(var(--theme-orbit-y) - 4px),
+      #000 80%,
+      transparent 100%
+    );
+  mask-composite: subtract;
 }
 
 @layer base {
@@ -388,6 +459,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
   *,
   *::before,
   *::after {
@@ -410,8 +487,8 @@
  * `[data-decorative]` wrapper that is aria-hidden, click-through and skipped
  * by the companion's obstacle detection.
  *
- * Nothing here animates and nothing here affects layout: both layers are taken
- * out of flow and neither has a size that depends on content.
+ * The two lighting treatments crossfade only when the theme changes. All
+ * decorative layers are out of flow and cannot affect the page layout.
  */
 @layer components {
   .wall-texture,
@@ -435,6 +512,7 @@
     background-repeat: repeat;
     background-size: 200px 200px;
     opacity: var(--wall-grain);
+    transition: opacity 450ms ease;
   }
 
   /*
@@ -469,22 +547,13 @@
    * it.
    */
   .wall-light {
+    --wall-light-opacity: 1;
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
     height: var(--wall-light-height);
-    background-image:
-      repeating-linear-gradient(
-        116deg,
-        var(--wall-bar-0) 0,
-        var(--wall-bar-0) calc(96px * var(--wall-light-scale)),
-        var(--wall-bar) calc(130px * var(--wall-light-scale)),
-        var(--wall-bar) calc(214px * var(--wall-light-scale)),
-        var(--wall-bar-0) calc(248px * var(--wall-light-scale)),
-        var(--wall-bar-0) calc(368px * var(--wall-light-scale))
-      ),
-      linear-gradient(116deg, var(--wall-pane) 0%, transparent 64%);
+    transition: opacity 450ms ease;
     -webkit-mask-image: radial-gradient(
       102% 74% at 100% 0%,
       #000 0%,
@@ -501,6 +570,43 @@
     );
   }
 
+  .wall-light-day,
+  .wall-light-night {
+    background-image:
+      repeating-linear-gradient(
+        116deg,
+        var(--wall-bar-0) 0,
+        var(--wall-bar-0) calc(96px * var(--wall-light-scale)),
+        var(--wall-bar) calc(130px * var(--wall-light-scale)),
+        var(--wall-bar) calc(214px * var(--wall-light-scale)),
+        var(--wall-bar-0) calc(248px * var(--wall-light-scale)),
+        var(--wall-bar-0) calc(368px * var(--wall-light-scale))
+      ),
+      linear-gradient(116deg, var(--wall-pane) 0%, transparent 64%);
+  }
+
+  .wall-light-day {
+    --wall-pane: rgba(255, 255, 255, 0.82);
+    --wall-bar: rgba(116, 104, 86, 0.18);
+    --wall-bar-0: rgba(116, 104, 86, 0);
+    opacity: var(--wall-light-opacity);
+  }
+
+  .wall-light-night {
+    --wall-pane: rgba(175, 193, 228, 0.055);
+    --wall-bar: rgba(0, 0, 0, 0.22);
+    --wall-bar-0: rgba(0, 0, 0, 0);
+    opacity: 0;
+  }
+
+  .dark .wall-light-day {
+    opacity: 0;
+  }
+
+  .dark .wall-light-night {
+    opacity: var(--wall-light-opacity);
+  }
+
   /*
    * On a phone the window is a smaller room. The bars scale down so the
    * pattern does not become stripes across the whole screen, and the light
@@ -509,8 +615,8 @@
   @media (max-width: 639px) {
     .wall-light {
       --wall-light-scale: 0.52;
+      --wall-light-opacity: 0.6;
       height: 620px;
-      opacity: 0.6;
     }
 
     .wall-texture {

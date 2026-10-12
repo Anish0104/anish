@@ -1,0 +1,61 @@
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 1.5rem 0 2.5rem 0;
+  user-select: none;
+  touch-action: pan-y;
+  background: transparent;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  background: transparent;
+}
+
+@media (min-width: 640px) {
+  .stage {
+    height: 560px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .stage {
+    height: 590px;
+  }
+}
+
+.cardWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  margin-left: -160px;
+  margin-top: -245px;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition: opacity 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .cardWrapper {
+    width: 380px;
+    margin-left: -190px;
+    margin-top: -260px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardWrapper {
+    width: 410px;
+    margin-left: -205px;
+    margin-top: -275px;
+  }
+}

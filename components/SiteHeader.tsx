@@ -9,11 +9,11 @@ export default function SiteHeader() {
     // clipped upper body is 41px on a phone and 54px on desktop, and at the old
     // pt-10 / pt-12 his hair was cut off by the top of the viewport.
     <header className="pt-[52px] sm:pt-16">
-      <div className="flex items-start justify-between gap-4 sm:gap-8">
-        <div>
+      <div className="flex items-start justify-between gap-3 sm:gap-8">
+        <div className="min-w-0">
           <Link
             href="/"
-            className="text-[28px] font-semibold leading-none tracking-[-0.032em] sm:text-[36px]"
+            className="text-[clamp(23px,7.2vw,28px)] font-semibold leading-none tracking-[-0.032em] sm:text-[36px]"
           >
             {/*
               Still one text link with the same font, size, colour and click
@@ -30,12 +30,12 @@ export default function SiteHeader() {
               )
             )}
           </Link>
-          <SiteNav />
         </div>
-        <div className="-mt-1 shrink-0">
+        <div className="shrink-0 pt-1.5 sm:pt-0">
           <ThemeToggle />
         </div>
       </div>
+      <SiteNav />
     </header>
   );
 }

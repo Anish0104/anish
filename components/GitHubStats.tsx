@@ -1,4 +1,4 @@
-import ContributionCalendar from "./ContributionCalendar";
+import GitHubActivity from "./GitHubActivity";
 import { getGitHubStats } from "@/lib/github";
 import { getContributionCalendar } from "@/lib/github-contributions";
 
@@ -46,7 +46,7 @@ export default async function GitHubStats() {
   ]);
 
   return (
-    <section className="mt-20 border-t border-border pt-12 sm:mt-24">
+    <section id="github" className="mt-20 border-t border-border pt-12 sm:mt-24">
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
         <h2 className="text-[24px] font-semibold sm:text-[28px]">On GitHub</h2>
         <a
@@ -61,39 +61,30 @@ export default async function GitHubStats() {
 
       {calendar.status === "ok" ? (
         <div className="mt-7 rounded-xl border border-border bg-surface p-5 sm:p-6">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-            <h3 className="text-[16px] font-semibold sm:text-[17px]">
-              {calendar.total.toLocaleString()} contributions in the last year
-            </h3>
-            <p className="font-mono text-[11px] text-faint">
-              {formatDayOnly(calendar.firstDate)} to {formatDayOnly(calendar.lastDate)}
-            </p>
-          </div>
+          <GitHubActivity
+            days={calendar.weeks.flatMap((week) =>
+              week.flatMap((day) => day ? [{ date: day.date, count: day.count }] : []),
+            )}
+          />
 
-          <div className="mt-5">
-            <ContributionCalendar
-              weeks={calendar.weeks}
-              total={calendar.total}
-              firstDate={calendar.firstDate}
-              lastDate={calendar.lastDate}
-            />
+          <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 border-t border-border pt-4 font-mono text-[10.5px] leading-relaxed text-faint">
+            <p>GitHub profile activity · Updated {formatDayOnly(calendar.fetchedAt)}</p>
+            <a
+              href={calendar.profileUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="link-underline text-accent"
+            >
+              View on GitHub ↗
+            </a>
           </div>
-
-          <p className="mt-4 text-[11px] leading-relaxed text-faint">
-            {calendar.source === "github-graphql"
-              ? "Read from GitHub's GraphQL contributions API"
-              : "Read from the public contribution calendar via github-contributions-api.jogruber.de, which mirrors the graph shown on the GitHub profile. Private contributions appear only if they are made public on the profile"}
-            . Updated {formatDayOnly(calendar.fetchedAt)}, cached for six hours.
-          </p>
         </div>
       ) : (
         <div className="mt-7 rounded-xl border border-border bg-surface-2 p-6">
           <h3 className="text-[16px] font-semibold">Contribution calendar unavailable</h3>
           <p className="mt-2 max-w-[70ch] text-[14.5px] leading-relaxed text-muted">
-            {calendar.reason}
-          </p>
-          <p className="mt-2 max-w-[70ch] text-[12.5px] leading-relaxed text-faint">
-            {calendar.setupHint}
+            GitHub activity couldn’t be loaded right now. You can still view
+            the contribution graph on my profile.
           </p>
           <p className="mt-3">
             <a

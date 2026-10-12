@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Warm cream sketchbook background -->
+  <rect width="800" height="500" fill="#faf7f0"/>
+
+  <g stroke="#18181b" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Grounding loose shadow stroke -->
+    <path d="M 80 440 C 280 445, 520 445, 720 440" stroke="#d4881e" stroke-width="4.5" stroke-dasharray="14 16" opacity="0.35"/>
+
+    <!-- Large Playful Sun with Irregular Ink Spots & Radiating Rays (Top Center-Left) -->
+    <g transform="translate(240, 130)">
+      <!-- Radiating wavy doodle rays in bold ochre -->
+      <!-- Top rays -->
+      <path d="M 0 -85 C -8 -105, 8 -115, 0 -130" stroke="#d4881e" stroke-width="5"/>
+      <path d="M 50 -70 C 65 -90, 80 -85, 95 -105" stroke="#d4881e" stroke-width="5"/>
+      <path d="M -50 -70 C -65 -90, -80 -85, -95 -105" stroke="#d4881e" stroke-width="5"/>
+      <!-- Side rays -->
+      <path d="M 85 0 C 105 -8, 115 8, 130 0" stroke="#d4881e" stroke-width="5"/>
+      <path d="M -85 0 C -105 -8, -115 8, -130 0" stroke="#d4881e" stroke-width="5"/>
+      <!-- Diagonal rays -->
+      <path d="M 65 60 C 85 75, 95 65, 115 80" stroke="#d4881e" stroke-width="5"/>
+      <path d="M -65 60 C -85 75, -95 65, -115 80" stroke="#d4881e" stroke-width="5"/>
+      <!-- Short playful accent dots between rays -->
+      <circle cx="45" cy="-115" r="4.5" fill="#d4881e" stroke="none"/>
+      <circle cx="-115" cy="-45" r="4.5" fill="#d4881e" stroke="none"/>
+      <circle cx="125" cy="-45" r="4.5" fill="#d4881e" stroke="none"/>
+
+      <!-- Sun Main Body (Irregular, organic wobbly circle) -->
+      <path d="M 0 -80 C 45 -82, 82 -45, 80 0 C 78 45, 42 82, 0 80 C -45 78, -82 42, -80 0 C -78 -45, -45 -78, 0 -80 Z" fill="#ffffff" stroke-width="6.5"/>
+      <!-- Inner warm ochre rim ring -->
+      <path d="M 0 -68 C 38 -70, 70 -38, 68 0 C 66 38, 36 70, 0 68 C -38 66, -70 36, -68 0 C -66 -38, -38 -66, 0 -68 Z" fill="#fdf5e7" stroke="#d4881e" stroke-width="4"/>
+
+      <!-- Irregular ink sunspots (Bold Ochre with organic doodle shapes) -->
+      <!-- Spot 1 (Large prominent spot) -->
+      <path d="M 12 -28 C 25 -32, 38 -20, 32 -8 C 26 2, 8 0, 5 -12 Z" fill="#d4881e" stroke="#18181b" stroke-width="4"/>
+      <!-- Spot 2 (Medium companion spot) -->
+      <ellipse cx="-22" cy="18" rx="14" ry="10" fill="#d4881e" stroke="#18181b" stroke-width="3.5" transform="rotate(-15 -22 18)"/>
+      <!-- Spot 3 (Small satellite spot) -->
+      <circle cx="18" cy="28" r="8" fill="#d4881e" stroke="#18181b" stroke-width="3"/>
+      <!-- Spot 4 (Tiny stray spot) -->
+      <circle cx="-32" cy="-16" r="5" fill="#d4881e" stroke="#18181b" stroke-width="2.5"/>
+
+      <!-- Specular shine on sun -->
+      <path d="M -48 -45 C -35 -58, -15 -62, 10 -60" stroke="#ffffff" stroke-width="6"/>
+    </g>
+
+    <!-- Visual connection: Solar particle flow from sun down to calendar ribbon -->
+    <path d="M 310 185 C 370 210, 390 260, 350 285" stroke="#d4881e" stroke-width="4" stroke-dasharray="7 7"/>
+    <path d="M 338 278 L 350 286 L 354 270" stroke="#d4881e" stroke-width="3.5"/>
+
+    <!-- Curling Strip of Calendar Pages ribboning across the bottom -->
+    <g transform="translate(70, 275)">
+      <!-- Calendar ribbon front face (dynamic wavy ribbon) -->
+      <path d="M 20 100 C 120 70, 220 135, 340 90 C 440 50, 540 115, 640 70 L 640 145 C 540 190, 440 125, 340 165 C 220 210, 120 145, 20 175 Z" fill="#ffffff" stroke="#18181b" stroke-width="6"/>
+      <!-- Backside of curled ribbon ends in ochre -->
+      <polygon points="20,100 0,118 20,175" fill="#d4881e" stroke="#18181b" stroke-width="4.5"/>
+      <polygon points="640,70 660,88 640,145" fill="#d4881e" stroke="#18181b" stroke-width="4.5"/>
+
+      <!-- Calendar page fold creases & grid divider lines -->
+      <path d="M 170 82 L 170 158 M 325 96 L 325 170 M 480 75 L 480 150" stroke="#18181b" stroke-width="4" stroke-dasharray="6 6"/>
+      <!-- Ochre calendar header binding holes -->
+      <circle cx="100" cy="118" r="5" fill="#d4881e" stroke="#18181b" stroke-width="2.5"/>
+      <circle cx="245" cy="128" r="5" fill="#d4881e" stroke="#18181b" stroke-width="2.5"/>
+      <circle cx="400" cy="100" r="5" fill="#d4881e" stroke="#18181b" stroke-width="2.5"/>
+      <circle cx="560" cy="98" r="5" fill="#d4881e" stroke="#18181b" stroke-width="2.5"/>
+
+      <!-- TIME-SERIES LINE (Observed Solid Line transitioning into Forecast) -->
+      <!-- Historical / Observed solid wave in bold black -->
+      <path d="M 40 140 C 90 110, 130 155, 180 120 C 230 85, 280 150, 330 115 C 380 80, 420 130, 460 95" stroke="#18181b" stroke-width="6"/>
+
+      <!-- Forecast Transition Point: bold ochre marker node -->
+      <circle cx="460" cy="95" r="8" fill="#d4881e" stroke="#18181b" stroke-width="4"/>
+
+      <!-- FORECAST DOTTED LINE (Extended by pencil, bold ochre) -->
+      <path d="M 460 95 C 495 65, 530 110, 565 80 C 595 55, 620 90, 635 75" stroke="#d4881e" stroke-width="6" stroke-dasharray="10 8"/>
+    </g>
+
+    <!-- Quirky Hand-Drawn Pencil Actively Drawing the Forecast (Tilted right above line) -->
+    <g transform="translate(635, 335) rotate(-38)">
+      <!-- Pencil Body (Faceted hexagonal shaft in bold ochre) -->
+      <polygon points="0,0 120,0 120,28 0,28" fill="#d4881e" stroke="#18181b" stroke-width="5.5"/>
+      <!-- Pencil facet stripe -->
+      <path d="M 0 14 L 120 14" stroke="#ffffff" stroke-width="3.5"/>
+
+      <!-- Sharpened wooden cone tip -->
+      <polygon points="0,0 -35,14 0,28" fill="#fdf5e7" stroke="#18181b" stroke-width="5"/>
+      <!-- Graphite lead point touching the forecast path -->
+      <polygon points="-20,8 -35,14 -20,20" fill="#18181b"/>
+
+      <!-- Metal ferrule band & eraser at top -->
+      <rect x="120" y="0" width="18" height="28" rx="2" fill="#ffffff" stroke="#18181b" stroke-width="4.5"/>
+      <path d="M 138 0 C 150 0, 155 7, 155 14 C 155 21, 150 28, 138 28 Z" fill="#d4881e" stroke="#18181b" stroke-width="4.5"/>
+
+      <!-- Drawing creation sparks at pencil tip -->
+      <path d="M -45 5 L -55 -2 M -48 24 L -58 32 M -40 14 L -52 14" stroke="#d4881e" stroke-width="3"/>
+    </g>
+
+    <!-- Playful doodle stars & sparks -->
+    <g transform="translate(670, 110)">
+      <path d="M 0 -12 Q 2 -2 12 0 Q 2 2 0 12 Q -2 2 -12 0 Q -2 -2 0 -12 Z" fill="#d4881e" stroke="#18181b" stroke-width="2.5"/>
+    </g>
+    <circle cx="110" cy="110" r="4.5" fill="#d4881e" stroke="none"/>
+    <circle cx="690" cy="220" r="4" fill="#d4881e" stroke="none"/>
+  </g>
+</svg>

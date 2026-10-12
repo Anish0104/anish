@@ -1,0 +1,727 @@
+@property --gh-lift {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+.root {
+  --cell: 12px;
+  --gap: 4px;
+  --step: calc(var(--cell) + var(--gap));
+  --empty: var(--surface-2);
+  --level-1: #c4e8ca;
+  --level-2: #83cd93;
+  --level-3: #39a854;
+  --level-4: #21873b;
+  --stat-color: #21873b;
+  position: relative;
+  min-width: 0;
+  color: var(--text);
+}
+
+:global(.dark) .root {
+  --empty: #272b2a;
+  --level-1: #0e4429;
+  --level-2: #006d32;
+  --level-3: #26a641;
+  --level-4: #39d353;
+  --stat-color: #39d353;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  margin-bottom: 24px;
+}
+
+.summary {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.total {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.period {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.actions {
+  flex-shrink: 0;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.switchGroup {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+.rangeButton, .viewButton {
+  min-height: 44px;
+  border-radius: 7px;
+  color: var(--muted);
+  transition: color 160ms, background 160ms;
+}
+.rangeButton {
+  padding: 0 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.viewButton {
+  display: grid;
+  place-items: center;
+  width: 44px;
+}
+.viewButton svg {
+  width: 20px;
+  height: 20px;
+}
+.rangeButton:hover, .viewButton:hover {
+  color: var(--text);
+}
+.switchGroup button[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+.switchGroup button:focus-visible, .orbitControls button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.body {
+  position: relative;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.rollingFrame {
+  display: inline-block;
+  position: relative;
+  vertical-align: bottom;
+}
+
+.rolling {
+  display: inline-flex;
+  position: relative;
+  white-space: nowrap;
+}
+
+.place,
+.placeChar,
+.rise,
+.riseLine {
+  display: inline-block;
+  position: relative;
+}
+
+.scroller {
+  position: relative;
+  height: 152px;
+  overflow-x: auto;
+  padding: 4px 3px 10px;
+  margin: 0 -3px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+  transition: height 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: height;
+}
+
+.canvas {
+  display: grid;
+  grid-template-columns: 30px auto;
+  grid-template-rows: 22px auto;
+  column-gap: 12px;
+  width: max-content;
+  position: absolute;
+  left: 0;
+  top: 4px;
+  transform: translate(0, 0) scale(1);
+  transition:
+    left 480ms cubic-bezier(0.16, 1, 0.3, 1),
+    top 480ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* In 2D mode, keep transform-style flat so GPU batches rendering without deep 3D trees */
+.canvas, .months, .plot, .grid, .row, .cell {
+  transform-style: flat;
+}
+
+.root:not([data-view="3d"]) .sideFace {
+  display: none !important;
+}
+
+.root[data-view="3d"] .canvas,
+.root[data-view="3d"] .months,
+.root[data-view="3d"] .plot,
+.root[data-view="3d"] .grid,
+.root[data-view="3d"] .row,
+.root[data-view="3d"] .cell {
+  transform-style: preserve-3d;
+}
+
+.months {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+}
+
+.month {
+  position: absolute;
+  left: calc(var(--col) * var(--step));
+  top: 0;
+}
+
+.weekdays {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  grid-template-rows: repeat(7, var(--cell));
+  row-gap: var(--gap);
+  position: sticky;
+  left: 3px;
+  z-index: 1;
+  background: var(--surface);
+  box-shadow: 12px 0 0 var(--surface);
+}
+
+.month,
+.weekday {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: var(--cell);
+}
+
+.plot {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: repeat(7, var(--cell));
+  row-gap: var(--gap);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(var(--weeks), var(--cell));
+  column-gap: var(--gap);
+}
+
+.cell,
+.swatch {
+  --level-color: var(--empty);
+}
+
+.cell[data-level="1"], .swatch[data-level="1"] {
+  --level-color: var(--level-1);
+}
+.cell[data-level="2"], .swatch[data-level="2"] {
+  --level-color: var(--level-2);
+}
+.cell[data-level="3"], .swatch[data-level="3"] {
+  --level-color: var(--level-3);
+}
+.cell[data-level="4"], .swatch[data-level="4"] {
+  --level-color: var(--level-4);
+}
+
+.cell {
+  --gh-lift: 0px;
+  display: block;
+  position: relative;
+  width: var(--cell);
+  height: var(--cell);
+  border-radius: 3px;
+  cursor: pointer;
+  contain: layout paint;
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
+}
+
+.root[data-view="3d"] .cell {
+  contain: none;
+  transition:
+    --gh-lift 520ms cubic-bezier(0.22, 1, 0.36, 1) var(--wave),
+    opacity 140ms ease,
+    transform 140ms ease;
+}
+
+.topFace {
+  position: absolute;
+  inset: 0;
+  background: var(--level-color);
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--border) 45%, transparent);
+  transition: background-color 220ms ease;
+}
+
+.root[data-view="3d"] .topFace {
+  transform: translateZ(var(--gh-lift));
+  transition: background-color 220ms ease var(--wave), border-radius 260ms;
+}
+.sideFace {
+  position: absolute;
+  transform-origin: 0 0;
+  background: color-mix(in srgb, var(--level-color) 78%, #000);
+}
+.frontFace, .backFace {
+  left: 0;
+  width: var(--cell);
+  height: var(--gh-lift);
+  transform: rotateX(90deg);
+}
+.frontFace {
+  top: 100%;
+}
+.backFace {
+  top: 0;
+}
+.leftFace, .rightFace {
+  top: 0;
+  width: var(--gh-lift);
+  height: var(--cell);
+  transform: rotateY(-90deg);
+  background: color-mix(in srgb, var(--level-color) 60%, #000);
+}
+.leftFace {
+  left: 0;
+}
+.rightFace {
+  left: 100%;
+}
+
+.root[data-view="3d"] .scroller {
+  height: var(--scene-height);
+  overflow: clip;
+  touch-action: none;
+  cursor: grab;
+}
+.root[data-view="3d"] .canvas {
+  left: 50%;
+  top: calc(50% + 28px);
+  transform: translate(-50%, -50%) scale(var(--scene-scale)) rotateX(var(--pitch)) rotateZ(var(--yaw));
+}
+.root[data-dragging] .scroller, .root[data-dragging] .cell {
+  cursor: grabbing;
+}
+.root[data-dragging] .canvas {
+  transition: none;
+}
+.root[data-view="3d"] .cell {
+  --gh-lift: var(--height);
+  border-radius: 0;
+}
+.root[data-view="3d"] .cell:hover {
+  transform: none;
+}
+.root[data-view="3d"] .topFace {
+  border-radius: 0;
+  box-shadow: none;
+}
+.root[data-view="3d"] .cell:is(:hover, :focus-visible, [aria-selected="true"]) .topFace {
+  outline: 1.5px solid var(--text);
+  outline-offset: 1px;
+}
+.root[data-view="3d"] .weekdays {
+  visibility: hidden;
+  box-shadow: none;
+  background: none;
+}
+.root[data-view="3d"] .months {
+  transform: translateY(144px);
+}
+.root[data-view="3d"] .month {
+  font-size: clamp(10.5px, calc(9px / var(--scene-scale)), 26px);
+  transform: rotateZ(calc(-1 * var(--yaw))) rotateX(calc(-1 * var(--pitch)));
+  transform-origin: 0 0;
+}
+.root[data-view="3d"] .ring {
+  visibility: hidden;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px 16px;
+  margin: 20px 0 18px;
+}
+.metric dt {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+.metric dd {
+  margin: 0;
+}
+.metricValue {
+  display: inline-block;
+  color: var(--stat-color);
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.035em;
+}
+.metricUnit {
+  font-size: 11.5px;
+  color: var(--text-soft);
+}
+.metricDetail {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.orbitControls {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.orbitControls button {
+  min-width: 36px;
+  min-height: 44px;
+  padding: 0 8px;
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.orbitControls button:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+@media (min-width: 768px) {
+  .root[data-view="3d"] .metrics {
+    position: absolute;
+    inset: 18px 18px 72px;
+    margin: 0;
+    display: block;
+    pointer-events: none;
+  }
+  .root[data-view="3d"] .metric {
+    position: absolute;
+  }
+  .root[data-view="3d"] .metric:nth-child(1) {
+    top: 0;
+    right: 0;
+    text-align: right;
+  }
+  .root[data-view="3d"] .metric:nth-child(2) {
+    top: 136px;
+    right: 0;
+    text-align: right;
+  }
+  .root[data-view="3d"] .metric:nth-child(3) {
+    bottom: 116px;
+    left: 0;
+  }
+  .root[data-view="3d"] .metric:nth-child(4) {
+    bottom: 0;
+    left: 0;
+  }
+  .root[data-view="3d"] .metricValue {
+    font-size: 48px;
+  }
+  .root[data-view="3d"] .metric:first-child .metricValue {
+    font-size: 60px;
+  }
+}
+
+@media (max-width: 767px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.grid[data-direction="back"] .cell {
+  transition-delay: var(--wave-back), 0ms, 0ms;
+}
+
+.cell[data-empty] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.grid[data-reveal="hidden"] .cell {
+  opacity: 0;
+}
+
+.grid[data-reveal="revealing"] .cell:not([data-empty]) {
+  animation: wave-in 400ms cubic-bezier(0.16, 1, 0.3, 1) var(--wave) both;
+  will-change: transform, opacity;
+}
+
+@keyframes wave-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 3px, 0) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.cell:hover {
+  transform: translateY(-1px);
+}
+
+.cell:focus-visible,
+.swatch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.grid[data-highlight="0"] .cell:not([data-level="0"]),
+.grid[data-highlight="1"] .cell:not([data-level="1"]),
+.grid[data-highlight="2"] .cell:not([data-level="2"]),
+.grid[data-highlight="3"] .cell:not([data-level="3"]),
+.grid[data-highlight="4"] .cell:not([data-level="4"]) {
+  opacity: 0.18;
+  --face-opacity: 0.18;
+}
+
+/* Dimming the whole cube flattens its 3D descendants. Shade individual faces
+   instead, so the legend preserves pillar geometry and pointer hit areas. */
+.root[data-view="3d"] .grid[data-highlight] .cell {
+  opacity: 1;
+}
+.root[data-view="3d"] .topFace,
+.root[data-view="3d"] .sideFace {
+  opacity: var(--face-opacity, 1);
+}
+
+.ring {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: calc(var(--cell) + 6px);
+  height: calc(var(--cell) + 6px);
+  border: 1.5px solid var(--accent);
+  border-radius: 5px;
+  opacity: 0;
+  transform: translate(calc(var(--col) * var(--step)), calc(var(--row) * var(--step)));
+  pointer-events: none;
+  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1), opacity 160ms ease;
+}
+
+.ring[data-shown] {
+  opacity: 1;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-top: 8px;
+  min-height: 44px;
+}
+
+.caption {
+  flex: 1;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.captionShort {
+  display: none;
+}
+
+.scale,
+.swatches {
+  display: inline-flex;
+  align-items: center;
+}
+
+.scale {
+  flex-shrink: 0;
+  gap: 5px;
+  margin-left: auto;
+}
+
+.legendText {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.swatch {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 44px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.swatch::before {
+  content: "";
+  width: var(--cell);
+  height: var(--cell);
+  border-radius: 3px;
+  background: var(--level-color);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--border) 45%, transparent);
+  transition: transform 160ms ease;
+}
+
+.swatch:hover::before,
+.swatch[aria-pressed="true"]::before {
+  transform: scale(1.2);
+}
+
+.swatch[aria-pressed="true"] {
+  background: var(--accent-soft);
+}
+
+.tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 20;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.bubble {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: max-content;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  transform-origin: bottom center;
+  will-change: transform, opacity;
+}
+
+.tipBody {
+  display: block;
+  position: relative;
+  min-height: 34px;
+}
+
+.tipMeasure,
+.tipLines {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  white-space: nowrap;
+}
+
+.tipMeasure {
+  position: absolute;
+  visibility: hidden;
+}
+
+.tipPrimary {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.tipSecondary {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 639px) {
+  .header {
+    margin-bottom: 20px;
+  }
+  .body {
+    padding: 12px;
+  }
+  .metricValue {
+    font-size: 30px;
+  }
+  .metricUnit {
+    display: block;
+    margin-top: 3px;
+  }
+  .metricDetail {
+    font-size: 10px;
+  }
+  .root[data-view="3d"] .caption {
+    order: 0;
+    flex-basis: 100%;
+  }
+  .root[data-view="3d"] .orbitControls {
+    order: 1;
+  }
+  .root[data-view="3d"] .scale {
+    order: 2;
+  }
+  .caption {
+    order: 2;
+    flex-basis: 100%;
+    min-height: 18px;
+  }
+  .captionLong {
+    display: none;
+  }
+  .captionShort {
+    display: inline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root *,
+  .root *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+  .grid[data-reveal="hidden"] .cell {
+    opacity: 1;
+  }
+  .cell:hover {
+    transform: none;
+  }
+}

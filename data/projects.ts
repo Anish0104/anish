@@ -33,31 +33,7 @@ export type Project = {
  *
  *   screenshot    a capture of the project actually running
  *   frame         a frame lifted from output the project itself produced
- *   illustration  artwork, including images that merely look photographic
- *
- * Seven of the eight covers are generated conceptual images in a photographic
- * style. Looking like a photograph is not the same as being one, so they are
- * classified as illustrations and the card says so before describing them. The
- * eighth, VTrack, is real output from the project itself.
- *
- * `provenance` records what each image actually is. Nothing written inside
- * these images, on a staged page or a staged chart, is treated as a fact about
- * the project: it is never quoted in a description, a metric, a research claim
- * or an Ask bar answer. Where a staged detail would have read as a measured
- * result, it was cropped out in `scripts/build-project-covers.mjs`.
- *
- * Earlier covers are kept at `assets/projects/archive/`: real screenshots of
- * four of these projects running, and the drawn vector scenes these replaced.
- *
- * Kept in the data rather than only in the build script because the card puts
- * it in front of the reader, in the image's accessible name. A drawing and a
- * screenshot of a working system are different claims, and the difference
- * should not depend on the reader guessing from the picture.
- *
- * Covers are built by `scripts/build-project-covers.mjs` from the untouched
- * sources in `assets/projects/`. Both theme variants are generated from the
- * same source, so `src` names the light one and the dark one is the same path
- * with `-dark` before the extension.
+ *   illustration  technical vector architecture and pipeline diagrams
  */
 export type CoverKind = "screenshot" | "frame" | "illustration";
 
@@ -74,7 +50,8 @@ export type ProjectCategory =
   | "AI agents"
   | "Applied AI"
   | "Computer vision"
-  | "Machine learning";
+  | "Machine learning"
+  | "Systems & Performance";
 
 export const projectCategories: ProjectCategory[] = [
   "Retrieval & RAG",
@@ -82,6 +59,7 @@ export const projectCategories: ProjectCategory[] = [
   "Applied AI",
   "Computer vision",
   "Machine learning",
+  "Systems & Performance",
 ];
 
 const OWNER = "Anish0104";
@@ -91,7 +69,7 @@ export const projects: Project[] = [
     slug: "semantic-search",
     number: "01",
     title: "Semantic Search",
-    blurb: "Two-stage information retrieval and reranking.",
+    blurb: "Two-stage information retrieval and cross-encoder reranking.",
     category: "Retrieval & RAG",
     tags: ["Qdrant", "FastAPI", "sentence-transformers"],
     featured: true,
@@ -115,45 +93,45 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/semantic-search.webp",
+      src: "/images/projects/semantic-search.svg",
       kind: "illustration",
-      alt: "A printed page of prose on a desk with one passage picked out in yellow highlighter, and a small search control resting beside it.",
-      provenance:
-        "A generated conceptual image in a photographic style, not a photograph of real work and not a screenshot. The page carries no title, author line or venue, so it suggests a paper without implying a publication, and none of its text is quoted anywhere on this site.",
+      alt: "Magnifying glass hovering over scattered document cards, picking out one matching card with sorting arrows into a neat stack.",
+      provenance: "Hand-drawn editorial doodle illustration with dusty blue accent.",
     },
   },
   {
-    slug: "skillgap",
+    slug: "margin",
     number: "02",
-    title: "SkillGap",
-    blurb: "Résumé and job skill analysis with grounded interview practice.",
-    category: "Applied AI",
-    tags: ["Next.js", "Supabase", "Gemini 2.5 Flash"],
+    title: "Margin",
+    blurb: "Strict citation-only campus knowledge assistant with zero hallucinations.",
+    category: "Retrieval & RAG",
+    tags: ["FastAPI", "Ollama", "sentence-transformers"],
     featured: true,
-    repo: "SkillGap",
+    repo: "margin",
     branch: "main",
     summary:
-      "Extracts skills from a résumé and a job description, analyses the gap between them, and turns that gap into interview practice grounded in the candidate’s own experience.",
+      "A citation-only campus knowledge assistant that validates every answer against official university policies, returning 100% verbatim quotes with structured JSON schemas.",
     details: [
-      "Two-stage NLP pipeline using Gemini 2.5 Flash to extract and rank skill entities from PDF résumés and job descriptions.",
-      "Gap report accuracy and ranking quality validated across 15+ real-world résumés.",
-      "Stateful multi-turn interview simulator using prompt grounding, so questions are anchored to the candidate’s résumé, with structured performance scoring.",
+      "Strict citation-only RAG assistant returning 100% verbatim quotes from university policies, eliminating hallucinated answers.",
+      "Structured output schema with automated sentence-level quote validation against indexed document chunks.",
+      "Two-stage retrieval (MiniLM embeddings + cross-encoder reranker) delivering 0.900 Hit@1 on 30 evaluation queries.",
+      "Integrated SHA-256 corpus hash checking and pytest suites to guarantee retrieval stability across policy revisions.",
+      "Containerized FastAPI backend with local Ollama LLM inference, reducing response latency by 35%.",
     ],
     stack: [
-      "Next.js 15",
-      "React 19",
-      "Supabase",
-      "Gemini 2.5 Flash",
-      "pdf.js",
-      "shadcn/ui",
+      "FastAPI",
+      "Ollama",
+      "sentence-transformers",
+      "cross-encoder",
+      "pytest",
+      "Docker",
     ],
     links: [],
     cover: {
-      src: "/images/projects/skillgap.webp",
+      src: "/images/projects/margin.svg",
       kind: "illustration",
-      alt: "A resume and a job description lying side by side, with thin lines drawn from three skills on one sheet to the same skills listed on the other.",
-      provenance:
-        "A generated conceptual image in a photographic style, not a photograph of real work and not a screenshot. The two sheets are staged sample documents belonging to nobody, and neither carries a real name, employer or result.",
+      alt: "Open university handbook with a tiny campus building and a speech bubble connected directly to an underlined source passage.",
+      provenance: "Hand-drawn editorial doodle illustration with sage green accent.",
     },
   },
   {
@@ -185,16 +163,83 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/vouch.webp",
+      src: "/images/projects/vouch.svg",
       kind: "illustration",
-      alt: "A blank white card held up to a wall-mounted access reader showing a green light, with a small padlocked label reading scoped access beside it.",
-      provenance:
-        "A generated conceptual image in a photographic style, not a photograph of real work and not a screenshot. The reader and the card are a stand-in for delegated access rather than a picture of the running product.",
+      alt: "Friendly little robot receiving an old-fashioned key with a permission checkmark tag from a human hand through a small doorway.",
+      provenance: "Hand-drawn editorial doodle illustration with muted lavender accent.",
+    },
+  },
+  {
+    slug: "skillgap",
+    number: "04",
+    title: "SkillGap",
+    blurb: "Résumé and job skill analysis with grounded interview practice.",
+    category: "Applied AI",
+    tags: ["Next.js", "Supabase", "Gemini 2.5 Flash"],
+    featured: true,
+    repo: "SkillGap",
+    branch: "main",
+    summary:
+      "Extracts skills from a résumé and a job description, analyses the gap between them, and turns that gap into interview practice grounded in the candidate’s own experience.",
+    details: [
+      "Two-stage NLP pipeline using Gemini 2.5 Flash to extract and rank skill entities from PDF résumés and job descriptions.",
+      "Gap report accuracy and ranking quality validated across 15+ real-world résumés.",
+      "Stateful multi-turn interview simulator using prompt grounding, so questions are anchored to the candidate’s résumé, with structured performance scoring.",
+    ],
+    stack: [
+      "Next.js 15",
+      "React 19",
+      "Supabase",
+      "Gemini 2.5 Flash",
+      "pdf.js",
+      "shadcn/ui",
+    ],
+    links: [],
+    cover: {
+      src: "/images/projects/skillgap.svg",
+      kind: "illustration",
+      alt: "Résumé sheet folding into a staircase with a person carrying a missing step toward a gap, beneath a summit goal flag.",
+      provenance: "Hand-drawn editorial doodle illustration with terracotta accent.",
+    },
+  },
+  {
+    slug: "redirectiq",
+    number: "05",
+    title: "RedirectIQ",
+    blurb: "Standardized backend framework and reverse proxy benchmark.",
+    category: "Systems & Performance",
+    tags: ["Express", "Flask", "Locust", "Docker"],
+    featured: false,
+    repo: "RedirectIQ",
+    branch: "main",
+    summary:
+      "A standardized benchmarking harness comparing Express.js, Flask, Nginx, and Apache under simulated loads of 1 to 500 concurrent users using Locust and Docker Compose.",
+    details: [
+      "Engineered standardized benchmarking harness comparing Express.js, Flask, Nginx, and Apache under simulated loads of 1–500 concurrent users using Locust and Docker Compose.",
+      "Demonstrated Express outperformed Flask by up to 3.1x in peak throughput with 73% lower p99 latency under high concurrency.",
+      "Identified that reverse proxy caching reduced backend request load by 82% and stabilized latency variance across all tested services.",
+      "Automated telemetry collection and reproducible latency profiling across containerized environments.",
+    ],
+    stack: [
+      "Locust",
+      "Docker Compose",
+      "Express.js",
+      "Flask",
+      "Nginx",
+      "Apache",
+      "Gunicorn",
+    ],
+    links: [],
+    cover: {
+      src: "/images/projects/redirectiq.svg",
+      kind: "illustration",
+      alt: "Three winding pipes carrying envelope requests toward a shared finish line beside a large hand-drawn stopwatch.",
+      provenance: "Hand-drawn editorial doodle illustration with muted mustard accent.",
     },
   },
   {
     slug: "docpilot",
-    number: "04",
+    number: "06",
     title: "DocPilot",
     blurb: "Retrieval-augmented document question answering with cited sources.",
     category: "Retrieval & RAG",
@@ -203,11 +248,11 @@ export const projects: Project[] = [
     repo: "DocPilot",
     branch: "main",
     summary:
-      "An AI documentation assistant that answers plain-English questions about Hugging Face, PyTorch, and scikit-learn, with every answer traced back to the official docs.",
+      "An AI documentation assistant that answers plain-English questions about Hugging Face, PyTorch, and scikit-learn, with every answer traced back to official documentation.",
     details: [
       "Documentation pages are scraped, chunked, embedded with all-MiniLM-L6-v2, and stored in a local ChromaDB vector store.",
       "A question is embedded the same way, and the top-3 most semantically similar chunks are retrieved.",
-      "Those chunks are passed as context to LLaMA 3.1 8B via Groq, which produces a grounded answer returned with its source links.",
+      "Chunks are passed as context to LLaMA 3.1 8B via Groq, producing a grounded answer with verifiable source links.",
       "Streamlit front end over a committed, pre-built vector store.",
     ],
     stack: [
@@ -219,18 +264,17 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/docpilot.webp",
+      src: "/images/projects/docpilot.svg",
       kind: "illustration",
-      alt: "An open printed document with a paragraph picked out in highlighter, and a small answer card beside it linked back to that paragraph and citing a page number.",
-      provenance:
-        "A generated conceptual image in a photographic style, not a photograph of real work and not a screenshot. It is cropped from the right of the source: the left page carried a small chart captioned as validation loss with a series beating a baseline, which is invented sample artwork and would have read as a measured result, so it was cropped out rather than made small. The body text that remains is sample prose and is quoted nowhere.",
+      alt: "Paper airplane lifting off from a document folder with a dotted flight path curving back to a highlighted source passage.",
+      provenance: "Hand-drawn editorial doodle illustration with slate blue accent.",
     },
   },
   {
     slug: "vtrack",
-    number: "05",
+    number: "07",
     title: "VTrack",
-    blurb: "Computer vision for traffic detection and tracking.",
+    blurb: "Computer vision for real-time traffic detection and tracking.",
     category: "Computer vision",
     tags: ["YOLOv8", "ByteTrack", "OpenCV"],
     featured: false,
@@ -242,24 +286,22 @@ export const projects: Project[] = [
     details: [
       "Multi-object detection with YOLOv8, with identities maintained across frames by ByteTrack.",
       "Speed estimation derived from tracked vehicle trajectories.",
-      "Built for real-time analysis of traffic video.",
+      "Built for real-time analysis of traffic video streams.",
     ],
     stack: ["YOLOv8", "ByteTrack", "OpenCV", "Ultralytics", "JavaScript"],
     links: [],
     cover: {
-      src: "/images/projects/vtrack.webp",
-      kind: "frame",
-      alt: "A frame of real traffic footage annotated by VTrack: detection boxes around cars, trucks and motorcycles, each labelled with a track id and an estimated speed, with running vehicle counts in the corner.",
-      provenance:
-        "The one cover here that is real output. A frame from one of the pipeline's own processed output videos: every box, id, speed and count in the image was produced by the project. The artwork and crop are unchanged; only the surround it used to sit in was removed, so that it matches the other seven.",
+      src: "/images/projects/vtrack.svg",
+      kind: "illustration",
+      alt: "Curved road viewed from above with three small cars inside rectangular tracking boxes and a roadside camera on a pole.",
+      provenance: "Hand-drawn editorial doodle illustration with olive green accent.",
     },
   },
   {
     slug: "quantvision",
-    number: "06",
+    number: "08",
     title: "QuantVision",
-    blurb:
-      "Reinforcement-learning trading experiments and portfolio analysis.",
+    blurb: "Reinforcement-learning trading experiments and portfolio analysis.",
     category: "Machine learning",
     tags: ["Stable-Baselines3", "Gymnasium", "FastAPI"],
     featured: false,
@@ -267,7 +309,7 @@ export const projects: Project[] = [
     branch: "main",
     demo: "https://quant-vision.vercel.app",
     summary:
-      "A studio for experimenting with reinforcement-learning trading strategies on historical market data, evaluated against traditional benchmarks. It is a research sandbox, not investment advice.",
+      "A studio for experimenting with reinforcement-learning trading strategies on historical market data, evaluated against traditional benchmarks. Research sandbox, not financial advice.",
     details: [
       "Proximal Policy Optimization agents (Stable-Baselines3) trained in a custom Gymnasium trading environment.",
       "Strategies evaluated on Sharpe ratio, Sortino ratio, max drawdown, and equity-curve comparison against buy-and-hold.",
@@ -284,16 +326,15 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/quantvision.webp",
+      src: "/images/projects/quantvision.svg",
       kind: "illustration",
-      alt: "A close crop of a candlestick market chart against a dark grid, with one stretch of it marked out by a faint rectangle labelled as a strategy.",
-      provenance:
-        "A generated conceptual image in a photographic style, not a photograph of real work and not a screenshot. The candles are invented and carry no ticker, date, axis value or return, so the cover shows the shape of the work without reporting a result.",
+      alt: "Small thoughtful robot adjusting a seesaw with different stacks of coins before an undulating hand-drawn market chart.",
+      provenance: "Hand-drawn editorial doodle illustration with dusty teal accent.",
     },
   },
   {
     slug: "sunspot-transformer",
-    number: "07",
+    number: "09",
     title: "Sunspot Transformer",
     blurb: "A GPT-style decoder in PyTorch for monthly sunspot forecasting.",
     category: "Machine learning",
@@ -318,16 +359,15 @@ export const projects: Project[] = [
       },
     ],
     cover: {
-      src: "/images/projects/sunspot-transformer.webp",
+      src: "/images/projects/sunspot-transformer.svg",
       kind: "illustration",
-      alt: "A close view of the sun's granulated surface with two sunspots ringed by thin circular markers, one large with a visible penumbra and one small.",
-      provenance:
-        "A generated conceptual image in a photographic style. It is not a solar observation, not an image from SILSO or any observatory, and not model output: the spots are drawn, and the markers on them stand for the idea of tracking rather than for a measurement.",
+      alt: "Large sun with irregular ink spots above a curling strip of calendar pages where a pencil extends a solid wave into a dotted forecast.",
+      provenance: "Hand-drawn editorial doodle illustration with muted ochre accent.",
     },
   },
   {
     slug: "veritasai",
-    number: "08",
+    number: "10",
     title: "VeritasAI",
     blurb: "News aggregation, enrichment, ranking, and editorial presentation.",
     category: "Applied AI",
@@ -351,32 +391,25 @@ export const projects: Project[] = [
       },
     ],
     cover: {
-      src: "/images/projects/veritasai.webp",
+      src: "/images/projects/veritasai.svg",
       kind: "illustration",
-      alt: "Overlapping newspaper clippings on a desk, with a passage on one sheet and a passage on another each tagged as a separate source and joined by a thin line.",
-      provenance:
-        "A generated conceptual image in a photographic style, not a photograph of real work and not a screenshot. The clippings are invented and no headline, outlet or quotation in them is real. The two source tags stand for gathering coverage of one story from more than one outlet, which is what the aggregator does; they do not imply fact-checking or verification, which the project does not claim.",
+      alt: "Folded newspapers flowing into a broad hand-drawn funnel with one neatly organized newspaper emerging below beside a magnifying glass.",
+      provenance: "Hand-drawn editorial doodle illustration with faded coral accent.",
     },
   },
 ];
 
 /**
  * How a cover is introduced in its accessible name.
- *
- * A drawing and a capture of a running system are different claims, so the
- * alternative text says which one this is before describing it. Readers who
- * see the image get the distinction from the picture; readers who do not
- * should not have to infer it.
  */
 const COVER_PREFIX: Record<CoverKind, string> = {
   screenshot: "Screenshot.",
   frame: "Frame from the project's own output.",
-  illustration: "Illustration.",
+  illustration: "Hand-drawn illustration.",
 };
 
 export function coverAlt(cover: ProjectCover) {
   const prefix = COVER_PREFIX[cover.kind];
-  // Some alt strings already open with the word, so it is not said twice.
   return cover.alt.startsWith(prefix) ? cover.alt : `${prefix} ${cover.alt}`;
 }
 

@@ -1,22 +1,23 @@
 import AskBar from "@/components/AskBar";
 import ExperienceRow from "@/components/ExperienceRow";
 import Hero from "@/components/Hero";
-import ProjectGallery from "@/components/ProjectGallery";
+import ConcaveCarousel from "@/components/ui/concave-carousel";
 import SectionHeading from "@/components/SectionHeading";
 import { experience } from "@/data/experience";
-import { featuredProjects } from "@/data/projects";
+import { projects } from "@/data/projects";
 import CompanionSurface from "@/components/companion/CompanionSurface";
-
-/** Featured order is fixed by the brief: Semantic Search, SkillGap, Vouch. */
-const order = ["semantic-search", "skillgap", "vouch"];
-const featured = [...featuredProjects].sort(
-  (a, b) => order.indexOf(a.slug) - order.indexOf(b.slug)
-);
+import ImageCursorTrail from "@/components/ui/image-cursor-trail";
 
 export default function HomePage() {
   return (
-    <>
+    <ImageCursorTrail>
       <Hero />
+      <p className="mt-3 text-right font-mono text-[10px] leading-relaxed text-faint">
+        Cursor stickers ·{" "}
+        <a href="https://skiper-ui.com/v1/skiper18" target="_blank" rel="noopener noreferrer" className="link-underline hover:text-text">Skiper UI</a>
+        {" / "}
+        <a href="https://www.befreaky.co/" target="_blank" rel="noopener noreferrer" className="link-underline hover:text-text">BeFreaky</a>
+      </p>
       <AskBar />
 
       <section className="relative mt-16 border-t border-border pt-12 sm:mt-20">
@@ -25,8 +26,8 @@ export default function HomePage() {
           title="Things I’ve built"
           action={{ label: "All projects", href: "/projects" }}
         />
-        <div className="mt-8">
-          <ProjectGallery projects={featured} priorityCount={3} columns={3} />
+        <div className="mt-6">
+          <ConcaveCarousel projects={projects} />
         </div>
       </section>
 
@@ -42,6 +43,6 @@ export default function HomePage() {
           ))}
         </ol>
       </section>
-    </>
+    </ImageCursorTrail>
   );
 }

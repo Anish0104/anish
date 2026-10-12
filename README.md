@@ -80,6 +80,11 @@ screens.
 | `public/images/art/` | Paintings, with untouched originals under `originals/` |
 | `public/images/projects/` | 16 cover SVGs (light + dark per project) |
 | `lib/github-contributions.ts` | Contribution calendar data, GraphQL first, public mirror fallback |
+| `components/GitHubActivity.tsx` | Real contribution data with year / 90-day ranges and 2D / 3D controls |
+| `components/ui/activity-heatmap.tsx` | Calendar-to-landscape animation, drag orbit, stats, tooltips, and keyboard navigation |
+| `components/ui/activity-heatmap-utils/contribution-summary.ts` | UTC contribution totals, busiest day, and streak calculations |
+| `components/ui/image-cursor-trail.tsx` | Small Skiper sticker trail scoped to the home intro, with reduced-motion and touch support |
+| `public/images/cursor-trail/` | Original public Skiper demo sticker assets and source attribution |
 
 **Adding content:** see [`docs/CONTENT.md`](docs/CONTENT.md) for resume, memoji,
 covers, books, tracks, paintings, the ask bar's topics, and the optional
@@ -153,8 +158,15 @@ repository READMEs, or anishshirodkar.me. Specifically:
 - QuantVision is a research sandbox, with no claim of guaranteed profit.
 - Certification dates come from the issued credential where one is linked;
   otherwise they are omitted rather than guessed. No "Verified" badges.
-- The contribution calendar's heading total is summed from the same days the
-  squares render, and its source and refresh date are stated on the page.
+- The activity heatmap's total is summed from the same real days its squares
+  render. It offers last-year and 90-day views, with a refresh date and GitHub
+  profile link. Data stays server-side; the animated UI receives dates and
+  counts only. The cube button tilts the same squares into a green 3D landscape,
+  with heights proportional to daily counts; drag to orbit or double-click to
+  reset. Rotation and reset buttons support keyboard users. Both views show
+  total, busiest day, longest streak, and the streak ending on the latest day
+  in the displayed range. It respects reduced motion; the flat calendar scrolls
+  within its card on phones, while the landscape scales to fit the full range.
 - Paintings are empty until real content is supplied. Nothing is invented and
   attributed to Anish.
   catalogue, not by search-result order. Every title, artist, artwork and link
@@ -170,4 +182,10 @@ repository READMEs, or anishshirodkar.me. Specifically:
 ## Theme
 
 Light by default. `components/ThemeScript.tsx` runs synchronously before paint
-so there is no flash of the wrong theme; the choice persists in `localStorage`.
+so there is no flash of the wrong theme; the choice persists in `localStorage`
+and stays in sync across tabs. The header uses the supplied BB-8 switch, adapted
+to scoped CSS in `components/ui/`, with a compact graphic and a 44px touch
+target. Dark mode opens along a soft elliptical orbit from the switch; light
+mode reverses it. The droid rolls and its head settles with the reveal. Browsers
+without the required animation APIs use a palette fade. Keyboard input,
+reduced motion, and rapid repeated toggles are supported.

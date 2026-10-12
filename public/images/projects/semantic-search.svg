@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Warm cream sketchbook background -->
+  <rect width="800" height="500" fill="#faf7f0"/>
+
+  <g stroke="#18181b" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Playful motion swooshes guiding to ranked stack -->
+    <path d="M 430 200 C 490 180, 530 210, 560 250" stroke="#2d70b8" stroke-width="3.5" stroke-dasharray="8 8"/>
+    <path d="M 546 250 L 565 253 L 558 238" stroke="#2d70b8" stroke-width="3.5"/>
+    
+    <path d="M 420 280 C 470 290, 510 320, 545 350" stroke="#2d70b8" stroke-width="3" stroke-dasharray="7 7"/>
+    <path d="M 533 348 L 548 353 L 542 338" stroke="#2d70b8" stroke-width="3"/>
+
+    <!-- Right Side: Ranked stack of sorted cards with energetic jaunty angles -->
+    <g transform="translate(560, 210)">
+      <!-- Card 3 (bottom) -->
+      <path d="M 10 70 C 50 68, 100 66, 140 68 C 144 110, 142 150, 138 190 C 95 192, 50 190, 8 188 Z" fill="#ffffff" stroke-width="5"/>
+      <!-- Card 2 (middle, tilted) -->
+      <path d="M -5 40 C 40 36, 95 32, 135 36 C 140 80, 138 125, 132 165 C 90 168, 42 165, -8 162 Z" fill="#ffffff" stroke-width="5"/>
+      <!-- Card 1 (top of stack - vibrant blue header) -->
+      <path d="M -15 10 C 35 5, 90 2, 130 8 C 135 50, 132 95, 126 135 C 80 140, 32 138, -18 132 Z" fill="#ffffff" stroke-width="5.5"/>
+      <!-- Vibrant blue top bar & ranking mark on top card -->
+      <path d="M -10 24 C 30 20, 80 18, 120 22" stroke="#2d70b8" stroke-width="6"/>
+      <path d="M -5 48 L 45 44 M -5 68 L 75 64 M -5 88 L 35 85" stroke="#2d70b8" stroke-width="4"/>
+      <!-- Small rank star doodle -->
+      <path d="M 95 62 L 100 75 L 113 75 L 103 83 L 107 95 L 95 87 L 83 95 L 87 83 L 77 75 L 90 75 Z" fill="#2d70b8" stroke="#18181b" stroke-width="3"/>
+    </g>
+
+    <!-- Scattered cards on left with quirky tilts -->
+    <!-- Far-left tilted card -->
+    <g transform="translate(85, 140) rotate(-14)">
+      <path d="M 0 0 C 35 -3, 75 -2, 110 0 C 113 45, 112 90, 108 130 C 70 133, 30 132, 0 128 Z" fill="#ffffff" stroke-width="5"/>
+      <path d="M 20 28 L 70 26 M 20 52 L 90 50 M 20 76 L 60 74" stroke="#18181b" stroke-width="3.5"/>
+      <!-- Scribble circle -->
+      <ellipse cx="80" cy="98" rx="12" ry="10" stroke="#18181b" stroke-width="3"/>
+    </g>
+
+    <!-- Bottom-left card floating -->
+    <g transform="translate(130, 280) rotate(10)">
+      <path d="M 0 0 C 40 2, 80 5, 120 2 C 122 45, 120 95, 115 135 C 75 132, 35 134, -2 130 Z" fill="#ffffff" stroke-width="5"/>
+      <path d="M 22 30 L 85 32 M 22 55 L 95 58 M 22 80 L 65 82" stroke="#18181b" stroke-width="3.5"/>
+    </g>
+
+    <!-- The Chosen Matching Card (Directly beneath lens, highlighted in vibrant blue) -->
+    <g transform="translate(265, 125) rotate(-3)">
+      <path d="M 0 0 C 50 -4, 110 -5, 160 0 C 165 60, 162 130, 156 195 C 105 200, 50 198, -2 192 Z" fill="#f0f6fc" stroke-width="6"/>
+      <!-- Matching glyphs and highlighted content -->
+      <path d="M 25 35 L 125 32" stroke="#2d70b8" stroke-width="6"/>
+      <path d="M 25 65 L 135 62 M 25 95 L 110 92 M 25 125 L 85 123" stroke="#2d70b8" stroke-width="4.5"/>
+      <!-- Large matching badge mark -->
+      <circle cx="115" cy="140" r="22" fill="#2d70b8" stroke="#18181b" stroke-width="4"/>
+      <path d="M 106 140 L 113 147 L 126 132" stroke="#ffffff" stroke-width="4.5"/>
+    </g>
+
+    <!-- Large Hand-drawn Magnifying Glass Hovering Over with Strong Blue Lens -->
+    <g transform="translate(325, 105) rotate(12)">
+      <!-- Blue Lens glass tint (Bold vibrant blue fill) -->
+      <ellipse cx="90" cy="95" rx="92" ry="90" fill="#2d70b8" fill-opacity="0.32" stroke="none"/>
+      
+      <!-- Outer hand-drawn rim with organic wobbly ink contour -->
+      <path d="M 90 2 C 145 2, 185 45, 184 96 C 183 148, 140 188, 88 186 C 36 184, -4 142, -2 92 C 0 42, 38 2, 90 2 Z" stroke-width="6.5"/>
+      
+      <!-- Inner accent groove -->
+      <path d="M 90 14 C 138 14, 172 50, 172 95 C 172 138, 134 174, 90 174 C 44 174, 10 138, 10 95 C 10 52, 44 14, 90 14 Z" stroke="#2d70b8" stroke-width="3.5" stroke-dasharray="14 10"/>
+
+      <!-- Specular reflection shine doodle on lens -->
+      <path d="M 35 55 C 50 32, 85 22, 125 25" stroke="#ffffff" stroke-width="6"/>
+      <circle cx="140" cy="38" r="4" fill="#ffffff" stroke="none"/>
+
+      <!-- Thick hand-drawn wooden handle with grip rings -->
+      <path d="M 160 160 C 170 170, 180 180, 245 245 C 255 255, 260 250, 252 240 L 175 152 Z" fill="#2d70b8" stroke-width="6"/>
+      <!-- Handle ridges -->
+      <path d="M 188 188 L 202 174 M 205 205 L 219 191 M 222 222 L 236 208" stroke="#18181b" stroke-width="4"/>
+    </g>
+
+    <!-- Playful personality doodles: sparks, action lines, stars -->
+    <path d="M 235 90 L 245 80 M 240 70 L 240 85 M 225 80 L 240 80" stroke="#2d70b8" stroke-width="3"/>
+    <path d="M 490 95 L 498 83 M 508 92 L 495 90" stroke="#2d70b8" stroke-width="3"/>
+    
+    <!-- Sparkles -->
+    <g transform="translate(485, 390)">
+      <path d="M 0 -12 Q 2 -2 12 0 Q 2 2 0 12 Q -2 2 -12 0 Q -2 -2 0 -12 Z" fill="#2d70b8" stroke="#18181b" stroke-width="2.5"/>
+    </g>
+    <g transform="translate(170, 90)">
+      <path d="M 0 -10 Q 2 -2 10 0 Q 2 2 0 10 Q -2 2 -10 0 Q -2 -2 0 -10 Z" fill="#2d70b8" stroke="#18181b" stroke-width="2.5"/>
+    </g>
+    <circle cx="510" cy="150" r="4.5" fill="#2d70b8" stroke="none"/>
+    <circle cx="210" cy="420" r="4" fill="#18181b" stroke="none"/>
+  </g>
+</svg>

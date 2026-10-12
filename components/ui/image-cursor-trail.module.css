@@ -1,0 +1,32 @@
+.root {
+  position: relative;
+}
+
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.sticker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--sticker-size, 42px);
+  height: var(--sticker-size, 42px);
+  object-fit: contain;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .layer {
+    display: none;
+  }
+}

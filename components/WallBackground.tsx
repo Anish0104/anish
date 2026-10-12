@@ -19,8 +19,8 @@
  * mistakes a painted viewport-sized layer for something to stand on or walk
  * around.
  *
- * Nothing here animates. No parallax, no cursor tracking, no transition: the
- * light is where it is, exactly as it would be on a wall.
+ * The daylight and night treatments crossfade when the theme changes. The
+ * light stays in place as the page scrolls.
  *
  * The colours, opacities and scale all live in `app/globals.css` next to the
  * theme tokens, because the dark treatment is a different wall rather than the
@@ -30,7 +30,8 @@ export default function WallBackground() {
   return (
     <div aria-hidden="true" data-decorative="" className="pointer-events-none">
       <div className="wall-texture" />
-      <div className="wall-light" />
+      <div className="wall-light wall-light-day" />
+      <div className="wall-light wall-light-night" />
     </div>
   );
 }

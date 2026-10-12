@@ -2,6 +2,7 @@ import Link from "next/link";
 import { profile, resume } from "@/data/profile";
 import DeskIllustration, { CAN_IMAGE_PATH } from "./DeskIllustration";
 import { hasPublicAsset } from "@/lib/assets";
+import GravityLetters from "@/components/ui/gravity-letters";
 
 export default function Hero() {
   return (
@@ -20,9 +21,10 @@ export default function Hero() {
           awkwardly on a narrow screen. The greeting fits on one line at every
           width, so in practice it never has to.
         */}
-        <h1 className="text-balance text-[34px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[42px] lg:text-[50px]">
-          {profile.headline}
-        </h1>
+        <GravityLetters
+          text={profile.headline}
+          className="text-balance text-[34px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[42px] lg:text-[50px]"
+        />
 
         {/*
           A little tighter under the heading than before: one line of display

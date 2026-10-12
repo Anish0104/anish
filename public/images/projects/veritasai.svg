@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Warm cream sketchbook background -->
+  <rect width="800" height="500" fill="#faf7f0"/>
+
+  <g stroke="#18181b" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Grounding loose shadow stroke -->
+    <path d="M 80 440 C 280 445, 520 445, 720 440" stroke="#e64c3c" stroke-width="4.5" stroke-dasharray="14 16" opacity="0.35"/>
+
+    <!-- SEVERAL SMALL FOLDED NEWSPAPERS TUMBLING INTO THE FUNNEL (Top) -->
+    <!-- Newspaper 1 (Top Left, tumbling down) -->
+    <g transform="translate(180, 45) rotate(-22)">
+      <polygon points="0,0 85,-4 88,60 5,64" fill="#ffffff" stroke="#18181b" stroke-width="4.5"/>
+      <path d="M 8 16 L 75 14" stroke="#e64c3c" stroke-width="4"/>
+      <path d="M 8 30 L 70 28 M 8 44 L 50 42" stroke="#18181b" stroke-width="3"/>
+    </g>
+
+    <!-- Newspaper 2 (Top Center, diving in) -->
+    <g transform="translate(325, 25) rotate(14)">
+      <polygon points="0,0 95,0 95,70 0,70" fill="#ffffff" stroke="#18181b" stroke-width="4.5"/>
+      <path d="M 10 16 L 85 16" stroke="#18181b" stroke-width="4.5"/>
+      <rect x="10" y="26" width="30" height="24" rx="2" fill="#e64c3c" stroke="#18181b" stroke-width="3"/>
+      <path d="M 48 30 L 85 30 M 48 44 L 80 44" stroke="#18181b" stroke-width="3"/>
+    </g>
+
+    <!-- Newspaper 3 (Top Right, fluttering) -->
+    <g transform="translate(460, 40) rotate(32)">
+      <polygon points="0,0 80,-5 82,55 2,60" fill="#ffffff" stroke="#18181b" stroke-width="4.5"/>
+      <path d="M 8 15 L 72 13" stroke="#e64c3c" stroke-width="4"/>
+      <path d="M 8 28 L 65 26 M 8 40 L 45 38" stroke="#18181b" stroke-width="3"/>
+    </g>
+
+    <!-- Swirling inflow action lines into the funnel mouth -->
+    <path d="M 230 115 C 270 140, 310 150, 350 155" stroke="#e64c3c" stroke-width="3.5" stroke-dasharray="6 6"/>
+    <path d="M 480 115 C 440 140, 400 150, 360 155" stroke="#e64c3c" stroke-width="3.5" stroke-dasharray="6 6"/>
+
+    <!-- BROAD HAND-DRAWN FUNNEL (Center, jaunty and organic) -->
+    <g transform="translate(230, 140)">
+      <!-- Funnel Cone (Wide top tapering to narrow spout) -->
+      <polygon points="15,15 295,15 185,150 125,150" fill="#ffffff" stroke="#18181b" stroke-width="6"/>
+      <!-- Top rim in bold coral -->
+      <ellipse cx="155" cy="15" rx="140" ry="16" fill="#fbeae8" stroke="#e64c3c" stroke-width="5"/>
+      
+      <!-- Funnel body contour ribs -->
+      <path d="M 55 45 C 115 62, 195 62, 255 45" stroke="#e64c3c" stroke-width="3.5" stroke-dasharray="8 8"/>
+      <path d="M 90 95 C 130 108, 180 108, 220 95" stroke="#e64c3c" stroke-width="3.5" stroke-dasharray="6 6"/>
+
+      <!-- Narrow Spout at base -->
+      <polygon points="125,150 185,150 180,215 130,215" fill="#fbeae8" stroke="#18181b" stroke-width="5.5"/>
+      <!-- Spout exit rim -->
+      <ellipse cx="155" cy="215" rx="25" ry="7" fill="#e64c3c" stroke="#18181b" stroke-width="4"/>
+    </g>
+
+    <!-- Tiny Hand-Drawn Magnifying Glass Beside Funnel (Suggesting inspection & curation) -->
+    <g transform="translate(485, 205) rotate(18)">
+      <!-- Lens glass -->
+      <circle cx="28" cy="28" r="28" fill="#e64c3c" fill-opacity="0.22" stroke="none"/>
+      <!-- Lens Rim in bold black and coral -->
+      <circle cx="28" cy="28" r="28" stroke="#18181b" stroke-width="5"/>
+      <circle cx="28" cy="28" r="24" stroke="#e64c3c" stroke-width="2.5" stroke-dasharray="6 4"/>
+      <!-- Specular reflection shine -->
+      <path d="M 12 18 C 18 10, 28 8, 38 10" stroke="#ffffff" stroke-width="3.5"/>
+      <!-- Handle -->
+      <path d="M 48 48 L 82 82" stroke="#e64c3c" stroke-width="8"/>
+      <path d="M 48 48 L 82 82" stroke="#18181b" stroke-width="5"/>
+      <!-- Inspection sparkles near glass -->
+      <circle cx="5" cy="5" r="3.5" fill="#e64c3c" stroke="none"/>
+    </g>
+
+    <!-- ONE NEATLY ORGANISED NEWSPAPER EMERGING BELOW (Bold Coral Accents - Very Noticeable) -->
+    <g transform="translate(260, 310)">
+      <!-- Newspaper drop motion lines from the funnel spout -->
+      <path d="M 110 -30 L 110 -5 M 140 -25 L 140 -5 M 170 -30 L 170 -5" stroke="#e64c3c" stroke-width="4" stroke-dasharray="6 6"/>
+
+      <!-- Organised Newspaper Main Sheet (Large, crisp, prominent) -->
+      <polygon points="0,0 260,-6 265,150 5,156" fill="#ffffff" stroke="#18181b" stroke-width="6"/>
+
+      <!-- BOLD CORAL MASTHEAD / HEADER BANNER (Strongest visual pop) -->
+      <polygon points="8,8 252,3 252,34 8,39" fill="#e64c3c" stroke="#18181b" stroke-width="4"/>
+      <!-- White masthead abstract title bars -->
+      <path d="M 22 22 L 180 18" stroke="#ffffff" stroke-width="5"/>
+      <circle cx="205" cy="18" r="5" fill="#ffffff" stroke="none"/>
+      <circle cx="225" cy="17" r="5" fill="#ffffff" stroke="none"/>
+
+      <!-- FRONT PAGE ARTICLES & PICTURE BOX -->
+      <!-- Left Column: Coral picture box with camera/landscape doodle -->
+      <rect x="18" y="48" width="75" height="52" rx="4" fill="#fbeae8" stroke="#e64c3c" stroke-width="3.5"/>
+      <!-- Picture doodle lines -->
+      <circle cx="36" cy="62" r="7" fill="#e64c3c" stroke="none"/>
+      <path d="M 22 88 L 45 70 L 65 82 L 80 72 L 90 85" stroke="#e64c3c" stroke-width="3"/>
+
+      <!-- Left Column caption lines -->
+      <path d="M 18 112 L 88 110 M 18 126 L 75 124 M 18 140 L 80 138" stroke="#18181b" stroke-width="3.5"/>
+
+      <!-- Center Column divider rule -->
+      <path d="M 105 48 L 105 145" stroke="#18181b" stroke-width="2.5" stroke-dasharray="4 4"/>
+
+      <!-- Right Column: Lead headline & clean article paragraphs -->
+      <path d="M 120 54 L 245 52" stroke="#e64c3c" stroke-width="5"/>
+      <path d="M 120 68 L 235 66" stroke="#18181b" stroke-width="4"/>
+      <path d="M 120 84 L 240 82 M 120 98 L 230 96 M 120 112 L 245 110 M 120 126 L 215 124 M 120 140 L 195 138" stroke="#18181b" stroke-width="3.5"/>
+
+      <!-- Quality stamp / Seal of verification in bold coral on bottom right -->
+      <g transform="translate(225, 125)">
+        <circle cx="0" cy="0" r="15" fill="#e64c3c" stroke="#18181b" stroke-width="3.5"/>
+        <path d="M -6 0 L -1 6 L 8 -5" stroke="#ffffff" stroke-width="3.5"/>
+      </g>
+    </g>
+
+    <!-- Playful sparkles & stars -->
+    <g transform="translate(670, 130)">
+      <path d="M 0 -12 Q 2 -2 12 0 Q 2 2 0 12 Q -2 2 -12 0 Q -2 -2 0 -12 Z" fill="#e64c3c" stroke="#18181b" stroke-width="2.5"/>
+    </g>
+    <circle cx="140" cy="170" r="4.5" fill="#e64c3c" stroke="none"/>
+    <circle cx="680" cy="360" r="4" fill="#e64c3c" stroke="none"/>
+  </g>
+</svg>
