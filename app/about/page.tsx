@@ -118,11 +118,6 @@ export default function AboutPage() {
             </li>
           ))}
         </ul>
-        <p className="mt-4 max-w-[74ch] font-mono text-[11px] leading-relaxed text-faint">
-          Dates come from the issued credential where one is linked. Where no
-          credential page was available to check, the date comes from the
-          source noted in the content data, or is omitted rather than guessed.
-        </p>
       </section>
 
       <section className="relative mt-16 sm:mt-20">
