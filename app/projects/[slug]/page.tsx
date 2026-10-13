@@ -120,11 +120,14 @@ export default async function ProjectPage({
         />
       </div>
 
-      {transformConfig && (
-        <section className="mt-12">
-          <MagicTransform config={transformConfig} />
-        </section>
-      )}
+      <section className="mt-12">
+        <MagicTransform
+          stack={project.stack}
+          projectTitle={project.title}
+          category={project.category}
+          config={transformConfig}
+        />
+      </section>
 
       <div className="mt-12 max-w-[68ch] space-y-12">
         {project.problem && (

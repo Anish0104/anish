@@ -1,256 +1,298 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import type { ProjectTransformConfig, TransformItem } from "@/data/projectTransforms";
+import React, { useState } from "react";
+import type { ProjectTransformConfig } from "@/data/projectTransforms";
 import styles from "./magic-transform.module.css";
 
-interface MagicTransformProps {
-  config: ProjectTransformConfig;
+// Deterministic matrix dot pattern to prevent SSR hydration mismatch
+const MATRIX_PATTERN = [
+  1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1,
+  0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1,
+  1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0,
+  0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1,
+  1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0,
+  1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1,
+  0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0,
+];
+
+// Color palette matching React Bits Pro reference
+const PILL_COLORS = [
+  "#5b7538", // Olive
+  "#a8326a", // Magenta / Berry
+  "#2563eb", // Cobalt / Blue
+  "#d97706", // Amber / Bronze
+  "#7c3aed", // Violet / Purple
+  "#0d9488", // Teal
+  "#be185d", // Rose
+  "#0284c7", // Sky
+];
+
+// Confetti burst particles
+const PARTICLES = [
+  { tx: 45, ty: -65, rot: 35, color: "#a8326a", size: 6, delay: 0.1 },
+  { tx: 85, ty: -45, rot: 80, color: "#5b7538", size: 5, delay: 0.4 },
+  { tx: 60, ty: -20, rot: -45, color: "#2563eb", size: 7, delay: 0.8 },
+  { tx: 95, ty: -5, rot: 110, color: "#d97706", size: 6, delay: 0.2 },
+  { tx: 50, ty: 25, rot: 60, color: "#7c3aed", size: 8, delay: 0.6 },
+  { tx: 110, ty: 40, rot: -75, color: "#0d9488", size: 5, delay: 1.1 },
+  { tx: 75, ty: 65, rot: 90, color: "#be185d", size: 6, delay: 0.5 },
+  { tx: 40, ty: 85, rot: -30, color: "#0284c7", size: 7, delay: 0.9 },
+  { tx: 120, ty: -55, rot: 140, color: "#d8b4fe", size: 5, delay: 1.3 },
+  { tx: 90, ty: 15, rot: -90, color: "#facc15", size: 6, delay: 0.7 },
+  { tx: 65, ty: -75, rot: 45, color: "#38bdf8", size: 5, delay: 1.5 },
+  { tx: 130, ty: 5, rot: 120, color: "#a8326a", size: 7, delay: 1.0 },
+  { tx: 80, ty: 75, rot: -60, color: "#5b7538", size: 6, delay: 1.4 },
+  { tx: 105, ty: -30, rot: 75, color: "#2563eb", size: 5, delay: 0.3 },
+];
+
+export interface MagicTransformProps {
+  stack?: string[];
+  projectTitle?: string;
+  category?: string;
+  config?: ProjectTransformConfig;
   className?: string;
 }
 
-export default function MagicTransform({ config, className = "" }: MagicTransformProps) {
+export default function MagicTransform({
+  stack,
+  projectTitle,
+  category,
+  config,
+  className = "",
+}: MagicTransformProps) {
   const [isPaused, setIsPaused] = useState(false);
-  const [activeStep, setActiveStep] = useState(0);
-  const [selectedItem, setSelectedItem] = useState<TransformItem | null>(null);
+  const [activeTech, setActiveTech] = useState<string | null>(null);
 
-  // Auto-cycle through the items to create an active processing stream effect
-  useEffect(() => {
-    if (isPaused) return;
-    const totalSteps = Math.max(config.inputs.length, config.outputs.length);
-    const interval = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % totalSteps);
-    }, 2800);
-    return () => clearInterval(interval);
-  }, [isPaused, config.inputs.length, config.outputs.length]);
+  // Resolve tech items from either passed stack, config outputs, or fallback
+  const techItems: string[] =
+    stack && stack.length > 0
+      ? stack
+      : config?.outputs
+      ? config.outputs.map((o) => o.badge || o.title)
+      : ["Core Engine", "TypeScript", "Next.js", "Tailwind CSS"];
+
+  const displayTitle =
+    config?.pipelineTitle ||
+    (projectTitle ? `${projectTitle} · Architecture Transformation` : "System Pipeline Transformation");
 
   return (
-    <div className={`${styles.transformContainer} ${className}`}>
-      {/* Top Controls Bar */}
-      <div className="flex flex-col gap-2 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="inline-block h-2 w-2 rounded-full bg-accent animate-ping" />
-            <h3 className="font-mono text-[12px] font-semibold uppercase tracking-wider text-accent">
-              Live Architecture Pipeline
-            </h3>
-          </div>
-          <p className="mt-0.5 text-[14.5px] font-medium text-text sm:text-[15.5px]">
-            {config.pipelineTitle}
-          </p>
-        </div>
-
-        {/* Play/Pause Control & Step Pill */}
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[11px] text-muted">
-            Cycle {activeStep + 1} of {Math.max(config.inputs.length, config.outputs.length)}
+    <div className={`${styles.container} ${className}`}>
+      {/* Top Header Bar */}
+      <div className={styles.headerBar}>
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
           </span>
-          <button
-            type="button"
-            onClick={() => setIsPaused((prev) => !prev)}
-            className="flex items-center gap-1.5 rounded-lg border border-border bg-surface-2 px-2.5 py-1 font-mono text-[11px] text-muted transition-colors hover:border-border-strong hover:text-text"
-          >
-            {isPaused ? (
-              <>
-                <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-                <span>Resume</span>
-              </>
-            ) : (
-              <>
-                <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                </svg>
-                <span>Pause</span>
-              </>
-            )}
-          </button>
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent">
+            Interactive Architecture Transform
+          </span>
+          {category && (
+            <span className="hidden sm:inline-block font-mono text-[10.5px] text-muted">
+              · {category}
+            </span>
+          )}
         </div>
+
+        <button
+          type="button"
+          onClick={() => setIsPaused((prev) => !prev)}
+          className="flex items-center gap-1.5 rounded-md border border-border bg-surface-2 px-2.5 py-1 font-mono text-[11px] text-muted transition-colors hover:border-border-strong hover:text-text"
+        >
+          {isPaused ? (
+            <>
+              <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              <span>Resume</span>
+            </>
+          ) : (
+            <>
+              <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+              </svg>
+              <span>Pause</span>
+            </>
+          )}
+        </button>
       </div>
 
-      {/* Main 3-Stage Pipeline Display */}
-      <div className="relative mt-6 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-[1fr_auto_1fr] lg:gap-4">
-        {/* STAGE 1: INPUT STREAM (Left) */}
-        <div className="flex flex-col justify-between rounded-xl border border-border/80 bg-surface-2/40 p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <span className="font-mono text-[11px] font-medium uppercase tracking-wider text-muted">
-              {config.inputHeader}
-            </span>
-            <span className="rounded bg-surface-2 px-2 py-0.5 font-mono text-[10px] text-faint">
-              Input Ingestion
-            </span>
+      {/* Main Animated Stage */}
+      <div
+        className={styles.stage}
+        style={{
+          animationPlayState: isPaused ? "paused" : "running",
+        }}
+      >
+        {/* LEFT STREAM: Sliding Document Cards */}
+        <div className={styles.documentStream}>
+          {/* Card 1 */}
+          <div
+            className={styles.docCard}
+            style={{ animationPlayState: isPaused ? "paused" : "running" }}
+          >
+            <div className={styles.cardHeaderLine} />
+            <div className={styles.matrixGrid}>
+              {MATRIX_PATTERN.map((active, i) => (
+                <div
+                  key={`c1-dot-${i}`}
+                  className={`${styles.matrixDot} ${active ? styles.matrixDotActive : ""}`}
+                />
+              ))}
+            </div>
+            <div className={styles.skeletonGroup}>
+              <div className={styles.docLine} style={{ width: "95%" }} />
+              <div className={styles.docLine} style={{ width: "80%" }} />
+              <div className={styles.docLine} style={{ width: "88%" }} />
+              <div className={styles.docLine} style={{ width: "68%" }} />
+              <div className={styles.docLine} style={{ width: "82%" }} />
+            </div>
           </div>
 
-          <div className="space-y-3">
-            {config.inputs.map((item, idx) => {
-              const isCurrent = idx === activeStep % config.inputs.length;
+          {/* Card 2 (Staggered continuous loop) */}
+          <div
+            className={`${styles.docCard} ${styles.docCardStagger}`}
+            style={{ animationPlayState: isPaused ? "paused" : "running" }}
+          >
+            <div className={styles.cardHeaderLine} style={{ width: "55%" }} />
+            <div className={styles.matrixGrid}>
+              {MATRIX_PATTERN.map((active, i) => (
+                <div
+                  key={`c2-dot-${i}`}
+                  className={`${styles.matrixDot} ${active ? styles.matrixDotActive : ""}`}
+                />
+              ))}
+            </div>
+            <div className={styles.skeletonGroup}>
+              <div className={styles.docLine} style={{ width: "88%" }} />
+              <div className={styles.docLine} style={{ width: "72%" }} />
+              <div className={styles.docLine} style={{ width: "92%" }} />
+              <div className={styles.docLine} style={{ width: "60%" }} />
+              <div className={styles.docLine} style={{ width: "78%" }} />
+            </div>
+          </div>
+        </div>
+
+        {/* CENTER AXIS: Neon Vertical Laser Line */}
+        <div className={styles.laserLine} />
+
+        {/* CENTER BADGE: Atom / Reactor Badge */}
+        <div
+          className={styles.reactorBadge}
+          title="Reactor Core: Slices & transforms document inputs into production stack"
+        >
+          <svg
+            className={styles.atomIcon}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {/* Nucleus */}
+            <circle cx="12" cy="12" r="2.2" fill="currentColor" />
+            {/* Horizontal Orbit */}
+            <ellipse cx="12" cy="12" rx="9" ry="3.8" />
+            {/* Tilted Orbit 1 */}
+            <ellipse
+              cx="12"
+              cy="12"
+              rx="9"
+              ry="3.8"
+              transform="rotate(60 12 12)"
+            />
+            {/* Tilted Orbit 2 */}
+            <ellipse
+              cx="12"
+              cy="12"
+              rx="9"
+              ry="3.8"
+              transform="rotate(120 12 12)"
+            />
+          </svg>
+        </div>
+
+        {/* PARTICLE BURST: Floating Confetti Elements */}
+        <div className={styles.particleCloud}>
+          {PARTICLES.map((p, idx) => (
+            <span
+              key={`particle-${idx}`}
+              className={styles.particle}
+              style={
+                {
+                  width: `${p.size}px`,
+                  height: `${p.size}px`,
+                  backgroundColor: p.color,
+                  "--tx": `${p.tx}px`,
+                  "--ty": `${p.ty}px`,
+                  "--rot": `${p.rot}deg`,
+                  animationDelay: `${p.delay}s`,
+                  animationPlayState: isPaused ? "paused" : "running",
+                } as React.CSSProperties
+              }
+            />
+          ))}
+        </div>
+
+        {/* RIGHT AREA: Popped-up Tech Stack Stream */}
+        <div className={styles.stackOutputArea}>
+          <div className={styles.stackList}>
+            {techItems.slice(0, 7).map((tech, idx) => {
+              const color = PILL_COLORS[idx % PILL_COLORS.length];
+              const isSelected = activeTech === tech;
+
               return (
                 <div
-                  key={item.id}
-                  onClick={() => setSelectedItem(item)}
-                  className={`group cursor-pointer rounded-lg border p-3 transition-all duration-300 ${
-                    isCurrent
-                      ? "border-accent/60 bg-surface shadow-sm ring-1 ring-accent/20"
-                      : "border-border/70 bg-surface/70 hover:border-border-strong hover:bg-surface"
-                  }`}
+                  key={`${tech}-${idx}`}
+                  className={styles.stackItem}
+                  onMouseEnter={() => setActiveTech(tech)}
+                  onMouseLeave={() => setActiveTech(null)}
+                  style={
+                    {
+                      "--delay": `${idx * 0.35}s`,
+                      animationPlayState: isPaused ? "paused" : "running",
+                    } as React.CSSProperties
+                  }
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <span
-                      className={`font-mono text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded ${
-                        item.tone === "critical"
-                          ? "bg-red-500/10 text-red-500 border border-red-500/20"
-                          : "bg-surface-2 text-accent"
-                      }`}
-                    >
-                      {item.badge}
-                    </span>
-                    {isCurrent && (
-                      <span className="flex items-center gap-1 font-mono text-[10px] text-accent">
-                        <span>Streaming</span>
-                        <span className="animate-pulse">→</span>
-                      </span>
-                    )}
+                  {/* Colored Tech Stack Pill */}
+                  <div
+                    className={styles.techPill}
+                    style={
+                      {
+                        "--pill-bg": color,
+                        transform: isSelected ? "scale(1.05)" : "none",
+                        boxShadow: isSelected
+                          ? `0 0 16px ${color}99, 0 4px 12px rgba(0,0,0,0.5)`
+                          : undefined,
+                      } as React.CSSProperties
+                    }
+                  >
+                    <span>{tech}</span>
                   </div>
-                  <h4 className="mt-1.5 text-[13.5px] font-semibold text-text group-hover:text-accent transition-colors">
-                    {item.title}
-                  </h4>
-                  <p className="mt-0.5 text-[12px] leading-relaxed text-muted">
-                    {item.detail}
-                  </p>
+
+                  {/* Dark Card Skeleton with Code Lines */}
+                  <div className={styles.cardSkeleton}>
+                    <div
+                      className={styles.skeletonLine}
+                      style={{ width: `${Math.max(55, 90 - (idx % 3) * 15)}%` }}
+                    />
+                    <div
+                      className={styles.skeletonLine}
+                      style={{ width: `${Math.max(40, 70 - (idx % 2) * 15)}%` }}
+                    />
+                  </div>
                 </div>
               );
             })}
           </div>
         </div>
-
-        {/* STAGE 2: THE TRANSFORMATION PORTAL / CORE (Center) */}
-        <div className="relative flex flex-col items-center justify-center rounded-xl border border-accent/30 bg-surface-2/80 p-6 text-center shadow-inner lg:w-[280px]">
-          {/* Glowing particle aura */}
-          <div className={styles.coreGlowRing} />
-          <div className={styles.pulseParticle} style={{ top: "30%", left: "40%" }} />
-          <div className={styles.pulseParticle} style={{ top: "60%", left: "65%", animationDelay: "1.2s" }} />
-
-          {/* Central Reactor / Processor Icon */}
-          <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/40 bg-surface shadow-lg ring-4 ring-accent/10">
-            <svg
-              className="h-7 w-7 text-accent animate-spin"
-              style={{ animationDuration: isPaused ? "0s" : "12s" }}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.8}
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.8}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-          </div>
-
-          {/* Engine Header & Subtitle */}
-          <h4 className="mt-3.5 text-[14px] font-bold tracking-tight text-text">
-            {config.coreTitle}
-          </h4>
-          <p className="mt-1 text-[11.5px] leading-relaxed text-muted">
-            {config.coreSubtitle}
-          </p>
-
-          {/* Core Metric Pill */}
-          <div className="mt-3 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 font-mono text-[10.5px] font-semibold text-accent">
-            {config.coreMetrics}
-          </div>
-
-          <div className="mt-4 flex items-center gap-1.5 font-mono text-[10.5px] text-faint">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Deterministic Core Active</span>
-          </div>
-        </div>
-
-        {/* STAGE 3: OUTPUT STREAM (Right) */}
-        <div className="flex flex-col justify-between rounded-xl border border-border/80 bg-surface-2/40 p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <span className="font-mono text-[11px] font-medium uppercase tracking-wider text-muted">
-              {config.outputHeader}
-            </span>
-            <span className="rounded bg-surface-2 px-2 py-0.5 font-mono text-[10px] text-emerald-500 font-semibold">
-              ✓ Verified Resolution
-            </span>
-          </div>
-
-          <div className="space-y-3">
-            {config.outputs.map((item, idx) => {
-              const isCurrent = idx === activeStep % config.outputs.length;
-              return (
-                <div
-                  key={item.id}
-                  onClick={() => setSelectedItem(item)}
-                  className={`group cursor-pointer rounded-lg border p-3 transition-all duration-300 ${
-                    isCurrent
-                      ? "border-emerald-500/60 bg-surface shadow-sm ring-1 ring-emerald-500/20"
-                      : "border-border/70 bg-surface/70 hover:border-border-strong hover:bg-surface"
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span
-                      className={`font-mono text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded ${
-                        item.tone === "highlight"
-                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
-                          : "bg-surface-2 text-text"
-                      }`}
-                    >
-                      {item.badge}
-                    </span>
-                    {isCurrent && (
-                      <span className="flex items-center gap-1 font-mono text-[10px] text-emerald-500 font-medium">
-                        <span>Emitted</span>
-                        <span>✓</span>
-                      </span>
-                    )}
-                  </div>
-                  <h4 className="mt-1.5 text-[13.5px] font-semibold text-text group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                    {item.title}
-                  </h4>
-                  <p className="mt-0.5 text-[12px] leading-relaxed text-muted">
-                    {item.detail}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
       </div>
 
-      {/* Item Inspection Card / Modal */}
-      {selectedItem && (
-        <div className="mt-4 flex items-center justify-between rounded-lg border border-accent/40 bg-accent/5 p-3 font-mono text-[12px]">
-          <div>
-            <span className="font-semibold text-accent">[{selectedItem.badge}]</span>{" "}
-            <span className="text-text font-medium">{selectedItem.title}:</span>{" "}
-            <span className="text-muted">{selectedItem.detail}</span>
-          </div>
-          <button
-            type="button"
-            onClick={() => setSelectedItem(null)}
-            className="ml-3 shrink-0 text-faint hover:text-text transition-colors"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
-      {/* Footer hint */}
-      <div className="mt-4 text-center">
-        <p className="font-mono text-[11px] text-muted/60">
-          Click any card to inspect · Visualizes transformation from unstructured input to verified outcome
-        </p>
+      {/* Footer Info / Pipeline context */}
+      <div className={styles.footerNote}>
+        <span>{displayTitle}</span>
+        <span>Passed through deterministic reactor → Tech stack emitted</span>
       </div>
     </div>
   );

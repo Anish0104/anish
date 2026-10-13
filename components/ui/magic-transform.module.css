@@ -1,92 +1,378 @@
-.transformContainer {
+.container {
   position: relative;
   width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.headerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding: 0 0.25rem;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: 380px;
   overflow: hidden;
+  background: radial-gradient(circle at 38% 50%, rgba(168, 85, 247, 0.08) 0%, rgba(9, 9, 11, 0.98) 70%), #09090b;
   border-radius: 1rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
 }
 
 @media (min-width: 640px) {
-  .transformContainer {
-    padding: 2rem;
+  .stage {
+    height: 440px;
   }
 }
 
-.coreGlowRing {
+/* Vertical Laser Axis */
+.laserLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 36%;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(168, 85, 247, 0) 0%,
+    rgba(168, 85, 247, 0.85) 15%,
+    rgba(225, 195, 255, 1) 50%,
+    rgba(168, 85, 247, 0.85) 85%,
+    rgba(168, 85, 247, 0) 100%
+  );
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.9), 0 0 28px rgba(168, 85, 247, 0.45);
+  z-index: 25;
+}
+
+@media (min-width: 640px) {
+  .laserLine {
+    left: 38%;
+  }
+}
+
+/* Center Reactor Badge */
+.reactorBadge {
   position: absolute;
   top: 50%;
-  left: 50%;
-  width: 140px;
-  height: 140px;
+  left: 36%;
   transform: translate(-50%, -50%);
-  border-radius: 9999px;
-  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-  opacity: 0.18;
-  filter: blur(12px);
-  pointer-events: none;
-  animation: pulseCore 3s ease-in-out infinite alternate;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 18px rgba(168, 85, 247, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  transition: transform 0.2s ease;
 }
 
-@keyframes pulseCore {
+@media (min-width: 640px) {
+  .reactorBadge {
+    left: 38%;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.reactorBadge:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.atomIcon {
+  width: 26px;
+  height: 26px;
+  color: #c084fc;
+}
+
+/* Document conveyor stream on left */
+.documentStream {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 36%;
+  overflow: hidden;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
+}
+
+@media (min-width: 640px) {
+  .documentStream {
+    width: 38%;
+  }
+}
+
+/* Document Card */
+.docCard {
+  position: absolute;
+  width: 175px;
+  height: 275px;
+  border-radius: 14px;
+  background: #141416;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: slideDoc 7s linear infinite;
+}
+
+@media (min-width: 640px) {
+  .docCard {
+    width: 195px;
+    height: 310px;
+    padding: 16px;
+  }
+}
+
+.docCardStagger {
+  animation-delay: -3.5s;
+}
+
+@keyframes slideDoc {
   0% {
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0.12;
+    transform: translateX(-125%);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
   }
   100% {
-    transform: translate(-50%, -50%) scale(1.15);
-    opacity: 0.28;
+    transform: translateX(115%);
+    opacity: 0.1;
   }
 }
 
-.pulseParticle {
-  position: absolute;
-  width: 4px;
+.cardHeaderLine {
+  height: 7px;
+  width: 45%;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Dot Matrix Grid inside doc card */
+.matrixGrid {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  gap: 3px;
+  width: 100%;
+  height: 105px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.matrixDot {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 1px;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.matrixDotActive {
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.6);
+}
+
+/* Skeleton Lines inside card */
+.skeletonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.docLine {
   height: 4px;
-  border-radius: 9999px;
-  background-color: var(--accent);
-  opacity: 0.6;
-  pointer-events: none;
-  animation: particleFloat 4s ease-in-out infinite;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.14);
 }
 
-@keyframes particleFloat {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(-20px) scale(0);
-    opacity: 0;
-  }
-}
-
-.beamLine {
+/* Floating Particles Burst */
+.particleCloud {
   position: absolute;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  opacity: 0.5;
-  animation: beamSweep 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  top: 50%;
+  left: 36%;
+  transform: translateY(-50%);
+  width: 140px;
+  height: 280px;
+  pointer-events: none;
+  z-index: 22;
 }
 
-@keyframes beamSweep {
+@media (min-width: 640px) {
+  .particleCloud {
+    left: 38%;
+    width: 200px;
+    height: 320px;
+  }
+}
+
+.particle {
+  position: absolute;
+  border-radius: 2px;
+  animation: explodeParticle 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes explodeParticle {
   0% {
-    left: 0%;
-    width: 0%;
+    transform: translate(0, 0) scale(0.2) rotate(0deg);
     opacity: 0;
   }
-  50% {
-    width: 60%;
-    opacity: 0.8;
+  15% {
+    opacity: 0.95;
+  }
+  75% {
+    opacity: 0.75;
   }
   100% {
-    left: 100%;
-    width: 0%;
+    transform: translate(var(--tx, 70px), var(--ty, -20px)) scale(0.9) rotate(var(--rot, 45deg));
     opacity: 0;
   }
+}
+
+/* Stack Output Stream on Right */
+.stackOutputArea {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 36%;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 24px;
+  padding-right: 16px;
+  z-index: 15;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .stackOutputArea {
+    left: 38%;
+    padding-left: 42px;
+  }
+}
+
+.stackList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.stackItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  animation: popStack 4.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: var(--delay, 0s);
+  transform-origin: left center;
+  transition: transform 0.2s ease;
+}
+
+@media (min-width: 640px) {
+  .stackItem {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.stackItem:hover {
+  transform: translateX(6px) scale(1.02);
+}
+
+@keyframes popStack {
+  0% {
+    transform: translateX(-35px) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  82% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(20px) scale(0.95);
+    opacity: 0.4;
+  }
+}
+
+.techPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  border-radius: 9999px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+  background-color: var(--pill-bg, #2563eb);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: default;
+}
+
+.cardSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(22, 22, 26, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 14px;
+  border-radius: 8px;
+  width: 160px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 640px) {
+  .cardSkeleton {
+    width: 220px;
+  }
+}
+
+.skeletonLine {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.footerNote {
+  margin-top: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 0 0.25rem;
 }
