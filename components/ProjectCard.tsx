@@ -92,7 +92,7 @@ export default function ProjectCard({
             README
           </button>
           <a
-            href={repoUrl}
+            href={project.links.find((l) => l.label.toLowerCase() === "github")?.href || repoUrl}
             target="_blank"
             rel="noreferrer noopener"
             className="text-muted transition-colors hover:text-text hover:underline"

@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <!-- Warm cream sketchbook background -->
+  <rect width="800" height="500" fill="#faf7f0"/>
+
+  <g stroke="#18181b" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Grounding loose shadow stroke -->
+    <path d="M 80 435 C 280 440, 520 440, 720 435" stroke="#0284c7" stroke-width="4.5" stroke-dasharray="14 16" opacity="0.35"/>
+
+    <!-- Left Side: Hospital Command Center Monitor with Live Telemetry (Tilted slightly) -->
+    <g transform="translate(100, 100) rotate(-3)">
+      <!-- Monitor Stand & Base -->
+      <path d="M 170 290 L 170 330 M 130 330 L 210 330" stroke="#18181b" stroke-width="6"/>
+
+      <!-- Large Command Monitor Display (Irregular hand-drawn rectangle) -->
+      <rect x="20" y="20" width="300" height="270" rx="18" fill="#ffffff" stroke="#18181b" stroke-width="6.5"/>
+      <!-- Inner bezel strip in bold clinical sapphire -->
+      <rect x="35" y="35" width="270" height="240" rx="10" fill="#f0f9ff" stroke="#0284c7" stroke-width="3.5"/>
+
+      <!-- Top Dashboard Header with status pulse -->
+      <path d="M 45 60 L 150 58" stroke="#18181b" stroke-width="5"/>
+      <circle cx="270" cy="58" r="8" fill="#0284c7" stroke="#18181b" stroke-width="3"/>
+      <path d="M 255 58 C 255 50, 285 50, 285 58" stroke="#0284c7" stroke-width="2.5"/>
+
+      <!-- Hospital building doodle icon on screen -->
+      <g transform="translate(50, 85)">
+        <polygon points="0,50 0,0 45,0 45,50" fill="#ffffff" stroke="#18181b" stroke-width="4"/>
+        <!-- Medical cross in bold clinical sapphire -->
+        <rect x="18" y="10" width="9" height="24" rx="2" fill="#0284c7" stroke="none"/>
+        <rect x="10" y="18" width="25" height="8" rx="2" fill="#0284c7" stroke="none"/>
+        <!-- Hospital door -->
+        <rect x="16" y="36" width="13" height="14" fill="#18181b"/>
+      </g>
+
+      <!-- Hospital surge alert indicator bar next to hospital -->
+      <g transform="translate(110, 95)">
+        <path d="M 10 12 L 120 12" stroke="#18181b" stroke-width="4"/>
+        <path d="M 10 26 L 150 26" stroke="#0284c7" stroke-width="5.5"/>
+        <path d="M 10 40 L 90 40" stroke="#18181b" stroke-width="3.5"/>
+      </g>
+
+      <!-- ECG / Stroke Telemetry Timeline Wave across screen -->
+      <g transform="translate(45, 175)">
+        <!-- Timeline base grid line -->
+        <path d="M 0 35 L 250 35" stroke="#18181b" stroke-width="3" stroke-dasharray="6 6"/>
+        <!-- Urgent ECG heart pulse wave turning into coverage gap forecast -->
+        <path d="M 0 35 L 50 35 L 60 15 L 70 55 L 80 5 L 90 45 L 100 35 L 140 35" stroke="#18181b" stroke-width="5"/>
+        <!-- The 90-minute GAP in telemetry highlighted in bold sapphire -->
+        <path d="M 140 35 C 160 15, 190 15, 210 35" stroke="#0284c7" stroke-width="6" stroke-dasharray="8 6"/>
+        <circle cx="210" cy="35" r="7" fill="#0284c7" stroke="#18181b" stroke-width="3"/>
+        <!-- Action exclamation alert bubble above the gap -->
+        <ellipse cx="175" cy="10" rx="14" ry="12" fill="#0284c7" stroke="#18181b" stroke-width="3"/>
+        <circle cx="175" cy="10" r="3" fill="#ffffff" stroke="none"/>
+      </g>
+
+      <!-- Ranked attention items at bottom of screen -->
+      <g transform="translate(50, 245)">
+        <rect x="0" y="0" width="70" height="15" rx="3" fill="#0284c7" stroke="#18181b" stroke-width="2.5"/>
+        <rect x="80" y="0" width="70" height="15" rx="3" fill="#ffffff" stroke="#18181b" stroke-width="2.5"/>
+        <rect x="160" y="0" width="70" height="15" rx="3" fill="#ffffff" stroke="#18181b" stroke-width="2.5"/>
+      </g>
+    </g>
+
+    <!-- Connecting Dispatch Arrow (Dynamic voice & offer transmission arc to doctor) -->
+    <g transform="translate(410, 160)">
+      <!-- Animated transmission curve -->
+      <path d="M 20 60 C 60 20, 110 30, 140 60" stroke="#0284c7" stroke-width="5" stroke-dasharray="10 8"/>
+      <path d="M 130 62 L 145 65 L 142 48" stroke="#0284c7" stroke-width="4.5"/>
+
+      <!-- Audio / voice wave ripples (ElevenLabs voice offer) -->
+      <path d="M 70 20 C 78 12, 92 12, 100 20" stroke="#0284c7" stroke-width="3.5"/>
+      <path d="M 62 10 C 76 -3, 104 -3, 118 10" stroke="#0284c7" stroke-width="3"/>
+    </g>
+
+    <!-- Right Side: Friendly Off-Duty Neurologist receiving the offer on smartphone -->
+    <g transform="translate(540, 120)">
+      <!-- Neurologist Head & Face (Wearing doctor scrub cap with stethoscope) -->
+      <ellipse cx="90" cy="50" rx="42" ry="44" fill="#ffffff" stroke="#18181b" stroke-width="6"/>
+      <!-- Doctor hair / scrub cap band in bold clinical sapphire -->
+      <path d="M 52 40 C 60 12, 120 12, 128 40 Z" fill="#0284c7" stroke="#18181b" stroke-width="5"/>
+      <!-- Friendly eyes looking down at phone -->
+      <circle cx="80" cy="54" r="5" fill="#18181b" stroke="none"/>
+      <circle cx="106" cy="54" r="5" fill="#18181b" stroke="none"/>
+      <!-- Warm smile -->
+      <path d="M 85 70 Q 93 78 102 70" stroke="#18181b" stroke-width="4"/>
+
+      <!-- Stethoscope draped around neck -->
+      <path d="M 65 95 C 65 140, 85 155, 90 155 C 95 155, 115 140, 115 95" stroke="#18181b" stroke-width="5"/>
+      <!-- Stethoscope bell chest piece in sapphire -->
+      <circle cx="90" cy="165" r="10" fill="#0284c7" stroke="#18181b" stroke-width="4"/>
+      <path d="M 90 155 L 90 165" stroke="#18181b" stroke-width="4"/>
+
+      <!-- Doctor Body / Lab coat -->
+      <path d="M 45 95 L 30 250 L 150 250 L 135 95" fill="#ffffff" stroke="#18181b" stroke-width="6"/>
+      <!-- Lapel collar V -->
+      <path d="M 65 95 L 90 140 L 115 95" stroke="#18181b" stroke-width="5"/>
+      <!-- Pocket with doctor pen doodle -->
+      <rect x="45" y="150" width="22" height="26" rx="4" fill="#f0f9ff" stroke="#0284c7" stroke-width="3"/>
+      <path d="M 52 142 L 52 152" stroke="#18181b" stroke-width="3"/>
+
+      <!-- Arm reaching out holding smartphone -->
+      <path d="M 45 130 C 20 145, 0 170, -10 190" stroke="#18181b" stroke-width="6"/>
+      <!-- Hand holding phone -->
+      <ellipse cx="-12" cy="195" rx="14" ry="12" fill="#ffffff" stroke="#18181b" stroke-width="4.5"/>
+
+      <!-- Smartphone Device (Receiving the approved offer) -->
+      <g transform="translate(-55, 150) rotate(-10)">
+        <rect x="0" y="0" width="65" height="110" rx="12" fill="#ffffff" stroke="#18181b" stroke-width="5.5"/>
+        <!-- Screen in clinical sapphire tint -->
+        <rect x="7" y="12" width="51" height="86" rx="6" fill="#f0f9ff" stroke="#0284c7" stroke-width="3"/>
+        
+        <!-- Offer card on mobile screen -->
+        <rect x="12" y="24" width="41" height="35" rx="4" fill="#ffffff" stroke="#0284c7" stroke-width="2.5"/>
+        <path d="M 16 34 L 38 34 M 16 44 L 48 44" stroke="#18181b" stroke-width="3"/>
+
+        <!-- 1-Tap ACCEPT Button in Bold Sapphire with White Checkmark -->
+        <rect x="15" y="66" width="35" height="22" rx="6" fill="#0284c7" stroke="#18181b" stroke-width="3"/>
+        <path d="M 24 76 L 30 82 L 42 70" stroke="#ffffff" stroke-width="3.5"/>
+      </g>
+    </g>
+
+    <!-- Trophy / 1st Place Victory Sparkles (Rutgers Health Hack 2026 Champion) -->
+    <g transform="translate(480, 75)">
+      <!-- Small laurel / victory star doodle -->
+      <path d="M 0 -14 Q 3 -3 14 0 Q 3 3 0 14 Q -3 3 -14 0 Q -3 -3 0 -14 Z" fill="#0284c7" stroke="#18181b" stroke-width="3"/>
+    </g>
+    <g transform="translate(130, 70)">
+      <path d="M 0 -10 Q 2 -2 10 0 Q 2 2 0 10 Q -2 2 -10 0 Q -2 -2 0 -10 Z" fill="#0284c7" stroke="#18181b" stroke-width="2.5"/>
+    </g>
+    <circle cx="440" cy="270" r="4.5" fill="#0284c7" stroke="none"/>
+    <circle cx="710" cy="180" r="4" fill="#0284c7" stroke="none"/>
+    <circle cx="210" cy="410" r="4" fill="#0284c7" stroke="none"/>
+  </g>
+</svg>
+

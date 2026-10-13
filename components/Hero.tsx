@@ -35,7 +35,17 @@ export default function Hero() {
           {profile.intro}
         </p>
 
-        <p className="mt-4 text-[15px] text-muted sm:text-[16px]">{profile.location}</p>
+        <p className="mt-3.5">
+          <Link
+            href="/projects/cerevia"
+            className="group inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/10 px-3.5 py-1 font-mono text-[12px] font-medium text-accent transition-all hover:border-accent hover:bg-accent/15"
+          >
+            <span>🏆 1st place, Sevaro track · Rutgers Health Hack 2026</span>
+            <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
+          </Link>
+        </p>
+
+        <p className="mt-3 text-[15px] text-muted sm:text-[16px]">{profile.location}</p>
 
         <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
           {profile.links.map((link) => (

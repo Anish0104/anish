@@ -50,17 +50,52 @@ export default async function ProjectPage({
         {project.title}
       </h1>
 
-      <p className="mt-4 max-w-[62ch] text-pretty text-[16.5px] leading-[1.65] text-text-soft sm:text-[18px]">
+      {project.award && (
+        <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1.5 font-mono text-[12.5px] font-medium text-accent">
+          <span>{project.award}</span>
+        </div>
+      )}
+
+      {project.tagline && (
+        <p className="mt-3 text-[17px] font-medium italic text-text sm:text-[19px]">
+          “{project.tagline}”
+        </p>
+      )}
+
+      <p className="mt-4 max-w-[64ch] text-pretty text-[16px] leading-[1.65] text-text-soft sm:text-[17.5px]">
         {project.summary}
       </p>
 
+      {/* Meta Specs: Role & Team */}
+      {(project.role || (project.team && project.team.length > 0)) && (
+        <div className="mt-6 flex flex-col gap-3 rounded-xl border border-border bg-surface-2/60 p-4 font-mono text-[12px] sm:flex-row sm:gap-8 sm:p-5">
+          {project.role && (
+            <div className="flex-1">
+              <span className="uppercase tracking-wider text-muted">My Role:</span>
+              <p className="mt-1 font-sans text-[13.5px] text-text">{project.role}</p>
+            </div>
+          )}
+          {project.team && project.team.length > 0 && (
+            <div className="flex-1">
+              <span className="uppercase tracking-wider text-muted">Team ({project.team.length}):</span>
+              <p className="mt-1 font-sans text-[13.5px] text-text">{project.team.join(" · ")}</p>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <a href={repoUrl} target="_blank" rel="noreferrer noopener" className={linkClass}>
+        <a
+          href={project.links.find((l) => l.label.toLowerCase() === "github")?.href || repoUrl}
+          target="_blank"
+          rel="noreferrer noopener"
+          className={linkClass}
+        >
           GitHub<span aria-hidden="true" className="text-[10px]">↗</span>
         </a>
         {project.demo ? (
           <a href={project.demo} target="_blank" rel="noreferrer noopener" className={linkClass}>
-            Live demo<span aria-hidden="true" className="text-[10px]">↗</span>
+            Live demo / Video<span aria-hidden="true" className="text-[10px]">↗</span>
           </a>
         ) : null}
         {project.links.map((link) => (
@@ -82,32 +117,125 @@ export default async function ProjectPage({
         />
       </div>
 
-      <div className="mt-12 max-w-[68ch]">
-        <h2 className="font-mono text-[11px] uppercase tracking-label text-muted">
-          What it does
-        </h2>
-        <ul className="mt-4 space-y-3">
-          {project.details.map((detail) => (
-            <li
-              key={detail}
-              className="flex gap-3 text-[15px] leading-[1.65] text-text-soft sm:text-[16px]"
-            >
-              <span aria-hidden="true" className="mt-[10px] h-1 w-1 shrink-0 rounded-full bg-accent" />
-              <span>{detail}</span>
-            </li>
-          ))}
-        </ul>
+      <div className="mt-12 max-w-[68ch] space-y-12">
+        {project.problem && (
+          <section>
+            <h2 className="font-mono text-[11px] uppercase tracking-label text-muted">
+              The Problem
+            </h2>
+            <p className="mt-3 text-[15px] leading-[1.7] text-text-soft sm:text-[16px]">
+              {project.problem}
+            </p>
+          </section>
+        )}
 
-        <h2 className="mt-12 font-mono text-[11px] uppercase tracking-label text-muted">
-          Built with
-        </h2>
-        <ul className="mt-4 flex flex-wrap gap-2">
-          {project.stack.map((item) => (
-            <li key={item}>
-              <Tag>{item}</Tag>
-            </li>
-          ))}
-        </ul>
+        {project.challenge && (
+          <section>
+            <h2 className="font-mono text-[11px] uppercase tracking-label text-muted">
+              The Challenge
+            </h2>
+            <p className="mt-3 text-[15px] leading-[1.7] text-text-soft sm:text-[16px]">
+              {project.challenge}
+            </p>
+          </section>
+        )}
+
+        <section>
+          <h2 className="font-mono text-[11px] uppercase tracking-label text-muted">
+            What it does
+          </h2>
+          <ul className="mt-4 space-y-3">
+            {project.details.map((detail) => (
+              <li
+                key={detail}
+                className="flex gap-3 text-[15px] leading-[1.65] text-text-soft sm:text-[16px]"
+              >
+                <span aria-hidden="true" className="mt-[10px] h-1 w-1 shrink-0 rounded-full bg-accent" />
+                <span>{detail}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {project.decisions && project.decisions.length > 0 && (
+          <section>
+            <h2 className="font-mono text-[11px] uppercase tracking-label text-muted">
+              Key Design &amp; Architectural Decisions
+            </h2>
+            <ul className="mt-4 space-y-3">
+              {project.decisions.map((decision) => (
+                <li
+                  key={decision}
+                  className="flex gap-3 text-[15px] leading-[1.65] text-text-soft sm:text-[16px]"
+                >
+                  <span aria-hidden="true" className="mt-[10px] h-1 w-1 shrink-0 rounded-full bg-accent" />
+                  <span>{decision}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {project.results && project.results.length > 0 && (
+          <section>
+            <h2 className="font-mono text-[11px] uppercase tracking-label text-muted">
+              Results &amp; Verification
+            </h2>
+            <ul className="mt-4 space-y-3">
+              {project.results.map((result) => (
+                <li
+                  key={result}
+                  className="flex gap-3 text-[15px] leading-[1.65] text-text-soft sm:text-[16px]"
+                >
+                  <span aria-hidden="true" className="mt-[10px] h-1 w-1 shrink-0 rounded-full bg-accent" />
+                  <span>{result}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {project.screenshots && project.screenshots.length > 0 && (
+          <section>
+            <h2 className="font-mono text-[11px] uppercase tracking-label text-muted">
+              Demo Screens &amp; System Walkthrough
+            </h2>
+            <div className="mt-6 space-y-8">
+              {project.screenshots.map((screenshot) => (
+                <figure
+                  key={screenshot.src}
+                  className="overflow-hidden rounded-xl border border-border bg-surface-2"
+                >
+                  <div className="aspect-[1000/620] w-full overflow-hidden">
+                    <Image
+                      src={screenshot.src}
+                      alt={screenshot.caption}
+                      width={1000}
+                      height={620}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <figcaption className="border-t border-border bg-surface px-4 py-3 font-mono text-[12px] text-muted">
+                    {screenshot.caption}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section>
+          <h2 className="font-mono text-[11px] uppercase tracking-label text-muted">
+            Built with
+          </h2>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {project.stack.map((item) => (
+              <li key={item}>
+                <Tag>{item}</Tag>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
 
       <p className="mt-16 border-t border-border pt-8">

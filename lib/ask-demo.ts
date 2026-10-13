@@ -48,11 +48,10 @@ export const INTENT_GROUPS: IntentGroup[] = [
   "Resume & contact",
 ];
 
-/** The three shown before the disclosure is opened. */
 export const suggestedQuestions = [
+  "What did you build at Rutgers Health Hack?",
   "What has Anish built with AI?",
   "What is his research about?",
-  "What has he taught?",
 ];
 
 export const disclosure = "Answers from my portfolio.";
@@ -159,10 +158,32 @@ const intents: Intent[] = [
     aliases: ["build", "built", "project", "projects", "portfolio", "shipped", "made", "work"],
     build: () => ({
       answer:
-        `Anish has ${projects.length} projects on the site, across retrieval, AI agents, computer vision and applied machine learning. ` +
+        `Anish has ${projects.length} projects on the site, across retrieval, AI agents, computer vision, applied machine learning, and healthcare operations. ` +
         `The featured ones are ${list(projects.filter((p) => p.featured).map((p) => p.title))}. ` +
         "Each project page links to its repository and can show the README without leaving the site.",
       sources: ["projects", "github"],
+    }),
+  },
+  {
+    id: "cerevia",
+    group: "Projects",
+    label: "What did you build at Rutgers Health Hack?",
+    strong: [
+      "rutgers health hack",
+      "health hack",
+      "healthhack",
+      "cerevia",
+      "sevaro",
+      "teleneurology",
+      "stroke coverage",
+      "what did you build at rutgers health hack",
+      "health hack 2026",
+    ],
+    aliases: ["stroke", "neurology", "coverage", "physician", "doctor", "hackathon", "1st place", "winner"],
+    build: () => ({
+      answer:
+        "At Rutgers Health Hack 2026, Anish and his team won 1st Place in the Sevaro Track with Cerevia: a teleneurology command center that forecasts physician coverage gaps 90+ minutes ahead for stroke consults across 200+ hospitals. It replays ~1,160 raw telemetry events chronologically, evaluates off-duty doctors against 8 deterministic eligibility rules, and runs a human-in-the-loop voice offer loop with ElevenLabs.",
+      sources: ["project:cerevia", "projects"],
     }),
   },
   {

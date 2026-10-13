@@ -428,7 +428,7 @@ export default function ConcaveCarousel({
                       README
                     </button>
                     <a
-                      href={githubUrl(project)}
+                      href={project.links.find((l) => l.label.toLowerCase() === "github")?.href || githubUrl(project)}
                       target="_blank"
                       rel="noreferrer noopener"
                       className="text-muted transition-colors hover:text-text hover:underline"

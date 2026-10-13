@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%">
+  <!-- Window frame -->
+  <rect width="1000" height="620" rx="16" fill="#18181b"/>
+  <rect width="1000" height="42" rx="16" fill="#27272a"/>
+  <rect y="26" width="1000" height="16" fill="#27272a"/>
+  <circle cx="24" cy="21" r="5" fill="#ef4444"/>
+  <circle cx="40" cy="21" r="5" fill="#f59e0b"/>
+  <circle cx="56" cy="21" r="5" fill="#10b981"/>
+  <text x="500" y="25" fill="#a1a1aa" font-family="ui-monospace, monospace" font-size="12" text-anchor="middle">cerevia.health/approvals · Clinical Lead Approvals &amp; 8-Rule Eligibility</text>
+
+  <!-- Surface -->
+  <rect x="0" y="42" width="1000" height="578" fill="#09090b"/>
+
+  <!-- Top App Navigation -->
+  <rect x="0" y="42" width="1000" height="56" fill="#18181b" stroke="#27272a" stroke-width="1"/>
+  <text x="32" y="77" fill="#38bdf8" font-family="system-ui, sans-serif" font-weight="700" font-size="18">CEREVIA</text>
+  <text x="120" y="77" fill="#71717a" font-family="system-ui, sans-serif" font-size="13">Teleneurology Operations</text>
+  
+  <text x="350" y="75" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="13">Live Command</text>
+  <rect x="470" y="54" width="140" height="32" rx="6" fill="#0284c7" fill-opacity="0.2"/>
+  <text x="540" y="75" fill="#38bdf8" font-family="system-ui, sans-serif" font-weight="600" font-size="13" text-anchor="middle">Approvals (1 Pending)</text>
+  <text x="670" y="75" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="13">Physicians</text>
+  <text x="760" y="75" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="13">Audit Log</text>
+
+  <!-- PENDING OFFER CARD -->
+  <g transform="translate(32, 114)">
+    <rect width="936" height="114" rx="10" fill="#18181b" stroke="#0284c7" stroke-width="1.5"/>
+    <rect x="24" y="20" width="76" height="24" rx="4" fill="#0369a1" fill-opacity="0.2" stroke="#0284c7" stroke-width="1"/>
+    <text x="62" y="36" fill="#38bdf8" font-family="ui-monospace, monospace" font-size="11" font-weight="600" text-anchor="middle">OFFER #108</text>
+    
+    <text x="115" y="37" fill="#ffffff" font-family="system-ui, sans-serif" font-weight="700" font-size="16">Suncrest Hospital · 2-Hour Coverage (19:00 – 21:00)</text>
+    <text x="24" y="66" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="13">Selected Candidate: <tspan fill="#ffffff" font-weight="600">Dr. Sarah Miller, MD</tspan> (Teleneurologist, ID: #DOC-842) · Proposed by Coordinator Mark T. at 18:22</text>
+    <text x="24" y="90" fill="#71717a" font-family="system-ui, sans-serif" font-size="12">Reason: 5 stroke consults in 1 hour (p90 baseline: 1); Dr. Patel &amp; Dr. Lin off shift at 19:00.</text>
+
+    <!-- Approve / Reject Buttons -->
+    <rect x="700" y="34" width="110" height="46" rx="8" fill="#27272a" stroke="#3f3f46" stroke-width="1"/>
+    <text x="755" y="62" fill="#e4e4e7" font-family="system-ui, sans-serif" font-weight="600" font-size="13" text-anchor="middle">Reject</text>
+    
+    <rect x="822" y="34" width="128" height="46" rx="8" fill="#0284c7"/>
+    <text x="886" y="62" fill="#ffffff" font-family="system-ui, sans-serif" font-weight="600" font-size="13" text-anchor="middle">Approve &amp; Call ✓</text>
+  </g>
+
+  <!-- 8-RULE ELIGIBILITY AUDIT MATRIX -->
+  <g transform="translate(32, 246)">
+    <rect width="936" height="344" rx="10" fill="#18181b" stroke="#27272a" stroke-width="1"/>
+    <text x="24" y="32" fill="#ffffff" font-family="system-ui, sans-serif" font-weight="700" font-size="15">Deterministic 8-Rule Eligibility Engine</text>
+    <text x="320" y="32" fill="#71717a" font-family="system-ui, sans-serif" font-size="13">Evaluated across all 6 off-duty doctors (Suncrest Credentialed)</text>
+
+    <!-- Table Header (8 Rules) -->
+    <g transform="translate(0, 48)">
+      <rect width="936" height="34" fill="#27272a"/>
+      <text x="20" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="11" font-weight="600">PHYSICIAN</text>
+      <text x="170" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="600">1. WILLING</text>
+      <text x="260" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="600">2. CREDENTIAL</text>
+      <text x="365" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="600">3. 10H REST</text>
+      <text x="460" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="600">4. 60H CAP</text>
+      <text x="555" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="600">5. NO CLASH</text>
+      <text x="655" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="600">6. &gt;=2H LEN</text>
+      <text x="750" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="600">7. 1 OFFER</text>
+      <text x="835" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="600">8. &lt;3/WK</text>
+      <text x="900" y="22" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="11" font-weight="600">STATUS</text>
+    </g>
+
+    <!-- Row 1: Dr. Miller (PASSES ALL 8) -->
+    <g transform="translate(0, 82)">
+      <rect width="936" height="42" fill="#082f49" fill-opacity="0.3" stroke="#0284c7" stroke-width="0.5"/>
+      <text x="20" y="26" fill="#38bdf8" font-family="system-ui, sans-serif" font-weight="600" font-size="13">Dr. Sarah Miller</text>
+      <text x="195" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="295" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="395" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="485" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="580" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="680" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="770" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="850" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="895" y="26" fill="#22c55e" font-family="ui-monospace, monospace" font-size="11" font-weight="700">ELIGIBLE</text>
+    </g>
+
+    <!-- Row 2: Dr. Reynolds (FAILS: 10h rest rule) -->
+    <g transform="translate(0, 124)">
+      <rect width="936" height="42" fill="#18181b" stroke="#27272a" stroke-width="0.5"/>
+      <text x="20" y="26" fill="#e4e4e7" font-family="system-ui, sans-serif" font-size="13">Dr. James Reynolds</text>
+      <text x="195" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="295" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="395" y="26" fill="#ef4444" font-weight="bold" font-size="13">✗ (6.5h)</text>
+      <text x="485" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="580" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="680" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="770" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="850" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="895" y="26" fill="#71717a" font-family="ui-monospace, monospace" font-size="11">INELIGIBLE</text>
+    </g>
+
+    <!-- Row 3: Dr. Kim (FAILS: 60h cap rule) -->
+    <g transform="translate(0, 166)">
+      <rect width="936" height="42" fill="#18181b" stroke="#27272a" stroke-width="0.5"/>
+      <text x="20" y="26" fill="#e4e4e7" font-family="system-ui, sans-serif" font-size="13">Dr. Angela Kim</text>
+      <text x="195" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="295" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="395" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="485" y="26" fill="#ef4444" font-weight="bold" font-size="13">✗ (59.5h)</text>
+      <text x="580" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="680" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="770" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="850" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="895" y="26" fill="#71717a" font-family="ui-monospace, monospace" font-size="11">INELIGIBLE</text>
+    </g>
+
+    <!-- Row 4: Dr. Zhao (FAILS: Shift clash) -->
+    <g transform="translate(0, 208)">
+      <rect width="936" height="42" fill="#18181b" stroke="#27272a" stroke-width="0.5"/>
+      <text x="20" y="26" fill="#e4e4e7" font-family="system-ui, sans-serif" font-size="13">Dr. Kevin Zhao</text>
+      <text x="195" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="295" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="395" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="485" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="580" y="26" fill="#ef4444" font-weight="bold" font-size="13">✗ (20:30 shift)</text>
+      <text x="680" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="770" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="850" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="895" y="26" fill="#71717a" font-family="ui-monospace, monospace" font-size="11">INELIGIBLE</text>
+    </g>
+
+    <!-- Row 5: Dr. Walker (FAILS: 3 offers/week cap) -->
+    <g transform="translate(0, 250)">
+      <rect width="936" height="42" fill="#18181b" stroke="#27272a" stroke-width="0.5"/>
+      <text x="20" y="26" fill="#e4e4e7" font-family="system-ui, sans-serif" font-size="13">Dr. Lisa Walker</text>
+      <text x="195" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="295" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="395" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="485" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="580" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="680" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="770" y="26" fill="#22c55e" font-size="13">✓</text>
+      <text x="850" y="26" fill="#ef4444" font-weight="bold" font-size="13">✗ (3 offers)</text>
+      <text x="895" y="26" fill="#71717a" font-family="ui-monospace, monospace" font-size="11">INELIGIBLE</text>
+    </g>
+
+    <!-- Row 6: Dr. Brooks (FAILS: Not willing) -->
+    <g transform="translate(0, 292)">
+      <rect width="936" height="42" fill="#18181b"/>
+      <text x="20" y="26" fill="#e4e4e7" font-family="system-ui, sans-serif" font-size="13">Dr. David Brooks</text>
+      <text x="195" y="26" fill="#ef4444" font-weight="bold" font-size="13">✗ (Opt-out)</text>
+      <text x="295" y="26" fill="#71717a" font-size="13">-</text>
+      <text x="395" y="26" fill="#71717a" font-size="13">-</text>
+      <text x="485" y="26" fill="#71717a" font-size="13">-</text>
+      <text x="580" y="26" fill="#71717a" font-size="13">-</text>
+      <text x="680" y="26" fill="#71717a" font-size="13">-</text>
+      <text x="770" y="26" fill="#71717a" font-size="13">-</text>
+      <text x="850" y="26" fill="#71717a" font-size="13">-</text>
+      <text x="895" y="26" fill="#71717a" font-family="ui-monospace, monospace" font-size="11">INELIGIBLE</text>
+    </g>
+  </g>
+</svg>

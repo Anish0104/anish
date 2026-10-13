@@ -26,6 +26,15 @@ export type Project = {
   stack: string[];
   links: ProjectLink[];
   cover: ProjectCover;
+  award?: string;
+  tagline?: string;
+  role?: string;
+  team?: string[];
+  problem?: string;
+  challenge?: string;
+  decisions?: string[];
+  results?: string[];
+  screenshots?: { src: string; caption: string }[];
 };
 
 /**
@@ -51,9 +60,11 @@ export type ProjectCategory =
   | "Applied AI"
   | "Computer vision"
   | "Machine learning"
-  | "Systems & Performance";
+  | "Systems & Performance"
+  | "Healthcare Operations";
 
 export const projectCategories: ProjectCategory[] = [
+  "Healthcare Operations",
   "Retrieval & RAG",
   "AI agents",
   "Applied AI",
@@ -66,8 +77,103 @@ const OWNER = "Anish0104";
 
 export const projects: Project[] = [
   {
-    slug: "semantic-search",
+    slug: "cerevia",
     number: "01",
+    title: "Cerevia 🏆",
+    blurb: "Teleneurology command center that forecasts physician coverage gaps 90+ minutes ahead. 1st place, Sevaro track, Rutgers Health Hack 2026.",
+    category: "Healthcare Operations",
+    tags: ["Next.js", "Flutter", "FastAPI", "ElevenLabs"],
+    featured: true,
+    repo: "cerevia",
+    branch: "main",
+    demo: "https://lnkd.in/gr_FXcbg",
+    award: "🏆 1st Place, Sevaro Track · Rutgers Health Hack 2026",
+    tagline: "Catch physician coverage gaps before they reach a stroke patient.",
+    role: "Web UI & UX Design. Built coordinator triage and clinical lead approval screens, role-based workflows, and design system.",
+    team: [
+      "Anish Shirodkar (Web UI & Flows)",
+      "Rishabh Shah",
+      "Joy Shah",
+      "Chandan Bhopi",
+      "Hitanshu Oza",
+      "Krish Gopani",
+    ],
+    summary:
+      "Teleneurology coverage command center that rebuilds physician and consult state from 1,160+ raw telemetry events, forecasts coverage gaps 90+ minutes ahead, and runs an explainable 8-rule off-shift offer loop with human approval and ElevenLabs voice notification. 🏆 1st Place, Sevaro Track, Rutgers Health Hack 2026.",
+    problem:
+      "Sevaro's neurologists cover 200+ hospitals remotely by phone and video. Stroke consults are the most urgent, and minutes matter. Today, calls are routed automatically and a live screen shows each doctor's status. When a rush hits, it's up to a person to notice, work out by hand who could help, and phone them. That breaks down on busy shifts, especially when a hospital surges just as doctors are ending their shifts.",
+    challenge:
+      "Build a tool that detects problems now and in the next 90 minutes, decides on the right fix and who approves it, and acts on it, with a person approving every offer to an off-duty doctor. The final test was a new events file the judges dropped in live, which the tool had to absorb without a restart.",
+    details: [
+      "Rebuilds the real picture from raw event data: replays ~1,160 events in true chronological order, handling late records, deduplicating calls, and preserving patient wait times.",
+      "Works out who is actually free: combines Synapse call and video state, camera signals, and desktop helper heartbeat rather than trusting self-reported statuses.",
+      "Tracks every consult against critical time limits: unassigned stroke consults, scans back with no video started, and unfinished notes near shift end.",
+      "Ranks what needs attention: answers what's wrong, where, why it matters, and what to do, including who approves and why that fix beats alternatives.",
+      "Forecasts 90+ minutes ahead: compares hospital volume against its normal busy baseline (p90) to detect surges and project coverage through upcoming shift ends.",
+      "Finds eligible off-duty doctors via 8 strict rules: willing, credentialed, 10h rest, 60h weekly cap, no shift clash, ≥2h duration, 1 open offer cap, and <3 weekly offers.",
+      "Prevents doctor swamping: limits incoming doctors to the short hospital and equalizes starting consult counts with peers.",
+      "Runs the full human-in-the-loop offer loop: coordinator proposes, clinical lead approves, and ElevenLabs voice-notifies the doctor's phone for 1-tap accept/decline.",
+      "Keeps an auditable deterministic log: traces every recommendation to raw data and rules with zero AI hallucinations in staffing decisions.",
+      "Absorbs new data live: takes live judge event drops with zero restart.",
+    ],
+    decisions: [
+      "No AI makes staffing decisions: all logic is deterministic, explainable, and fully auditable. Every recommendation traces back to data and rules.",
+      "A person stays in charge: automated alerts only; moving consults, escalating, or contacting doctors requires explicit human approval.",
+      "Privacy by design: offers contain only hospital, hours, and reason—never patient details.",
+      "One role, one job: coordinators triage, clinical leads approve in 1 click, and doctors simply accept or decline.",
+      "Calm interface: warm neutral palette, single accent color, and type hierarchy rather than stressful flashing alarms.",
+    ],
+    results: [
+      "Rebuilt the 6:20pm picture to match the reference snapshot: 8 doctors and 18 open consults.",
+      "Caught 4 stroke consults past their critical limits.",
+      "Found the Suncrest surge (5 consults in an hour vs. 1 normal baseline) with 2 doctors leaving at 19:00.",
+      "Of 6 off-duty doctors, accurately identified the only 1 who passed all 8 rules.",
+    ],
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "FastAPI",
+      "Python",
+      "Flutter",
+      "ElevenLabs",
+      "Vercel",
+    ],
+    links: [
+      {
+        label: "GitHub",
+        href: "https://lnkd.in/gXmgzVaK",
+      },
+      {
+        label: "Demo",
+        href: "https://lnkd.in/gr_FXcbg",
+      },
+    ],
+    screenshots: [
+      {
+        src: "/images/projects/cerevia-command-screen.svg",
+        caption: "Command Center: Real-time telemetry replay, 90-min stroke surge collapse prediction, and ranked attention queue.",
+      },
+      {
+        src: "/images/projects/cerevia-approvals-table.svg",
+        caption: "Clinical Lead Approvals: Deterministic 8-rule doctor eligibility matrix isolating Dr. Miller for Suncrest Hospital.",
+      },
+      {
+        src: "/images/projects/cerevia-phone-offer.svg",
+        caption: "Physician Mobile App: ElevenLabs neural voice read-out, shift specifications, and 1-tap accept/decline response loop.",
+      },
+    ],
+    cover: {
+      src: "/images/projects/cerevia.svg",
+      kind: "illustration",
+      alt: "Hospital command center screen with telemetry timeline, medical cross, and a doctor receiving an off-shift voice offer alert.",
+      provenance: "Hand-drawn editorial doodle illustration with deep clinical sapphire accent.",
+    },
+  },
+  {
+    slug: "semantic-search",
+    number: "02",
     title: "Semantic Search",
     blurb: "Two-stage information retrieval and cross-encoder reranking.",
     category: "Retrieval & RAG",
@@ -101,7 +207,7 @@ export const projects: Project[] = [
   },
   {
     slug: "margin",
-    number: "02",
+    number: "03",
     title: "Margin",
     blurb: "Strict citation-only campus knowledge assistant with zero hallucinations.",
     category: "Retrieval & RAG",
@@ -136,7 +242,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vouch",
-    number: "03",
+    number: "04",
     title: "Vouch",
     blurb: "Scoped authorization and credential delegation for AI agents.",
     category: "AI agents",
@@ -171,7 +277,7 @@ export const projects: Project[] = [
   },
   {
     slug: "skillgap",
-    number: "04",
+    number: "05",
     title: "SkillGap",
     blurb: "Résumé and job skill analysis with grounded interview practice.",
     category: "Applied AI",
@@ -204,7 +310,7 @@ export const projects: Project[] = [
   },
   {
     slug: "redirectiq",
-    number: "05",
+    number: "06",
     title: "RedirectIQ",
     blurb: "Standardized backend framework and reverse proxy benchmark.",
     category: "Systems & Performance",
@@ -239,7 +345,7 @@ export const projects: Project[] = [
   },
   {
     slug: "docpilot",
-    number: "06",
+    number: "07",
     title: "DocPilot",
     blurb: "Retrieval-augmented document question answering with cited sources.",
     category: "Retrieval & RAG",
@@ -272,7 +378,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vtrack",
-    number: "07",
+    number: "08",
     title: "VTrack",
     blurb: "Computer vision for real-time traffic detection and tracking.",
     category: "Computer vision",
@@ -299,7 +405,7 @@ export const projects: Project[] = [
   },
   {
     slug: "quantvision",
-    number: "08",
+    number: "09",
     title: "QuantVision",
     blurb: "Reinforcement-learning trading experiments and portfolio analysis.",
     category: "Machine learning",
@@ -334,7 +440,7 @@ export const projects: Project[] = [
   },
   {
     slug: "sunspot-transformer",
-    number: "09",
+    number: "10",
     title: "Sunspot Transformer",
     blurb: "A GPT-style decoder in PyTorch for monthly sunspot forecasting.",
     category: "Machine learning",
@@ -367,7 +473,7 @@ export const projects: Project[] = [
   },
   {
     slug: "veritasai",
-    number: "10",
+    number: "11",
     title: "VeritasAI",
     blurb: "News aggregation, enrichment, ranking, and editorial presentation.",
     category: "Applied AI",
