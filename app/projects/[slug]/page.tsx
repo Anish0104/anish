@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Tag from "@/components/Tag";
+import MagicTransform from "@/components/ui/magic-transform";
+import { projectTransforms } from "@/data/projectTransforms";
 import { coverAlt, getProject, githubUrl, projects } from "@/data/projects";
 
 type Params = { slug: string };
@@ -39,6 +41,7 @@ export default async function ProjectPage({
   if (!project) notFound();
 
   const repoUrl = githubUrl(project);
+  const transformConfig = projectTransforms[project.slug];
 
   return (
     <article className="mt-12 sm:mt-14">
@@ -116,6 +119,12 @@ export default async function ProjectPage({
           className="h-full w-full object-cover"
         />
       </div>
+
+      {transformConfig && (
+        <section className="mt-12">
+          <MagicTransform config={transformConfig} />
+        </section>
+      )}
 
       <div className="mt-12 max-w-[68ch] space-y-12">
         {project.problem && (

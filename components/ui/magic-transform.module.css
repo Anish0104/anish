@@ -1,0 +1,92 @@
+.transformContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .transformContainer {
+    padding: 2rem;
+  }
+}
+
+.coreGlowRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  opacity: 0.18;
+  filter: blur(12px);
+  pointer-events: none;
+  animation: pulseCore 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulseCore {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.12;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0.28;
+  }
+}
+
+.pulseParticle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background-color: var(--accent);
+  opacity: 0.6;
+  pointer-events: none;
+  animation: particleFloat 4s ease-in-out infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-20px) scale(0);
+    opacity: 0;
+  }
+}
+
+.beamLine {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.5;
+  animation: beamSweep 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes beamSweep {
+  0% {
+    left: 0%;
+    width: 0%;
+    opacity: 0;
+  }
+  50% {
+    width: 60%;
+    opacity: 0.8;
+  }
+  100% {
+    left: 100%;
+    width: 0%;
+    opacity: 0;
+  }
+}
