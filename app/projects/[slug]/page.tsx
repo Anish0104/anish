@@ -108,14 +108,14 @@ export default async function ProjectPage({
         ))}
       </div>
 
-      <div className="relative mt-10 aspect-cover overflow-hidden rounded-2xl border border-border bg-surface-2">
+      <div className="relative mt-8 aspect-cover max-w-[500px] overflow-hidden rounded-xl border border-border bg-surface-2 shadow-sm">
         <Image
           src={project.cover.src}
           alt={coverAlt(project.cover)}
-          width={1600}
-          height={1000}
+          width={1000}
+          height={625}
           priority
-          sizes="(max-width: 1100px) 100vw, 1040px"
+          sizes="(max-width: 640px) 100vw, 500px"
           className="h-full w-full object-cover"
         />
       </div>

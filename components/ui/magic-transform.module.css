@@ -1,15 +1,15 @@
 .container {
   position: relative;
   width: 100%;
-  margin-top: 1.25rem;
-  margin-bottom: 1.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-/* Blends seamlessly with the page background: NO outer square, NO borders, NO box-shadow */
+/* Stage blends 100% into the page background with NO box, NO outer square */
 .stage {
   position: relative;
   width: 100%;
-  height: 195px;
+  height: 180px;
   overflow: hidden;
   background: transparent;
   border: none;
@@ -22,16 +22,16 @@
 
 @media (min-width: 640px) {
   .stage {
-    height: 210px;
+    height: 195px;
   }
 }
 
 /* Subtle, quiet editorial divider line (NO NEON) */
 .axisLine {
   position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 36%;
+  top: 6px;
+  bottom: 6px;
+  left: 34%;
   width: 1px;
   background: var(--border);
   z-index: 20;
@@ -39,7 +39,7 @@
 
 @media (min-width: 640px) {
   .axisLine {
-    left: 38%;
+    left: 36%;
   }
 }
 
@@ -47,10 +47,10 @@
 .axisBadge {
   position: absolute;
   top: 50%;
-  left: 36%;
+  left: 34%;
   transform: translate(-50%, -50%);
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 9999px;
   background: var(--surface);
   border: 1px solid var(--border-strong);
@@ -63,15 +63,15 @@
 
 @media (min-width: 640px) {
   .axisBadge {
-    left: 38%;
-    width: 36px;
-    height: 36px;
+    left: 36%;
+    width: 34px;
+    height: 34px;
   }
 }
 
 .atomIcon {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   color: var(--muted);
 }
 
@@ -81,7 +81,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 36%;
+  width: 34%;
   overflow: hidden;
   z-index: 10;
   display: flex;
@@ -92,32 +92,32 @@
 
 @media (min-width: 640px) {
   .documentStream {
-    width: 38%;
+    width: 36%;
   }
 }
 
-/* Document card: rounded corners, warm ink sketchbook style */
+/* Document card with the project's actual thumbnail inside */
 .docCard {
   position: absolute;
   width: 140px;
-  height: 165px;
+  height: 155px;
   border-radius: 12px;
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
-  padding: 12px;
+  padding: 9px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   animation: slideDoc 6.5s linear infinite;
 }
 
 @media (min-width: 640px) {
   .docCard {
-    width: 160px;
-    height: 178px;
-    padding: 13px;
-    gap: 9px;
+    width: 158px;
+    height: 170px;
+    padding: 10px;
+    gap: 7px;
   }
 }
 
@@ -154,38 +154,31 @@
   text-overflow: ellipsis;
 }
 
-.matrixGrid {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 2.5px;
+/* Thumbnail preview inside sliding card */
+.thumbnailWrap {
+  position: relative;
   width: 100%;
-  height: 50px;
-  background: var(--surface-2);
-  border-radius: 6px;
-  padding: 5px;
+  height: 78px;
+  border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--border);
+  background: var(--surface-2);
 }
 
-.matrixDot {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 9999px;
-  background-color: var(--border);
-}
-
-.matrixDotActive {
-  background-color: var(--text-soft);
+@media (min-width: 640px) {
+  .thumbnailWrap {
+    height: 88px;
+  }
 }
 
 .skeletonGroup {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 }
 
 .docLine {
-  height: 3.5px;
+  height: 3px;
   border-radius: 2px;
   background: var(--border-strong);
 }
@@ -195,12 +188,12 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 36%;
+  left: 34%;
   right: 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-left: 20px;
+  padding-left: 18px;
   padding-right: 8px;
   z-index: 15;
   overflow: hidden;
@@ -208,117 +201,93 @@
 
 @media (min-width: 640px) {
   .outputArea {
-    left: 38%;
-    padding-left: 32px;
+    left: 36%;
+    padding-left: 26px;
   }
 }
 
 .outputList {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
   width: 100%;
-  max-width: 480px;
+  max-width: 490px;
 }
 
-.outputCard {
+.stackRow {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  animation: popOutput 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  align-items: center;
+  gap: 9px;
+  animation: popStack 4.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   animation-delay: var(--delay, 0s);
   transform-origin: left center;
 }
 
-@media (min-width: 640px) {
-  .outputCard {
-    padding: 8px 14px;
-    gap: 3.5px;
-  }
-}
-
-@keyframes popOutput {
+@keyframes popStack {
   0% {
-    transform: translateX(-24px) scale(0.92);
+    transform: translateX(-20px) scale(0.92);
     opacity: 0;
   }
-  18% {
+  16% {
     transform: translateX(0) scale(1);
     opacity: 1;
   }
-  85% {
+  86% {
     transform: translateX(0) scale(1);
     opacity: 1;
   }
   100% {
-    transform: translateX(12px) scale(0.96);
+    transform: translateX(10px) scale(0.96);
     opacity: 0.35;
   }
 }
 
-.outputHeader {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.outputBadge {
+/* Muted non-neon pills */
+.techPill {
   display: inline-flex;
   align-items: center;
-  padding: 2px 7px;
+  padding: 3px 9px;
   border-radius: 9999px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* Muted editorial pigment colors (NO NEON) */
-.badgeSage {
-  background-color: rgba(61, 102, 74, 0.1);
+.pillSage {
+  background-color: rgba(61, 102, 74, 0.12);
   color: #3d664a;
-  border: 1px solid rgba(61, 102, 74, 0.2);
+  border: 1px solid rgba(61, 102, 74, 0.25);
 }
 
-.badgeTerracotta {
-  background-color: rgba(153, 61, 44, 0.1);
+.pillTerracotta {
+  background-color: rgba(153, 61, 44, 0.12);
   color: #993d2c;
-  border: 1px solid rgba(153, 61, 44, 0.2);
+  border: 1px solid rgba(153, 61, 44, 0.25);
 }
 
-.badgeSlate {
-  background-color: rgba(58, 89, 115, 0.1);
+.pillSlate {
+  background-color: rgba(58, 89, 115, 0.12);
   color: #3a5973;
-  border: 1px solid rgba(58, 89, 115, 0.2);
+  border: 1px solid rgba(58, 89, 115, 0.25);
 }
 
-.badgeMustard {
-  background-color: rgba(138, 104, 36, 0.1);
+.pillMustard {
+  background-color: rgba(138, 104, 36, 0.12);
   color: #8a6824;
-  border: 1px solid rgba(138, 104, 36, 0.2);
+  border: 1px solid rgba(138, 104, 36, 0.25);
 }
 
-.outputTitle {
-  font-size: 12.5px;
-  font-weight: 600;
+.pillCharcoal {
+  background-color: rgba(60, 60, 67, 0.08);
   color: var(--text);
-  line-height: 1.25;
+  border: 1px solid var(--border);
 }
 
-@media (min-width: 640px) {
-  .outputTitle {
-    font-size: 13.5px;
-  }
-}
-
-.outputDetail {
-  font-size: 11px;
+.techDetail {
+  font-size: 11.5px;
   color: var(--muted);
   line-height: 1.35;
   white-space: nowrap;
@@ -327,7 +296,7 @@
 }
 
 @media (min-width: 640px) {
-  .outputDetail {
-    font-size: 11.5px;
+  .techDetail {
+    font-size: 12px;
   }
 }

@@ -1,111 +1,104 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import type { Project } from "@/data/projects";
-import type { ProjectTransformConfig, TransformItem } from "@/data/projectTransforms";
+import type { ProjectTransformConfig } from "@/data/projectTransforms";
 import styles from "./magic-transform.module.css";
 
-// 10x5 circular dot matrix pattern
-const COMPACT_MATRIX = [
-  1, 0, 1, 1, 0, 1, 0, 1, 1, 0,
-  0, 1, 1, 0, 1, 0, 1, 1, 0, 1,
-  1, 1, 0, 1, 1, 1, 0, 1, 1, 0,
-  0, 1, 0, 1, 0, 1, 1, 0, 1, 1,
-  1, 0, 1, 1, 1, 0, 1, 1, 0, 1,
+const PILL_STYLES = [
+  styles.pillSage,
+  styles.pillTerracotta,
+  styles.pillSlate,
+  styles.pillMustard,
+  styles.pillCharcoal,
 ];
 
-const BADGE_STYLES = [
-  styles.badgeSage,
-  styles.badgeTerracotta,
-  styles.badgeSlate,
-  styles.badgeMustard,
-];
+const TECH_ROLES: Record<string, string> = {
+  "FastAPI": "Asynchronous REST endpoints & inference server",
+  "Ollama": "Local zero-leakage LLM execution engine",
+  "sentence-transformers": "Bi-encoder dense semantic vector embeddings",
+  "cross-encoder": "Token-level joint attention reranking",
+  "pytest": "Automated regression & deterministic validation",
+  "Docker": "Isolated reproducible container environment",
+  "Next.js": "Command center UI & coordinator dashboard",
+  "Flutter": "Cross-platform mobile physician response app",
+  "ElevenLabs": "Automated voice read-out dispatch loop",
+  "Python": "Core scientific modeling & processing pipeline",
+  "FAISS": "High-speed vector similarity index",
+  "Qdrant": "Vector search engine with metadata filtering",
+  "PyTorch": "Longitudinal transformer sequence modeling",
+  "Tailwind CSS": "Responsive utility design system",
+  "TypeScript": "End-to-end typed data contracts",
+  "Supabase": "Postgres storage with row-level policies",
+  "Auth0": "Scoped zero-trust token authorization",
+  "Synapse API": "Real-time teleneurology call status feeds",
+  "OpenAI API": "Strict JSON schema policy extraction",
+  "NumPy": "Numerical feature matrices & vectorized operations",
+  "Pandas": "Longitudinal patient EHR timeline structuring",
+  "Hugging Face": "Pre-trained transformer tokenizers & weights",
+  "Streamlit": "Interactive exploratory research dashboard",
+  "Scikit-learn": "Baseline regression & benchmark models",
+};
 
 export interface MagicTransformProps {
-  project?: Project;
+  project: Project;
   config?: ProjectTransformConfig;
   className?: string;
-  // Backward compatibility props
-  stack?: string[];
-  projectTitle?: string;
-  category?: string;
 }
 
 export default function MagicTransform({
   project,
-  config,
   className = "",
 }: MagicTransformProps) {
-  // Input labels for sliding cards
-  const card1Tag =
-    config?.inputs?.[0]?.badge ||
-    config?.inputs?.[0]?.title ||
-    "Raw Input Ingestion";
-  const card2Tag =
-    config?.inputs?.[1]?.badge ||
-    config?.inputs?.[1]?.title ||
-    project?.category ||
-    "Unstructured Corpus";
+  // Take up to 4 items from the project's actual tech stack
+  const stackItems = (project.stack && project.stack.length > 0)
+    ? project.stack.slice(0, 4)
+    : ["Python", "FastAPI", "TypeScript", "Next.js"];
 
-  // Meaningful project outcomes and architectural resolutions
-  const outputItems: { badge: string; title: string; detail: string }[] =
-    config?.outputs && config.outputs.length > 0
-      ? config.outputs.slice(0, 2).map((item: TransformItem) => ({
-          badge: item.badge,
-          title: item.title,
-          detail: item.detail,
-        }))
-      : [
-          {
-            badge: "Resolution",
-            title: project?.title || "Production Solution",
-            detail: project?.details?.[0] || project?.blurb || "Deterministic output pipeline",
-          },
-          {
-            badge: "Grounded Metric",
-            title: project?.category || "Verified Output",
-            detail: project?.details?.[1] || "High-precision automated processing",
-          },
-        ];
+  const thumbnailSrc = project.cover?.src || "/images/projects/cerevia.svg";
+  const thumbnailAlt = project.title || "Project thumbnail";
 
   return (
     <div className={`${styles.container} ${className}`}>
       <div className={styles.stage}>
-        {/* LEFT STREAM: Sliding rounded document cards */}
+        {/* LEFT STREAM: Sliding rounded document cards containing the project's thumbnail */}
         <div className={styles.documentStream}>
           {/* Card 1 */}
           <div className={styles.docCard}>
-            <span className={styles.cardTag}>{card1Tag}</span>
-            <div className={styles.matrixGrid}>
-              {COMPACT_MATRIX.map((active, i) => (
-                <div
-                  key={`c1-dot-${i}`}
-                  className={`${styles.matrixDot} ${active ? styles.matrixDotActive : ""}`}
-                />
-              ))}
+            <span className={styles.cardTag}>
+              {project.number ? `${project.number} · ` : ""}{project.category}
+            </span>
+            <div className={styles.thumbnailWrap}>
+              <Image
+                src={thumbnailSrc}
+                alt={thumbnailAlt}
+                fill
+                sizes="160px"
+                className="object-cover"
+              />
             </div>
             <div className={styles.skeletonGroup}>
-              <div className={styles.docLine} style={{ width: "95%" }} />
-              <div className={styles.docLine} style={{ width: "75%" }} />
-              <div className={styles.docLine} style={{ width: "88%" }} />
+              <div className={styles.docLine} style={{ width: "90%" }} />
+              <div className={styles.docLine} style={{ width: "70%" }} />
             </div>
           </div>
 
-          {/* Card 2 (Staggered loop) */}
+          {/* Card 2 (Staggered continuous loop) */}
           <div className={`${styles.docCard} ${styles.docCardStagger}`}>
-            <span className={styles.cardTag}>{card2Tag}</span>
-            <div className={styles.matrixGrid}>
-              {COMPACT_MATRIX.map((active, i) => (
-                <div
-                  key={`c2-dot-${i}`}
-                  className={`${styles.matrixDot} ${active ? styles.matrixDotActive : ""}`}
-                />
-              ))}
+            <span className={styles.cardTag}>{project.title}</span>
+            <div className={styles.thumbnailWrap}>
+              <Image
+                src={thumbnailSrc}
+                alt={thumbnailAlt}
+                fill
+                sizes="160px"
+                className="object-cover"
+              />
             </div>
             <div className={styles.skeletonGroup}>
-              <div className={styles.docLine} style={{ width: "88%" }} />
-              <div className={styles.docLine} style={{ width: "70%" }} />
-              <div className={styles.docLine} style={{ width: "82%" }} />
+              <div className={styles.docLine} style={{ width: "85%" }} />
+              <div className={styles.docLine} style={{ width: "65%" }} />
             </div>
           </div>
         </div>
@@ -113,8 +106,8 @@ export default function MagicTransform({
         {/* CENTER AXIS: Quiet hairline divider (NO NEON) */}
         <div className={styles.axisLine} />
 
-        {/* CENTER BADGE: Subtle rounded atom icon */}
-        <div className={styles.axisBadge} title="Core Processing Pipeline">
+        {/* CENTER BADGE: Subtle rounded atom badge */}
+        <div className={styles.axisBadge} title="Stack Transformation Engine">
           <svg
             className={styles.atomIcon}
             viewBox="0 0 24 24"
@@ -143,29 +136,35 @@ export default function MagicTransform({
           </svg>
         </div>
 
-        {/* RIGHT STREAM: Meaningful project output resolutions */}
+        {/* RIGHT STREAM: Popped-up tech stack with project architectural roles */}
         <div className={styles.outputArea}>
           <div className={styles.outputList}>
-            {outputItems.map((item, idx) => {
-              const badgeClass = BADGE_STYLES[idx % BADGE_STYLES.length];
+            {stackItems.map((tech, idx) => {
+              const pillClass = PILL_STYLES[idx % PILL_STYLES.length];
+              const roleDesc =
+                TECH_ROLES[tech] ||
+                (idx === 0
+                  ? project.details?.[0] || "Core architectural technology"
+                  : idx === 1
+                  ? project.details?.[1] || "Grounded inference & validation layer"
+                  : "Production workflow component");
 
               return (
                 <div
-                  key={`${item.title}-${idx}`}
-                  className={styles.outputCard}
+                  key={`${tech}-${idx}`}
+                  className={styles.stackRow}
                   style={
                     {
-                      "--delay": `${idx * 0.4}s`,
+                      "--delay": `${idx * 0.35}s`,
                     } as React.CSSProperties
                   }
                 >
-                  <div className={styles.outputHeader}>
-                    <span className={`${styles.outputBadge} ${badgeClass}`}>
-                      {item.badge}
-                    </span>
-                    <h4 className={styles.outputTitle}>{item.title}</h4>
-                  </div>
-                  <p className={styles.outputDetail}>{item.detail}</p>
+                  <span className={`${styles.techPill} ${pillClass}`}>
+                    {tech}
+                  </span>
+                  <span className={styles.techDetail}>
+                    {roleDesc}
+                  </span>
                 </div>
               );
             })}
