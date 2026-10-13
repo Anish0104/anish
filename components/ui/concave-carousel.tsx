@@ -307,14 +307,16 @@ export default function ConcaveCarousel({
           // In a concave cylinder, cards curve inward facing the center viewer!
           // Distance from center:
           const rad = (normAngle * Math.PI) / 180;
-          const x = Math.sin(rad) * radius;
+          const x = Number((Math.sin(rad) * radius).toFixed(2));
           // Z displacement: center card is closest (or baseline), sides curve in/out
           // For concave wall: sides angle inward toward the center
-          const z = (1 - Math.cos(rad)) * radius * curvature * -0.7;
+          const z = Number(
+            ((1 - Math.cos(rad)) * radius * curvature * -0.7).toFixed(2)
+          );
 
           // Angle rotation around Y:
           // Inward concave tilt means positive X rotates negative Y, negative X rotates positive Y
-          const rotateY = -normAngle * curvature;
+          const rotateY = Number((-normAngle * curvature).toFixed(2));
 
           // Visual falloff
           const absAngle = Math.abs(normAngle);
@@ -322,9 +324,13 @@ export default function ConcaveCarousel({
           const isCenter = absAngle < 18;
 
           // Scale and opacity falloff: keep side cards crisp and vibrant without dull fading
-          const scale = Math.max(0.82, 1 - (absAngle / 180) * 0.24);
+          const scale = Number(
+            Math.max(0.82, 1 - (absAngle / 180) * 0.24).toFixed(3)
+          );
           const opacity = isVisible
-            ? Math.max(0.82, Math.cos((absAngle * Math.PI) / 340))
+            ? Number(
+                Math.max(0.82, Math.cos((absAngle * Math.PI) / 340)).toFixed(2)
+              )
             : 0;
 
           // z-index: center cards must layer over side cards
@@ -334,6 +340,7 @@ export default function ConcaveCarousel({
             <div
               key={project.slug}
               className={styles.cardWrapper}
+              suppressHydrationWarning
               style={{
                 transform: `translateX(${x}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scale})`,
                 opacity: isVisible ? opacity : 0,
