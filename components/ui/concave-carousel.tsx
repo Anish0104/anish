@@ -173,6 +173,13 @@ export default function ConcaveCarousel({
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     // Only drag with primary pointer button
     if (e.button !== 0) return;
+
+    // Do NOT capture pointer or initiate drag if clicking on interactive controls
+    const target = e.target as HTMLElement | null;
+    if (target?.closest("a, button, [role='button'], input, textarea, select")) {
+      return;
+    }
+
     targetRotationRef.current = null;
     velocityRef.current = 0;
     setIsDragging(true);
@@ -186,7 +193,11 @@ export default function ConcaveCarousel({
       moved: false,
     };
 
-    e.currentTarget.setPointerCapture(e.pointerId);
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // Ignore if pointer capture failed
+    }
   };
 
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -194,7 +205,7 @@ export default function ConcaveCarousel({
     const now = performance.now();
     const deltaX = e.clientX - dragStartRef.current.x;
 
-    if (Math.abs(deltaX) > 4) {
+    if (Math.abs(deltaX) > 8) {
       dragStartRef.current.moved = true;
     }
 
@@ -334,6 +345,10 @@ export default function ConcaveCarousel({
                   : "none",
               }}
               onClick={(e) => {
+                const target = e.target as HTMLElement | null;
+                if (target?.closest("a, button, [role='button']")) {
+                  return;
+                }
                 // If clicked while not in center, rotate it to center!
                 if (!isCenter && !dragStartRef.current.moved) {
                   e.stopPropagation();
@@ -350,17 +365,30 @@ export default function ConcaveCarousel({
               >
                 {/* 16:10 Vector Cover Thumbnail */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border bg-surface-2">
-                  <Image
-                    src={project.cover.src}
-                    alt={coverAlt(project.cover)}
-                    width={800}
-                    height={500}
-                    priority={i < 3}
-                    loading={i < 3 ? undefined : "lazy"}
-                    className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-                  />
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="block h-full w-full"
+                    tabIndex={isCenter ? 0 : -1}
+                    onClick={(e) => {
+                      if (!isCenter) {
+                        e.preventDefault();
+                      } else {
+                        e.stopPropagation();
+                      }
+                    }}
+                  >
+                    <Image
+                      src={project.cover.src}
+                      alt={coverAlt(project.cover)}
+                      width={800}
+                      height={500}
+                      priority={i < 3}
+                      loading={i < 3 ? undefined : "lazy"}
+                      className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                    />
+                  </Link>
                   {/* Category Pill Over Image */}
-                  <div className="absolute left-3.5 top-3.5 flex items-center gap-1.5 rounded-lg border border-border bg-surface/90 px-2.5 py-1 shadow-sm backdrop-blur-md">
+                  <div className="pointer-events-none absolute left-3.5 top-3.5 flex items-center gap-1.5 rounded-lg border border-border bg-surface/90 px-2.5 py-1 shadow-sm backdrop-blur-md">
                     <span className="font-mono text-[10px] font-semibold text-accent">
                       {project.number}
                     </span>
@@ -378,7 +406,7 @@ export default function ConcaveCarousel({
                       href={`/projects/${project.slug}`}
                       className="link-underline transition-colors hover:text-accent"
                       onClick={(e) => {
-                        if (dragStartRef.current.moved) e.preventDefault();
+                        e.stopPropagation();
                       }}
                     >
                       {project.title}
@@ -412,7 +440,7 @@ export default function ConcaveCarousel({
                       href={`/projects/${project.slug}`}
                       className="font-medium text-accent transition-colors hover:text-accent-hover hover:underline"
                       onClick={(e) => {
-                        if (dragStartRef.current.moved) e.preventDefault();
+                        e.stopPropagation();
                       }}
                     >
                       Details →

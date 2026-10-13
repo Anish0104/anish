@@ -99,7 +99,7 @@ export default function ExperiencePage() {
       <section id="leadership" className="relative mt-16 scroll-mt-8 sm:mt-20">
         <CompanionSurface id="exp-2" height={56} offset={10} />
         <h2 className="text-[24px] font-semibold tracking-[-0.026em] sm:text-[30px]">
-          Teaching &amp; leadership
+          Academic support &amp; leadership
         </h2>
 
         {/* Grouped teaching post sits above the student leadership roles. */}

@@ -13,15 +13,16 @@
   padding: 0 0.25rem;
 }
 
+/* Stage blends seamlessly with site surface and background */
 .stage {
   position: relative;
   width: 100%;
   height: 380px;
   overflow: hidden;
-  background: radial-gradient(circle at 38% 50%, rgba(168, 85, 247, 0.08) 0%, rgba(9, 9, 11, 0.98) 70%), #09090b;
-  border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  background: radial-gradient(circle at 38% 50%, rgba(168, 85, 247, 0.06) 0%, transparent 65%), var(--surface);
+  border-radius: 1.25rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,12 +45,12 @@
   background: linear-gradient(
     180deg,
     rgba(168, 85, 247, 0) 0%,
-    rgba(168, 85, 247, 0.85) 15%,
-    rgba(225, 195, 255, 1) 50%,
-    rgba(168, 85, 247, 0.85) 85%,
+    rgba(168, 85, 247, 0.65) 15%,
+    #a855f7 50%,
+    rgba(168, 85, 247, 0.65) 85%,
     rgba(168, 85, 247, 0) 100%
   );
-  box-shadow: 0 0 14px rgba(168, 85, 247, 0.9), 0 0 28px rgba(168, 85, 247, 0.45);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.5), 0 0 24px rgba(168, 85, 247, 0.2);
   z-index: 25;
 }
 
@@ -68,9 +69,9 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: #141417;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 18px rgba(168, 85, 247, 0.4);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 16px rgba(168, 85, 247, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,7 +94,7 @@
 .atomIcon {
   width: 26px;
   height: 26px;
-  color: #c084fc;
+  color: #a855f7;
 }
 
 /* Document conveyor stream on left */
@@ -123,9 +124,9 @@
   width: 175px;
   height: 275px;
   border-radius: 14px;
-  background: #141416;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   padding: 14px;
   display: flex;
   flex-direction: column;
@@ -166,7 +167,7 @@
   height: 7px;
   width: 45%;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--border-strong);
 }
 
 /* Dot Matrix Grid inside doc card */
@@ -176,23 +177,23 @@
   gap: 3px;
   width: 100%;
   height: 105px;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--surface-2);
   border-radius: 8px;
   padding: 8px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
 }
 
 .matrixDot {
   width: 100%;
   aspect-ratio: 1;
   border-radius: 1px;
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: var(--border);
 }
 
 .matrixDotActive {
-  background-color: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 3px rgba(255, 255, 255, 0.6);
+  background-color: var(--text);
+  box-shadow: 0 0 2px var(--text);
 }
 
 /* Skeleton Lines inside card */
@@ -205,7 +206,7 @@
 .docLine {
   height: 4px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--border-strong);
 }
 
 /* Floating Particles Burst */
@@ -335,10 +336,10 @@
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
   white-space: nowrap;
   background-color: var(--pill-bg, #2563eb);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: default;
 }
 
@@ -346,12 +347,12 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  background: rgba(22, 22, 26, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
   padding: 8px 14px;
   border-radius: 8px;
   width: 160px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 @media (min-width: 640px) {
@@ -363,7 +364,7 @@
 .skeletonLine {
   height: 5px;
   border-radius: 3px;
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--border-strong);
 }
 
 .footerNote {
@@ -373,6 +374,6 @@
   justify-content: space-between;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--muted);
   padding: 0 0.25rem;
 }

@@ -1,4 +1,4 @@
-import { experience, leadership, publications, teaching } from "@/data/experience";
+import { experience, leadership, publications } from "@/data/experience";
 import { email, profile, resume } from "@/data/profile";
 import { getProject, projects } from "@/data/projects";
 import { certifications, education, skillGroups } from "@/data/skills";
@@ -37,14 +37,14 @@ export type IntentGroup =
   | "Projects"
   | "Research & experience"
   | "Education & skills"
-  | "Teaching & leadership"
+  | "Leadership"
   | "Resume & contact";
 
 export const INTENT_GROUPS: IntentGroup[] = [
   "Projects",
   "Research & experience",
   "Education & skills",
-  "Teaching & leadership",
+  "Leadership",
   "Resume & contact",
 ];
 
@@ -574,54 +574,10 @@ const intents: Intent[] = [
     }),
   },
 
-  /* ---------------- Teaching and leadership ---------------- */
-  {
-    id: "teaching",
-    group: "Teaching & leadership",
-    label: "Which courses has Anish taught or assisted with?",
-    strong: ["taught", "teaching", "teaching assistant", "has he taught", "courses has he taught", "helped teach"],
-    aliases: ["ta", "grader", "grading", "tutor", "instructor", "assist", "assisted"],
-    build: () => {
-      const t = teaching[0];
-      return {
-        answer:
-          `He was a ${t.employment.toLowerCase()} Teaching Assistant at ${t.organization}, ${t.dates.toLowerCase()}, across ${t.roles.length} courses: ${list(t.roles.map((r) => r.course))}. ` +
-          "Those are courses he assisted with, not courses he took.",
-        sources: ["experience", "resume"],
-      };
-    },
-  },
-  {
-    id: "cs205",
-    group: "Teaching & leadership",
-    label: "What did he do as a CS 205 teaching assistant?",
-    strong: ["cs 205", "cs205", "discrete mathematics", "discrete math"],
-    aliases: ["inference", "proofs", "rubric"],
-    build: () => {
-      const role = teaching[0].roles.find((r) => /205/.test(r.course));
-      return {
-        answer: `For ${role?.course}: ${role?.points.join(" ")}`,
-        sources: ["experience"],
-      };
-    },
-  },
-  {
-    id: "cs210",
-    group: "Teaching & leadership",
-    label: "What did he do as a CS 210 teaching assistant?",
-    strong: ["cs 210", "cs210", "python notebook", "helped teach python", "teach python"],
-    aliases: ["pandas", "matplotlib", "canvas", "quiz", "notebooks"],
-    build: () => {
-      const role = teaching[0].roles.find((r) => /210/.test(r.course));
-      return {
-        answer: `For ${role?.course}: ${role?.points.join(" ")}`,
-        sources: ["experience"],
-      };
-    },
-  },
+  /* ---------------- Leadership ---------------- */
   {
     id: "leadership",
-    group: "Teaching & leadership",
+    group: "Leadership",
     label: "What leadership roles has he held?",
     strong: ["leadership", "leadership roles", "president", "volunteer", "clubs"],
     aliases: ["society", "committee", "editorial", "advisor"],
@@ -635,7 +591,7 @@ const intents: Intent[] = [
   },
   {
     id: "certifications",
-    group: "Teaching & leadership",
+    group: "Leadership",
     label: "Which certifications has he earned?",
     strong: ["certification", "certifications", "certificates", "credentials", "badges"],
     aliases: ["certified", "course completion", "skilljar", "credly"],
@@ -644,6 +600,18 @@ const intents: Intent[] = [
         `${certifications.length} certifications, including ${list(certifications.slice(0, 3).map((c) => c.name))}. ` +
         "The About page lists them all, with verification links where the issuer provides one.",
       sources: ["about"],
+    }),
+  },
+  {
+    id: "teaching-clarification",
+    group: "Leadership",
+    label: "",
+    strong: ["what has he taught", "has he taught", "courses has he taught", "did he teach", "taught", "helped teach", "teaching"],
+    aliases: ["courses taught", "course taught", "instructor"],
+    build: () => ({
+      answer:
+        "Anish has not taught courses. His background is centered on AI/ML research (such as transformer-based EHR modeling at Rutgers BMIHAI and real-time weather forecasting at IMD) and software engineering.",
+      sources: ["experience", "about"],
     }),
   },
 
@@ -689,7 +657,9 @@ const intents: Intent[] = [
 export function questionsByGroup(): { group: IntentGroup; questions: string[] }[] {
   return INTENT_GROUPS.map((group) => ({
     group,
-    questions: intents.filter((i) => i.group === group).map((i) => i.label),
+    questions: intents
+      .filter((i) => i.group === group && Boolean(i.label))
+      .map((i) => i.label),
   })).filter((g) => g.questions.length > 0);
 }
 

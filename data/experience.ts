@@ -151,18 +151,18 @@ export const teaching: TeachingEntry[] = [
     roles: [
       {
         course: "CS 205",
-        title: "Teaching Assistant",
+        title: "Course Grader",
         points: [
           "Graded weekly discrete mathematics assignments covering rules of inference and rational-exponent proofs.",
-          "Coordinated with the head TA on consistent rubrics and clear feedback across submissions.",
+          "Coordinated with the course staff on consistent rubrics and clear feedback across submissions.",
         ],
       },
       {
         course: "CS 210",
-        title: "Teaching Assistant",
+        title: "Course Grader",
         points: [
           "Graded Python notebook assignments covering regular expressions, log parsing, and data analysis with pandas and matplotlib.",
-          "Authored and loaded Canvas quiz content, including question groups, image-based code snippets, and numeric-answer questions, collaborating with the professor and another TA on drafting and review before publication.",
+          "Authored and loaded Canvas quiz content, including question groups, image-based code snippets, and numeric-answer questions, collaborating with the professor on drafting and review before publication.",
         ],
       },
     ],
