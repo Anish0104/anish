@@ -246,6 +246,7 @@
 .techPill {
   display: inline-flex;
   align-items: center;
+  gap: 5.5px;
   padding: 3px 9px;
   border-radius: 9999px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;

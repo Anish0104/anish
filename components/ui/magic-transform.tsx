@@ -1,7 +1,6 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
+import TechLogo from "@/components/icons/TechLogo";
 import type { Project } from "@/data/projects";
 import type { ProjectTransformConfig } from "@/data/projectTransforms";
 import styles from "./magic-transform.module.css";
@@ -15,23 +14,32 @@ const PILL_STYLES = [
 ];
 
 const TECH_ROLES: Record<string, string> = {
+  "Auth0 Token Vault": "Scoped credential delegation & zero-trust token exchange",
+  "Auth0": "Zero-trust scoped token authorization",
+  "Groq / LLaMA 3.3 70B": "Fast low-latency inference without exposing raw credentials",
+  "Groq / LLaMA 3.1 8B": "High-throughput token streaming & edge LLM execution",
+  "React": "Declarative component hierarchy & reactive UI state",
+  "React 19": "Modern concurrent UI rendering & component architecture",
+  "Vite": "High-speed ES module bundler & client runtime",
   "FastAPI": "Asynchronous REST endpoints & inference server",
   "Ollama": "Local zero-leakage LLM execution engine",
   "sentence-transformers": "Bi-encoder dense semantic vector embeddings",
   "cross-encoder": "Token-level joint attention reranking",
   "pytest": "Automated regression & deterministic validation",
   "Docker": "Isolated reproducible container environment",
+  "Docker Compose": "Multi-container local service orchestration",
   "Next.js": "Command center UI & coordinator dashboard",
+  "Next.js 15": "Server-rendered React 19 application framework",
   "Flutter": "Cross-platform mobile physician response app",
   "ElevenLabs": "Automated voice read-out dispatch loop",
   "Python": "Core scientific modeling & processing pipeline",
+  "Python 3.10+": "Type-annotated scientific backend runtime",
   "FAISS": "High-speed vector similarity index",
   "Qdrant": "Vector search engine with metadata filtering",
   "PyTorch": "Longitudinal transformer sequence modeling",
   "Tailwind CSS": "Responsive utility design system",
   "TypeScript": "End-to-end typed data contracts",
   "Supabase": "Postgres storage with row-level policies",
-  "Auth0": "Scoped zero-trust token authorization",
   "Synapse API": "Real-time teleneurology call status feeds",
   "OpenAI API": "Strict JSON schema policy extraction",
   "NumPy": "Numerical feature matrices & vectorized operations",
@@ -39,6 +47,10 @@ const TECH_ROLES: Record<string, string> = {
   "Hugging Face": "Pre-trained transformer tokenizers & weights",
   "Streamlit": "Interactive exploratory research dashboard",
   "Scikit-learn": "Baseline regression & benchmark models",
+  "OpenCV": "Real-time image processing & optical matrix feeds",
+  "ByteTrack": "Multi-object association & trajectory correlation",
+  "Ultralytics": "YOLOv8 deep vision inference engine",
+  "YOLOv8": "Real-time bounding box object detection",
 };
 
 export interface MagicTransformProps {
@@ -160,7 +172,8 @@ export default function MagicTransform({
                   }
                 >
                   <span className={`${styles.techPill} ${pillClass}`}>
-                    {tech}
+                    <TechLogo name={tech} size={13} className="shrink-0" />
+                    <span>{tech}</span>
                   </span>
                   <span className={styles.techDetail}>
                     {roleDesc}
