@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import Tag from "@/components/Tag";
 import MagicTransform from "@/components/ui/magic-transform";
 import { projectTransforms } from "@/data/projectTransforms";
-import { coverAlt, getProject, githubUrl, projects } from "@/data/projects";
+import { getProject, githubUrl, projects } from "@/data/projects";
 
 type Params = { slug: string };
 
@@ -69,21 +69,11 @@ export default async function ProjectPage({
         {project.summary}
       </p>
 
-      {/* Meta Specs: Role & Team */}
-      {(project.role || (project.team && project.team.length > 0)) && (
-        <div className="mt-6 flex flex-col gap-3 rounded-xl border border-border bg-surface-2/60 p-4 font-mono text-[12px] sm:flex-row sm:gap-8 sm:p-5">
-          {project.role && (
-            <div className="flex-1">
-              <span className="uppercase tracking-wider text-muted">My Role:</span>
-              <p className="mt-1 font-sans text-[13.5px] text-text">{project.role}</p>
-            </div>
-          )}
-          {project.team && project.team.length > 0 && (
-            <div className="flex-1">
-              <span className="uppercase tracking-wider text-muted">Team ({project.team.length}):</span>
-              <p className="mt-1 font-sans text-[13.5px] text-text">{project.team.join(" · ")}</p>
-            </div>
-          )}
+      {/* Team */}
+      {project.team && project.team.length > 0 && (
+        <div className="mt-6 rounded-xl border border-border bg-surface-2/60 p-4 font-mono text-[12px] sm:p-5">
+          <span className="uppercase tracking-wider text-muted">Team ({project.team.length}):</span>
+          <p className="mt-1 font-sans text-[13.5px] text-text">{project.team.join(" · ")}</p>
         </div>
       )}
 
@@ -106,18 +96,6 @@ export default async function ProjectPage({
             {link.label}<span aria-hidden="true" className="text-[10px]">↗</span>
           </a>
         ))}
-      </div>
-
-      <div className="relative mt-8 aspect-cover max-w-[500px] overflow-hidden rounded-xl border border-border bg-surface-2 shadow-sm">
-        <Image
-          src={project.cover.src}
-          alt={coverAlt(project.cover)}
-          width={1000}
-          height={625}
-          priority
-          sizes="(max-width: 640px) 100vw, 500px"
-          className="h-full w-full object-cover"
-        />
       </div>
 
       <section className="mt-8">

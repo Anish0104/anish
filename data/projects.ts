@@ -89,9 +89,8 @@ export const projects: Project[] = [
     demo: "https://lnkd.in/gr_FXcbg",
     award: "🏆 1st Place, Sevaro Track · Rutgers Health Hack 2026",
     tagline: "Catch physician coverage gaps before they reach a stroke patient.",
-    role: "Web UI & UX Design. Built coordinator triage and clinical lead approval screens, role-based workflows, and design system.",
     team: [
-      "Anish Shirodkar (Web UI & Flows)",
+      "Anish Shirodkar",
       "Rishabh Shah",
       "Joy Shah",
       "Chandan Bhopi",
