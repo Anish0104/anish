@@ -109,6 +109,8 @@ export default function CompanionSprite({
         height,
         // Facing mirrors the art. Walk and run are drawn facing right.
         transform: facing === -1 ? "scaleX(-1)" : undefined,
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
       }}
     />
   );

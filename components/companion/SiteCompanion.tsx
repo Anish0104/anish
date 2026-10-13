@@ -440,8 +440,8 @@ export default function SiteCompanion() {
        * surface or a document coordinate.
        */
       node.style.position = "fixed";
-      const left = Math.round(viewXRef.current - charWidth / 2);
-      const top = Math.round(feetYRef.current - size);
+      const left = Number((viewXRef.current - charWidth / 2).toFixed(2));
+      const top = Number((feetYRef.current - size).toFixed(2));
       node.style.transform = `translate3d(${left}px, ${top}px, 0)`;
       return;
     }
@@ -506,8 +506,9 @@ export default function SiteCompanion() {
         }
       }
     }
-    node.style.transform =
-      `translate3d(${Math.round(left - origin.x)}px, ${Math.round(y - origin.y)}px, 0)`;
+    const tx = Number((left - origin.x).toFixed(2));
+    const ty = Number((y - origin.y).toFixed(2));
+    node.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
   }, [charWidth, size]);
 
   /**
@@ -903,37 +904,47 @@ export default function SiteCompanion() {
       const surface = graphRef.current.surfaces[currentRef.current];
       if (target === null || !surface) return;
 
-      const dt = Math.min(64, now - previous) / 1000;
+      // Delta time with smooth bounds (avoiding frame jump spikes)
+      const rawDt = Math.max(0, (now - previous) / 1000);
+      const dt = Math.min(0.033, Math.max(0.001, rawDt));
       const cruise = gaitRef.current === "run" ? SPEED.run : strideMatchedSpeed(size);
 
       /**
-       * Ease in and out of a journey instead of snapping to full speed and
-       * stopping dead. The ramp is a fraction of the trip, so a short hop is
-       * still mostly cruise rather than all acceleration.
+       * Smooth physical acceleration and deceleration.
+       * Uses cosine ease-in and smooth sine ease-out ramps for organic motion
+       * without abrupt starts or stops.
        */
       const total = Math.abs(target - travelStartRef.current) || 1;
       const covered = Math.abs(xRef.current - travelStartRef.current);
-      const remaining = Math.max(0, total - covered);
-      const ramp = Math.min(28, total * 0.28);
-      const easeIn = ramp > 0 ? Math.min(1, covered / ramp) : 1;
-      const easeOut = ramp > 0 ? Math.min(1, remaining / ramp) : 1;
-      const speed = cruise * (0.35 + 0.65 * Math.min(easeIn, easeOut));
+      const remaining = Math.max(0, Math.abs(target - xRef.current));
+
+      const accelDist = Math.min(24, total * 0.25);
+      const decelDist = Math.min(28, total * 0.3);
+      const tIn = accelDist > 0 ? Math.min(1, covered / accelDist) : 1;
+      const tOut = decelDist > 0 ? Math.min(1, remaining / decelDist) : 1;
+
+      const easeIn = 0.5 * (1 - Math.cos(Math.PI * tIn));
+      const easeOut = Math.sin((Math.PI * tOut) / 2);
+      const factor = Math.min(easeIn, easeOut);
+      // Floor speed at 40% of cruise so stride cadence matches closely without foot slip
+      const speed = cruise * (0.4 + 0.6 * factor);
+
       const direction = target > xRef.current ? 1 : -1;
-      let next = xRef.current + direction * speed * dt;
+      const travelDelta = direction * speed * dt;
+      let next = xRef.current + travelDelta;
 
       const run = walkableSpan(graphRef.current, currentRef.current);
       if (next < run.start || next > run.end) {
-        next = Math.min(Math.max(next, run.start), run.end);
-        xRef.current = next;
+        xRef.current = Math.min(Math.max(next, run.start), run.end);
         place();
         finishTravel();
         return;
       }
 
       const arrived = direction > 0 ? next >= target : next <= target;
-      xRef.current = arrived ? target : next;
-      place();
-      if (arrived) {
+      if (arrived || remaining < 0.5) {
+        xRef.current = target;
+        place();
         const onArrive = onArriveRef.current;
         onArriveRef.current = null;
         if (onArrive) {
@@ -944,6 +955,9 @@ export default function SiteCompanion() {
         finishTravel();
         return;
       }
+
+      xRef.current = next;
+      place();
       rafRef.current = window.requestAnimationFrame((t) => step(t, now));
     };
 
@@ -1079,8 +1093,10 @@ export default function SiteCompanion() {
       onArriveRef.current = atEdge;
       timerRef.current = window.setTimeout(() => {
         if (cancelled) return;
-        rafRef.current = window.requestAnimationFrame((t) => step(t, t));
-      }, 140);
+        setPose("walk");
+        const startTime = performance.now();
+        rafRef.current = window.requestAnimationFrame((t) => step(t, startTime));
+      }, 120);
     }
 
     function begin() {
@@ -1181,12 +1197,14 @@ export default function SiteCompanion() {
       if (debug) setDebugTarget(targetRef.current);
       gaitRef.current = activity.state;
       travelStartRef.current = xRef.current;
-      setPose(activity.state);
-      // A beat between turning and setting off, so it is never a snap.
+      setPose("idle");
+      // A brief beat between turning and setting off, then begin motion and walk animation together
       timerRef.current = window.setTimeout(() => {
         if (cancelled) return;
-        rafRef.current = window.requestAnimationFrame((t) => step(t, t));
-      }, 140);
+        setPose(activity.state);
+        const startTime = performance.now();
+        rafRef.current = window.requestAnimationFrame((t) => step(t, startTime));
+      }, 120);
     }
 
     let firstGreeting = false;
@@ -1409,7 +1427,7 @@ export default function SiteCompanion() {
       let last = performance.now();
       const tick = (now: number) => {
         if (cancelled) return;
-        const dt = Math.min(64, now - last) / 1000;
+        const dt = Math.min(0.033, Math.max(0.001, (now - last) / 1000));
         last = now;
         const body = stepFall({ y: feetYRef.current, v: fallVRef.current }, dt);
         const ground = groundY();
@@ -1521,19 +1539,30 @@ export default function SiteCompanion() {
       setFacing(docX > from ? 1 : -1);
       setPose("run");
       let last = performance.now();
+      const total = Math.abs(docX - from);
       const stride = (now: number) => {
         if (cancelled) return;
-        const dt = Math.min(64, now - last) / 1000;
+        const dt = Math.min(0.033, Math.max(0.001, (now - last) / 1000));
         last = now;
+        const covered = Math.abs(xRef.current - from);
+        const remaining = Math.abs(docX - xRef.current);
+        const ramp = Math.min(24, total * 0.3);
+        const tIn = ramp > 0 ? Math.min(1, covered / ramp) : 1;
+        const tOut = ramp > 0 ? Math.min(1, remaining / ramp) : 1;
+        const ease = 0.45 + 0.55 * Math.min(tIn, tOut);
+        const speed = SPEED.run * ease;
+
         const direction = docX > xRef.current ? 1 : -1;
-        const next = xRef.current + direction * SPEED.run * dt;
+        const next = xRef.current + direction * speed * dt;
         const arrived = direction > 0 ? next >= docX : next <= docX;
-        xRef.current = arrived ? docX : next;
-        place();
-        if (arrived) {
+        if (arrived || remaining < 0.5) {
+          xRef.current = docX;
+          place();
           release();
           return;
         }
+        xRef.current = next;
+        place();
         raf = window.requestAnimationFrame(stride);
       };
       raf = window.requestAnimationFrame(stride);
@@ -1632,24 +1661,37 @@ export default function SiteCompanion() {
 
     /** Walks along the ground line, in viewport space. */
     const travel = (to: number, then: () => void) => {
-      setFacing(to > viewXRef.current ? 1 : -1);
+      const from = viewXRef.current;
+      setFacing(to > from ? 1 : -1);
       setPose("walk");
       let last = performance.now();
+      const total = Math.abs(to - from);
+      const cruise = strideMatchedSpeed(size);
       const stride = (now: number) => {
         if (cancelled) return;
-        const dt = Math.min(64, now - last) / 1000;
+        const dt = Math.min(0.033, Math.max(0.001, (now - last) / 1000));
         last = now;
+        const covered = Math.abs(viewXRef.current - from);
+        const remaining = Math.abs(to - viewXRef.current);
+        const ramp = Math.min(24, total * 0.28);
+        const tIn = ramp > 0 ? Math.min(1, covered / ramp) : 1;
+        const tOut = ramp > 0 ? Math.min(1, remaining / ramp) : 1;
+        const ease = 0.45 + 0.55 * Math.min(tIn, tOut);
+        const speed = cruise * ease;
+
         const direction = to > viewXRef.current ? 1 : -1;
-        const next = viewXRef.current + direction * strideMatchedSpeed(size) * dt;
+        const next = viewXRef.current + direction * speed * dt;
         const arrived = direction > 0 ? next >= to : next <= to;
-        viewXRef.current = arrived ? to : next;
-        place();
-        if (arrived) {
+        if (arrived || remaining < 0.5) {
+          viewXRef.current = to;
+          place();
           raf = undefined;
           setPose("idle");
           then();
           return;
         }
+        viewXRef.current = next;
+        place();
         raf = window.requestAnimationFrame(stride);
       };
       raf = window.requestAnimationFrame(stride);
@@ -1668,6 +1710,7 @@ export default function SiteCompanion() {
       const from = feetYRef.current + window.scrollY;
       const started = performance.now();
       setPose("idle");
+      const duration = 180;
       const tween = (now: number) => {
         if (cancelled) return;
         const surface = graphRef.current.surfaces[index];
@@ -1675,11 +1718,13 @@ export default function SiteCompanion() {
           rest(700);
           return;
         }
-        const progress = Math.min(1, (now - started) / 150);
+        const t = Math.min(1, (now - started) / duration);
+        // Smoothstep interpolation (3t^2 - 2t^3) for soft touchdown
+        const progress = t * t * (3 - 2 * t);
         feetYRef.current =
           from + (surface.baseline - from) * progress - window.scrollY;
         place();
-        if (progress < 1) {
+        if (t < 1) {
           raf = window.requestAnimationFrame(tween);
           return;
         }
