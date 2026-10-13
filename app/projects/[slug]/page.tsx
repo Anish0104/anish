@@ -120,11 +120,9 @@ export default async function ProjectPage({
         />
       </div>
 
-      <section className="mt-12">
+      <section className="mt-8">
         <MagicTransform
-          stack={project.stack}
-          projectTitle={project.title}
-          category={project.category}
+          project={project}
           config={transformConfig}
         />
       </section>
