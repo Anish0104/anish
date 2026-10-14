@@ -12,7 +12,10 @@ export default function HomePage() {
   return (
     <ImageCursorTrail>
       <Hero />
-      <AskBar />
+      <div className="relative">
+        <CompanionSurface id="home-hero" height={52} offset={8} />
+        <AskBar />
+      </div>
 
       <section className="relative mt-16 border-t border-border pt-12 sm:mt-20">
         <CompanionSurface id="home-1" height={56} offset={10} />

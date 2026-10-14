@@ -776,32 +776,15 @@ export default function SiteCompanion() {
   }, [headerBox]);
 
   const hasSurface = current >= 0;
-  /**
-   * One explicit placement policy, decided by where the visitor is:
-   *
-   *   Home                          header only, never roaming
-   *   About with the figure in view  About figure only
-   *   anywhere else                  roaming only
-   *
-   * Exactly one branch renders, so there is never a second character and no
-   * condition is layered on top of an older transition.
-   */
-  const isHome = pathname === "/";
-  const atHeader = isHome && headerBox !== null && !aboutVisible;
-  /**
-   * Off the document surfaces entirely. Home never reaches this, because the
-   * fall is only ever triggered from the roaming placement, and the perch is
-   * not a roaming placement.
-   */
   const offSurface = phase !== "surface";
-  const hidden = aboutVisible || (isHome && !atHeader) || (!isHome && !hasSurface && !offSurface);
+  const hidden = aboutVisible || (!hasSurface && !offSurface);
   const running =
     mounted &&
     !reducedMotion &&
     tabVisible &&
     !overlayOpen &&
     !hidden &&
-    (onScreen || atHeader || offSurface);
+    (onScreen || offSurface);
 
   // The sprite unmounts while the About figure is on screen, so it has to be
   // positioned again when it comes back rather than painting at the origin.
@@ -824,60 +807,11 @@ export default function SiteCompanion() {
 
   /**
    * The perch's own behaviour.
-   *
-   * Greets once when the header first becomes properly visible in this visit,
-   * then settles into idle blinking with an infrequent wave. It never leaves
-   * the name, so there are no departure timers, cooldowns or reappearances.
-   */
-  useEffect(() => {
-    // Suspended while the header is off screen: no frames, no timers.
-    if (!atHeader || !headerInView || reducedMotion || !tabVisible || overlayOpen) return;
-    let cancelled = false;
-    let timer: number | undefined;
 
-    const queue = (ms: number, fn: () => void) => {
-      timer = window.setTimeout(() => {
-        if (!cancelled) fn();
-      }, ms);
-    };
-
-    const idleLoop = () => {
-      if (cancelled) return;
-      setPose(HEADER_PEEK.idleState);
-      queue(randomBetween(HEADER_WAVE_GAP.min, HEADER_WAVE_GAP.max), () => {
-        setPose(HEADER_PEEK.waveState);
-        queue(sequenceDuration(HEADER_PEEK.waveState) + 300, idleLoop);
-      });
-    };
-
-    // Scheduled rather than called, so nothing sets state synchronously
-    // inside the effect body.
-    queue(headerGreeted ? 0 : 260, () => {
-      if (headerGreeted) {
-        idleLoop();
-        return;
-      }
-      setHeaderGreeted(true);
-      setPose(HEADER_PEEK.waveState);
-      setBubble(true);
-      queue(HEADER_BUBBLE_MS, () => {
-        setBubble(false);
-        idleLoop();
-      });
-    });
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timer);
-    };
-  }, [atHeader, headerInView, headerGreeted, reducedMotion, tabVisible, overlayOpen, setPose]);
 
   /* ---------------- behaviour ---------------- */
   useEffect(() => {
-    // Home is the perch's territory; the roaming loop stays out of it, and so
-    // does everything off the document surfaces: the fall and the ground each
-    // have their own loop below, and only one of the three ever runs.
-    if (!running || atHeader || phase !== "surface") return;
+    if (!running || phase !== "surface") return;
     let cancelled = false;
 
     const showBubble = () => {
@@ -1244,7 +1178,7 @@ export default function SiteCompanion() {
     // `state` is deliberately not a dependency: it changes constantly, and
     // restarting the loop on every pose would cancel journeys midway. The
     // movement loop reads the gait from `gaitRef` instead.
-  }, [running, atHeader, phase, size, charWidth, place, debug, setPose]);
+  }, [running, phase, size, charWidth, place, debug, setPose]);
 
   /* ---------------- leaving a surface ---------------- */
 
@@ -1272,8 +1206,7 @@ export default function SiteCompanion() {
 
     beginFallRef.current = () => {
       if (!FALL_ENABLED) return false;
-      // Home is the perch, and the About figure owns the screen while visible.
-      if (!running || atHeader || isHome) return refuse("suspended");
+      if (!running) return refuse("suspended");
       if (phaseRef.current !== "surface") return refuse(`phase ${phaseRef.current}`);
       // Mid climb: let the climb finish rather than dropping him off an edge
       // he is holding.
@@ -1322,7 +1255,7 @@ export default function SiteCompanion() {
           `${Math.round(span.start - scrollX)}..${Math.round(span.end - scrollX)}`
       );
     };
-  }, [running, atHeader, isHome, size, groundY, columnAt, debug]);
+  }, [running, size, groundY, columnAt, debug]);
 
   /** An upward gesture asks him to leave the ground; the ground loop acts. */
   useEffect(() => {
@@ -1918,15 +1851,7 @@ export default function SiteCompanion() {
       {debug ? (
         <CompanionDebug graph={graph} current={current} target={debugTarget} charWidth={charWidth} />
       ) : null}
-      {atHeader ? (
-        <HeaderPerch
-          box={headerBox}
-          origin={origin}
-          isDesktop={isDesktop}
-          state={state}
-          bubble={bubble}
-        />
-      ) : hidden ? null : (
+      {hidden ? null : (
         <div
           ref={spriteRef}
           className="absolute left-0 top-0 transition-opacity duration-500 will-change-transform"
