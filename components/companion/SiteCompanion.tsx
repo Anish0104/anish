@@ -128,7 +128,6 @@ function HeaderPerch({
   isDesktop,
   state,
   bubble,
-  onPointerDown,
 }: {
   /** The surname's own rect, in DOCUMENT coordinates. */
   box: { left: number; top: number; width: number };
@@ -137,7 +136,6 @@ function HeaderPerch({
   isDesktop: boolean;
   state: CompanionState;
   bubble: boolean;
-  onPointerDown?: (e: React.PointerEvent<HTMLDivElement>) => void;
 }) {
   // Solve the sprite size from the visible character width rather than the
   // other way round, so he measures the same against the letters at any size.
@@ -159,9 +157,8 @@ function HeaderPerch({
 
   return (
     <div
-      className="absolute pointer-events-auto cursor-grab hover:scale-105 transition-transform duration-150 select-none touch-none p-1 -m-1"
+      className="pointer-events-none absolute select-none"
       style={{ left, top, width: spriteWidth }}
-      onPointerDown={onPointerDown}
     >
       {/*
         Bubble beside him rather than above: over the head it was clipped by
@@ -273,6 +270,8 @@ export default function SiteCompanion() {
   const [headerGreeted, setHeaderGreeted] = useState(false);
   /** Whether the surname is actually on screen, for suspension and greeting. */
   const [headerInView, setHeaderInView] = useState(false);
+  const [perchPose, setPerchPose] = useState<CompanionState>("idle");
+  const [perchBubble, setPerchBubble] = useState(false);
   /** Mirrors the travel target so the debug view can draw it without reading a ref in render. */
   const [debugTarget, setDebugTarget] = useState<number | null>(null);
 
@@ -806,17 +805,17 @@ export default function SiteCompanion() {
   }, [headerBox]);
 
   const isHome = pathname === "/";
-  const atHeader = isHome && headerBox !== null && !aboutVisible && phase === "surface";
+  const atHeader = isHome && headerBox !== null && !aboutVisible;
   const hasSurface = current >= 0;
   const offSurface = phase !== "surface";
-  const hidden = aboutVisible || (!atHeader && !hasSurface && !offSurface);
+  const hidden = aboutVisible || (!hasSurface && !offSurface);
   const running =
     mounted &&
     !reducedMotion &&
     tabVisible &&
     !overlayOpen &&
     !hidden &&
-    (onScreen || atHeader || offSurface);
+    (onScreen || offSurface);
 
   // The sprite unmounts while the About figure is on screen, so it has to be
   // positioned again when it comes back rather than painting at the origin.
@@ -856,9 +855,9 @@ export default function SiteCompanion() {
 
     const idleLoop = () => {
       if (cancelled) return;
-      setPose(HEADER_PEEK.idleState);
+      setPerchPose(HEADER_PEEK.idleState);
       queue(randomBetween(HEADER_WAVE_GAP.min, HEADER_WAVE_GAP.max), () => {
-        setPose(HEADER_PEEK.waveState);
+        setPerchPose(HEADER_PEEK.waveState);
         queue(sequenceDuration(HEADER_PEEK.waveState) + 300, idleLoop);
       });
     };
@@ -869,10 +868,10 @@ export default function SiteCompanion() {
         return;
       }
       setHeaderGreeted(true);
-      setPose(HEADER_PEEK.waveState);
-      setBubble(true);
+      setPerchPose(HEADER_PEEK.waveState);
+      setPerchBubble(true);
       queue(HEADER_BUBBLE_MS, () => {
-        setBubble(false);
+        setPerchBubble(false);
         idleLoop();
       });
     });
@@ -881,11 +880,11 @@ export default function SiteCompanion() {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [atHeader, headerInView, headerGreeted, reducedMotion, tabVisible, overlayOpen, setPose]);
+  }, [atHeader, headerInView, headerGreeted, reducedMotion, tabVisible, overlayOpen]);
 
   /* ---------------- behaviour ---------------- */
   useEffect(() => {
-    if (!running || atHeader || phase !== "surface") return;
+    if (!running || phase !== "surface") return;
     let cancelled = false;
 
     const showBubble = () => {
@@ -2101,11 +2100,11 @@ export default function SiteCompanion() {
           box={headerBox}
           origin={origin}
           isDesktop={isDesktop}
-          state={state}
-          bubble={bubble}
-          onPointerDown={handlePointerDown}
+          state={perchPose}
+          bubble={perchBubble}
         />
-      ) : hidden ? null : (
+      ) : null}
+      {hidden ? null : (
         <div
           ref={spriteRef}
           className="absolute left-0 top-0 transition-opacity duration-500 will-change-transform"
