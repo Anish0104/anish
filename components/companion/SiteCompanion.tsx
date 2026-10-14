@@ -95,7 +95,7 @@ const CLIMB_WANT_MS = 4000;
  * Exactly one of the three loops below runs at a time, so there is never a
  * second timer chain driving the same character.
  */
-type Phase = "surface" | "falling" | "grounded";
+type Phase = "surface" | "falling" | "grounded" | "held";
 
 
 /**
@@ -228,6 +228,30 @@ export default function SiteCompanion() {
   const [facing, setFacing] = useState<1 | -1>(1);
   const [bubble, setBubble] = useState(false);
   const [bubbleSide, setBubbleSide] = useState<"left" | "right">("right");
+  const [bubbleText, setBubbleText] = useState("Hi!");
+  const bubbleTimerRef = useRef<number | undefined>(undefined);
+  const [isHeld, setIsHeld] = useState(false);
+  const dragRef = useRef<{
+    startX: number;
+    startY: number;
+    offsetX: number;
+    offsetY: number;
+    lastX: number;
+    lastTime: number;
+    moved: boolean;
+  } | null>(null);
+  const dragTiltRef = useRef(0);
+  const scheduleRef = useRef<(ms: number) => void>(() => {});
+
+  const say = useCallback((text: string, durationMs = 1800) => {
+    setBubbleText(text);
+    const surface = graphRef.current.surfaces[currentRef.current];
+    const viewportX = modeRef.current === "viewport" ? viewXRef.current : xRef.current - window.scrollX;
+    setBubbleSide(viewportX > window.innerWidth * 0.72 || (surface && xRef.current > surface.end - 80) ? "left" : "right");
+    setBubble(true);
+    if (bubbleTimerRef.current) window.clearTimeout(bubbleTimerRef.current);
+    bubbleTimerRef.current = window.setTimeout(() => setBubble(false), durationMs);
+  }, []);
   /** Mirrors climbFrameRef for rendering; only set while a climb is running. */
   const [climbFrame, setClimbFrame] = useState<number | undefined>(undefined);
 
@@ -441,8 +465,8 @@ export default function SiteCompanion() {
        */
       node.style.position = "fixed";
       const left = Number((viewXRef.current - charWidth / 2).toFixed(2));
-      const top = Number((feetYRef.current - size).toFixed(2));
-      node.style.transform = `translate3d(${left}px, ${top}px, 0)`;
+      const tilt = Number((dragTiltRef.current || 0).toFixed(1));
+      node.style.transform = `translate3d(${left}px, ${top}px, 0) rotate(${tilt}deg)`;
       return;
     }
     node.style.position = "absolute";
@@ -815,15 +839,13 @@ export default function SiteCompanion() {
     let cancelled = false;
 
     const showBubble = () => {
-      const surface = graphRef.current.surfaces[currentRef.current];
-      const viewportX = xRef.current - window.scrollX;
-      setBubbleSide(viewportX > window.innerWidth * 0.72 || (surface && xRef.current > surface.end - 80) ? "left" : "right");
-      setBubble(true);
+      say("Hi!", 2200);
     };
 
     const schedule = (ms: number) => {
       timerRef.current = window.setTimeout(begin, ms);
     };
+    scheduleRef.current = schedule;
 
     const finishTravel = () => {
       targetRef.current = null;
@@ -1838,6 +1860,164 @@ export default function SiteCompanion() {
     };
   }, [running, phase, size, charWidth, groundY, place, setPose]);
 
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+    e.stopPropagation();
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
+
+    if (timerRef.current) window.clearTimeout(timerRef.current);
+    if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
+
+    if (modeRef.current === "doc") {
+      const surface = graphRef.current.surfaces[currentRef.current];
+      const feet = surface ? surface.baseline - window.scrollY : groundY();
+      const vx = xRef.current - window.scrollX;
+      viewXRef.current = vx;
+      feetYRef.current = feet;
+      modeRef.current = "viewport";
+    }
+
+    const offsetX = e.clientX - viewXRef.current;
+    const offsetY = e.clientY - (feetYRef.current - size * 0.5);
+
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      offsetX,
+      offsetY,
+      lastX: e.clientX,
+      lastTime: performance.now(),
+      moved: false,
+    };
+
+    setIsHeld(true);
+    setPhase("held");
+    dragTiltRef.current = 0;
+    setPose("fall");
+    place();
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag) return;
+
+    const dist = Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY);
+    if (dist > 6 && !drag.moved) {
+      drag.moved = true;
+      const pickUpPhrases = ["Woah!", "Wheee!", "Up we go!", "Hey! :D"];
+      say(pickUpPhrases[Math.floor(Math.random() * pickUpPhrases.length)], 1600);
+    }
+
+    const now = performance.now();
+    const dt = Math.max(0.008, (now - drag.lastTime) / 1000);
+    const speedX = (e.clientX - drag.lastX) / dt;
+    drag.lastX = e.clientX;
+    drag.lastTime = now;
+
+    // Ragdoll tilt based on horizontal drag speed
+    const targetTilt = Math.min(20, Math.max(-20, speedX * 0.035));
+    dragTiltRef.current = dragTiltRef.current * 0.65 + targetTilt * 0.35;
+
+    viewXRef.current = e.clientX - drag.offsetX;
+    feetYRef.current = e.clientY - drag.offsetY + size * 0.5;
+
+    if (Math.abs(speedX) > 60) {
+      setFacing(speedX > 0 ? 1 : -1);
+    }
+
+    place();
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag) return;
+    dragRef.current = null;
+    setIsHeld(false);
+    dragTiltRef.current = 0;
+
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {}
+
+    // 1. Tapped or clicked without drag -> playful greeting/dance reaction!
+    if (!drag.moved) {
+      if (currentRef.current >= 0 && graphRef.current.surfaces[currentRef.current]) {
+        modeRef.current = "doc";
+        place();
+      }
+      setPhase("surface");
+      const reactions: ("wave" | "dance")[] = ["wave", "dance", "wave"];
+      const reaction = reactions[Math.floor(Math.random() * reactions.length)];
+      setPose(reaction);
+      const pokePhrases = ["Hi!", "Hey there!", "👋", "Hehe!"];
+      say(pokePhrases[Math.floor(Math.random() * pokePhrases.length)], 1800);
+      timerRef.current = window.setTimeout(() => {
+        setPose("idle");
+        scheduleRef.current(1200);
+      }, sequenceDuration(reaction) + 300);
+      return;
+    }
+
+    // 2. Dragged & dropped -> check destination
+    const docX = viewXRef.current + window.scrollX;
+    const docFeet = feetYRef.current + window.scrollY;
+    const ground = groundY();
+    const graph = graphRef.current;
+
+    let landedSurface = -1;
+    for (let i = 0; i < graph.surfaces.length; i++) {
+      const s = graph.surfaces[i];
+      const baselineDist = s.baseline - docFeet;
+      if (baselineDist >= -20 && baselineDist <= 55) {
+        if (docX >= s.start - 16 && docX <= s.end + 16) {
+          landedSurface = i;
+          break;
+        }
+      }
+    }
+
+    if (landedSurface >= 0) {
+      // Land directly on this surface!
+      const s = graph.surfaces[landedSurface];
+      currentRef.current = landedSurface;
+      setCurrent(landedSurface);
+      xRef.current = Math.min(Math.max(docX, s.start), s.end);
+      modeRef.current = "doc";
+      place();
+      setPose("fallLand");
+      const landingPhrases = ["Landed!", "Nice!", "Phew!", "Ta-da!"];
+      say(landingPhrases[Math.floor(Math.random() * landingPhrases.length)], 1400);
+      timerRef.current = window.setTimeout(() => {
+        setPose("idle");
+        setPhase("surface");
+        scheduleRef.current(1000);
+      }, sequenceDuration("fallLand"));
+      return;
+    }
+
+    // Check if dropped near the bottom window ground margin
+    if (feetYRef.current >= ground - 30) {
+      feetYRef.current = ground;
+      place();
+      setPose("fallLand");
+      say("Safe!", 1400);
+      timerRef.current = window.setTimeout(() => {
+        setPose("idle");
+        setPhase("grounded");
+      }, sequenceDuration("fallLand"));
+      return;
+    }
+
+    // 3. Dropped in mid-air -> physical falling with gravity!
+    fallVRef.current = 0;
+    setPose("fall");
+    say("Whoops!", 1200);
+    setPhase("falling");
+  };
+
   if (!mounted) return null;
 
   return (
@@ -1857,13 +2037,21 @@ export default function SiteCompanion() {
           className="absolute left-0 top-0 transition-opacity duration-500 will-change-transform"
           style={{ opacity: onScreen ? 1 : 0 }}
         >
-          <div className="relative">
-            <SpeechBubble text="Hi!" visible={bubble} side={bubbleSide} />
+          <div
+            className={`relative pointer-events-auto select-none touch-none ${
+              isHeld ? "cursor-grabbing scale-105" : "cursor-grab hover:scale-105"
+            } transition-transform duration-150`}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+          >
+            <SpeechBubble text={bubbleText} visible={bubble} side={bubbleSide} />
             <CompanionSprite
               state={state}
               height={size}
               facing={facing}
-              paused={!running}
+              paused={!running && !isHeld}
               preloadStates={ROAMING_STATES}
               frameIndex={climbFrame}
             />

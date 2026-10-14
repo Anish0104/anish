@@ -297,6 +297,7 @@ export const ROAMING_STATES: CompanionState[] = [
   "walk",
   "run",
   "wave",
+  "dance",
   "climbReach",
   "climbLoop",
   "climbPullUp",
