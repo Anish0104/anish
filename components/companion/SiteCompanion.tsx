@@ -465,6 +465,7 @@ export default function SiteCompanion() {
        */
       node.style.position = "fixed";
       const left = Number((viewXRef.current - charWidth / 2).toFixed(2));
+      const top = Number((feetYRef.current - size).toFixed(2));
       const tilt = Number((dragTiltRef.current || 0).toFixed(1));
       node.style.transform = `translate3d(${left}px, ${top}px, 0) rotate(${tilt}deg)`;
       return;
@@ -1860,87 +1861,12 @@ export default function SiteCompanion() {
     };
   }, [running, phase, size, charWidth, groundY, place, setPose]);
 
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.button !== 0) return;
-    e.stopPropagation();
-
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {}
-
-    if (timerRef.current) window.clearTimeout(timerRef.current);
-    if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
-
-    if (modeRef.current === "doc") {
-      const surface = graphRef.current.surfaces[currentRef.current];
-      const feet = surface ? surface.baseline - window.scrollY : groundY();
-      const vx = xRef.current - window.scrollX;
-      viewXRef.current = vx;
-      feetYRef.current = feet;
-      modeRef.current = "viewport";
-    }
-
-    const offsetX = e.clientX - viewXRef.current;
-    const offsetY = e.clientY - (feetYRef.current - size * 0.5);
-
-    dragRef.current = {
-      startX: e.clientX,
-      startY: e.clientY,
-      offsetX,
-      offsetY,
-      lastX: e.clientX,
-      lastTime: performance.now(),
-      moved: false,
-    };
-
-    setIsHeld(true);
-    setPhase("held");
-    dragTiltRef.current = 0;
-    setPose("fall");
-    place();
-  };
-
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const drag = dragRef.current;
-    if (!drag) return;
-
-    const dist = Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY);
-    if (dist > 6 && !drag.moved) {
-      drag.moved = true;
-      const pickUpPhrases = ["Woah!", "Wheee!", "Up we go!", "Hey! :D"];
-      say(pickUpPhrases[Math.floor(Math.random() * pickUpPhrases.length)], 1600);
-    }
-
-    const now = performance.now();
-    const dt = Math.max(0.008, (now - drag.lastTime) / 1000);
-    const speedX = (e.clientX - drag.lastX) / dt;
-    drag.lastX = e.clientX;
-    drag.lastTime = now;
-
-    // Ragdoll tilt based on horizontal drag speed
-    const targetTilt = Math.min(20, Math.max(-20, speedX * 0.035));
-    dragTiltRef.current = dragTiltRef.current * 0.65 + targetTilt * 0.35;
-
-    viewXRef.current = e.clientX - drag.offsetX;
-    feetYRef.current = e.clientY - drag.offsetY + size * 0.5;
-
-    if (Math.abs(speedX) > 60) {
-      setFacing(speedX > 0 ? 1 : -1);
-    }
-
-    place();
-  };
-
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+  const finishDrag = useCallback(() => {
     const drag = dragRef.current;
     if (!drag) return;
     dragRef.current = null;
     setIsHeld(false);
     dragTiltRef.current = 0;
-
-    try {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch {}
 
     // 1. Tapped or clicked without drag -> playful greeting/dance reaction!
     if (!drag.moved) {
@@ -1971,8 +1897,8 @@ export default function SiteCompanion() {
     for (let i = 0; i < graph.surfaces.length; i++) {
       const s = graph.surfaces[i];
       const baselineDist = s.baseline - docFeet;
-      if (baselineDist >= -20 && baselineDist <= 55) {
-        if (docX >= s.start - 16 && docX <= s.end + 16) {
+      if (baselineDist >= -30 && baselineDist <= 75) {
+        if (docX >= s.start - 30 && docX <= s.end + 30) {
           landedSurface = i;
           break;
         }
@@ -1999,7 +1925,7 @@ export default function SiteCompanion() {
     }
 
     // Check if dropped near the bottom window ground margin
-    if (feetYRef.current >= ground - 30) {
+    if (feetYRef.current >= ground - 45) {
       feetYRef.current = ground;
       place();
       setPose("fallLand");
@@ -2016,7 +1942,97 @@ export default function SiteCompanion() {
     setPose("fall");
     say("Whoops!", 1200);
     setPhase("falling");
+  }, [groundY, place, say, setPose]);
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (timerRef.current) window.clearTimeout(timerRef.current);
+    if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
+
+    const rect = spriteRef.current?.getBoundingClientRect();
+    if (rect) {
+      viewXRef.current = rect.left + rect.width / 2;
+      feetYRef.current = rect.bottom;
+    } else if (modeRef.current === "doc") {
+      const surface = graphRef.current.surfaces[currentRef.current];
+      const feet = surface ? surface.baseline - window.scrollY : groundY();
+      const vx = xRef.current - window.scrollX;
+      viewXRef.current = vx;
+      feetYRef.current = feet;
+    }
+    modeRef.current = "viewport";
+
+    const offsetX = e.clientX - viewXRef.current;
+    const offsetY = e.clientY - (feetYRef.current - size * 0.5);
+
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      offsetX,
+      offsetY,
+      lastX: e.clientX,
+      lastTime: performance.now(),
+      moved: false,
+    };
+
+    setIsHeld(true);
+    setPhase("held");
+    dragTiltRef.current = 0;
+    setPose("fall");
+    place();
   };
+
+  useEffect(() => {
+    if (!isHeld) return;
+
+    const onPointerMove = (e: PointerEvent) => {
+      const drag = dragRef.current;
+      if (!drag) return;
+
+      const dist = Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY);
+      if (dist > 5 && !drag.moved) {
+        drag.moved = true;
+        const pickUpPhrases = ["Woah!", "Wheee!", "Up we go!", "Hey! :D"];
+        say(pickUpPhrases[Math.floor(Math.random() * pickUpPhrases.length)], 1600);
+      }
+
+      const now = performance.now();
+      const dt = Math.max(0.008, (now - drag.lastTime) / 1000);
+      const speedX = (e.clientX - drag.lastX) / dt;
+      drag.lastX = e.clientX;
+      drag.lastTime = now;
+
+      // Ragdoll tilt based on horizontal drag speed
+      const targetTilt = Math.min(20, Math.max(-20, speedX * 0.035));
+      dragTiltRef.current = dragTiltRef.current * 0.65 + targetTilt * 0.35;
+
+      viewXRef.current = e.clientX - drag.offsetX;
+      feetYRef.current = e.clientY - drag.offsetY + size * 0.5;
+
+      if (Math.abs(speedX) > 40) {
+        setFacing(speedX > 0 ? 1 : -1);
+      }
+
+      place();
+    };
+
+    const onPointerUp = () => {
+      finishDrag();
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: false });
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
+
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
+    };
+  }, [isHeld, finishDrag, place, say, size]);
 
   if (!mounted) return null;
 
@@ -2024,9 +2040,9 @@ export default function SiteCompanion() {
     <div
       ref={rootRef}
       aria-hidden="true"
-      // Absolute at the document origin: the character scrolls with the page
-      // and stays on his surface. pointer-events-none keeps the page usable.
-      className="pointer-events-none absolute left-0 top-0 z-30 h-0 w-0 select-none"
+      className={`pointer-events-none absolute left-0 top-0 ${
+        isHeld ? "z-[9999]" : "z-40"
+      } h-0 w-0 select-none`}
     >
       {debug ? (
         <CompanionDebug graph={graph} current={current} target={debugTarget} charWidth={charWidth} />
@@ -2040,11 +2056,8 @@ export default function SiteCompanion() {
           <div
             className={`relative pointer-events-auto select-none touch-none ${
               isHeld ? "cursor-grabbing scale-105" : "cursor-grab hover:scale-105"
-            } transition-transform duration-150`}
+            } transition-transform duration-150 p-2 -m-2`}
             onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerUp}
           >
             <SpeechBubble text={bubbleText} visible={bubble} side={bubbleSide} />
             <CompanionSprite
