@@ -627,6 +627,12 @@ export default function SiteCompanion() {
     setOrigin(next);
   }, []);
 
+  useEffect(() => {
+    if (!mounted) return;
+    measureOrigin();
+    measureHeader();
+  }, [mounted, pathname, measureHeader, measureOrigin]);
+
   const rebuild = useCallback(() => {
     // Before anything else: every measurement below is converted against it.
     measureOrigin();
@@ -800,7 +806,7 @@ export default function SiteCompanion() {
   }, [headerBox]);
 
   const isHome = pathname === "/";
-  const atHeader = isHome && headerBox !== null && !aboutVisible && phase === "surface" && !headerGreeted;
+  const atHeader = isHome && headerBox !== null && !aboutVisible && phase === "surface";
   const hasSurface = current >= 0;
   const offSurface = phase !== "surface";
   const hidden = aboutVisible || (!atHeader && !hasSurface && !offSurface);

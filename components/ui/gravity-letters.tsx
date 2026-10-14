@@ -102,10 +102,36 @@ export default function GravityLetters({
 
   // Update theme color based on computed style of container
   const updateTextColor = useCallback(() => {
-    if (!containerRef.current) return;
-    const computed = window.getComputedStyle(containerRef.current);
-    colorRef.current = computed.color || "currentColor";
+    if (typeof window === "undefined") return;
+    const isDark =
+      document.documentElement.classList.contains("dark") ||
+      document.body.classList.contains("dark");
+    if (containerRef.current) {
+      const computed = window.getComputedStyle(containerRef.current);
+      if (
+        computed.color &&
+        computed.color !== "currentColor" &&
+        computed.color !== "rgba(0, 0, 0, 0)" &&
+        computed.color !== "transparent"
+      ) {
+        colorRef.current = computed.color;
+        return;
+      }
+    }
+    colorRef.current = isDark ? "#f5f5f7" : "#1d1d1f";
   }, []);
+
+  useEffect(() => {
+    updateTextColor();
+    const observer = new MutationObserver(() => {
+      updateTextColor();
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme"],
+    });
+    return () => observer.disconnect();
+  }, [updateTextColor]);
 
   // Initialize and measure text layout
   const initLayout = useCallback(() => {
@@ -484,6 +510,8 @@ export default function GravityLetters({
           ctx.clip();
         }
 
+        ctx.globalAlpha = 1.0;
+        ctx.fillStyle = colorRef.current;
         ctx.fillText(p.char, -p.width / 2, 0);
         ctx.restore();
       }
