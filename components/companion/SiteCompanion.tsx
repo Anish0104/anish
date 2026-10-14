@@ -128,6 +128,7 @@ function HeaderPerch({
   isDesktop,
   state,
   bubble,
+  onPointerDown,
 }: {
   /** The surname's own rect, in DOCUMENT coordinates. */
   box: { left: number; top: number; width: number };
@@ -136,6 +137,7 @@ function HeaderPerch({
   isDesktop: boolean;
   state: CompanionState;
   bubble: boolean;
+  onPointerDown?: (e: React.PointerEvent<HTMLDivElement>) => void;
 }) {
   // Solve the sprite size from the visible character width rather than the
   // other way round, so he measures the same against the letters at any size.
@@ -151,19 +153,16 @@ function HeaderPerch({
   /**
    * Centred over the back half of the surname, then converted out of document
    * space into the overlay's own.
-   *
-   * The overlay is `absolute`, so its coordinates are relative to whichever
-   * ancestor happens to be positioned. Writing a document coordinate straight
-   * into `left` only works while that ancestor is the document itself, and it
-   * silently adds the ancestor's offset twice the moment anything above gains
-   * `position: relative`. Subtracting the overlay's own origin makes the
-   * placement correct under any wrapper.
    */
   const left = Math.round(box.left + box.width * 0.66 - spriteWidth / 2 - origin.x);
   const top = Math.round(box.top - visible - origin.y);
 
   return (
-    <div className="absolute" style={{ left, top, width: spriteWidth }}>
+    <div
+      className="absolute pointer-events-auto cursor-grab hover:scale-105 transition-transform duration-150 select-none touch-none p-1 -m-1"
+      style={{ left, top, width: spriteWidth }}
+      onPointerDown={onPointerDown}
+    >
       {/*
         Bubble beside him rather than above: over the head it was clipped by
         the top of the viewport on a phone. To his left also keeps it clear of
@@ -800,16 +799,18 @@ export default function SiteCompanion() {
     headerBoxRef.current = headerBox;
   }, [headerBox]);
 
+  const isHome = pathname === "/";
+  const atHeader = isHome && headerBox !== null && !aboutVisible && phase === "surface" && !headerGreeted;
   const hasSurface = current >= 0;
   const offSurface = phase !== "surface";
-  const hidden = aboutVisible || (!hasSurface && !offSurface);
+  const hidden = aboutVisible || (!atHeader && !hasSurface && !offSurface);
   const running =
     mounted &&
     !reducedMotion &&
     tabVisible &&
     !overlayOpen &&
     !hidden &&
-    (onScreen || offSurface);
+    (onScreen || atHeader || offSurface);
 
   // The sprite unmounts while the About figure is on screen, so it has to be
   // positioned again when it comes back rather than painting at the origin.
@@ -832,11 +833,53 @@ export default function SiteCompanion() {
 
   /**
    * The perch's own behaviour.
+   *
+   * Greets once when the header first becomes properly visible in this visit,
+   * then settles into idle blinking with an infrequent wave.
+   */
+  useEffect(() => {
+    if (!atHeader || !headerInView || reducedMotion || !tabVisible || overlayOpen) return;
+    let cancelled = false;
+    let timer: number | undefined;
 
+    const queue = (ms: number, fn: () => void) => {
+      timer = window.setTimeout(() => {
+        if (!cancelled) fn();
+      }, ms);
+    };
+
+    const idleLoop = () => {
+      if (cancelled) return;
+      setPose(HEADER_PEEK.idleState);
+      queue(randomBetween(HEADER_WAVE_GAP.min, HEADER_WAVE_GAP.max), () => {
+        setPose(HEADER_PEEK.waveState);
+        queue(sequenceDuration(HEADER_PEEK.waveState) + 300, idleLoop);
+      });
+    };
+
+    queue(headerGreeted ? 0 : 260, () => {
+      if (headerGreeted) {
+        idleLoop();
+        return;
+      }
+      setHeaderGreeted(true);
+      setPose(HEADER_PEEK.waveState);
+      setBubble(true);
+      queue(HEADER_BUBBLE_MS, () => {
+        setBubble(false);
+        idleLoop();
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [atHeader, headerInView, headerGreeted, reducedMotion, tabVisible, overlayOpen, setPose]);
 
   /* ---------------- behaviour ---------------- */
   useEffect(() => {
-    if (!running || phase !== "surface") return;
+    if (!running || atHeader || phase !== "surface") return;
     let cancelled = false;
 
     const showBubble = () => {
@@ -2047,11 +2090,20 @@ export default function SiteCompanion() {
       {debug ? (
         <CompanionDebug graph={graph} current={current} target={debugTarget} charWidth={charWidth} />
       ) : null}
-      {hidden ? null : (
+      {atHeader ? (
+        <HeaderPerch
+          box={headerBox}
+          origin={origin}
+          isDesktop={isDesktop}
+          state={state}
+          bubble={bubble}
+          onPointerDown={handlePointerDown}
+        />
+      ) : hidden ? null : (
         <div
           ref={spriteRef}
           className="absolute left-0 top-0 transition-opacity duration-500 will-change-transform"
-          style={{ opacity: onScreen ? 1 : 0 }}
+          style={{ opacity: onScreen || offSurface ? 1 : 0 }}
         >
           <div
             className={`relative pointer-events-auto select-none touch-none ${

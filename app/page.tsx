@@ -12,8 +12,8 @@ export default function HomePage() {
   return (
     <ImageCursorTrail>
       <Hero />
-      <div className="relative">
-        <CompanionSurface id="home-hero" height={52} offset={8} />
+      <div className="relative mt-8 sm:mt-10">
+        <CompanionSurface id="home-hero" height={60} offset={10} bleed={false} />
         <AskBar />
       </div>
 

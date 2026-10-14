@@ -248,10 +248,10 @@ export function buildGraph(options: {
     const band = toDoc(rect);
 
     // The character stands on the bottom of the band. The space it needs is
-    // its own height plus headroom for the bubble, measured upward.
-    const needed = charHeight + BUBBLE_HEADROOM;
+    // its own height plus a small buffer, measured upward.
+    const needed = charHeight + 12;
     const bodyTop = band.bottom - needed;
-    if (band.bottom - band.top < charHeight * 0.5) continue;
+    if (band.bottom - band.top < charHeight * 0.4) continue;
 
     const pad = charWidth / 2 + SIDE_BUFFER;
     const spans: { start: number; end: number }[] = [];
