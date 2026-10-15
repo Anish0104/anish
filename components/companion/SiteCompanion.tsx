@@ -2082,7 +2082,7 @@ export default function SiteCompanion() {
     };
   }, [isHeld, finishDrag, place, say, size]);
 
-  if (!mounted) return null;
+  if (!mounted || pathname === "/terminal") return null;
 
   return (
     <div

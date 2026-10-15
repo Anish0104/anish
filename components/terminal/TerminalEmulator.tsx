@@ -126,27 +126,6 @@ const BANNER_MOBILE = `
 ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝
 `;
 
-/**
- * High-fidelity ASCII portrait of Anish Shirodkar:
- * Depicts textured wavy hair, spectacles/glasses, a clearly visible short full beard,
- * and a connected moustache, rendered in real monospace ASCII characters.
- */
-const ASCII_PORTRAIT = [
-  "       .─────────────.       ",
-  "      /   ~ ~ ~ ~ ~   \\      ",
-  "     /   (~~~~~~~~~)   \\     ",
-  "    |    _.-'''''-._    |    ",
-  "    |   [ ◉ ]-[ ◉ ]     |    ",
-  "    |   └───┘ └───┘     |    ",
-  "    |        ||         |    ",
-  "    |      .====.       |    ",
-  "    |    /########\\     |    ",
-  "    |   |##########|    |    ",
-  "     \\   \\########/    /     ",
-  "      \\   '######'    /      ",
-  "       \\    ####     /       ",
-  "        '───────────'        ",
-].join("\n");
 
 export default function TerminalEmulator() {
   const router = useRouter();
@@ -1075,7 +1054,7 @@ export default function TerminalEmulator() {
       </header>
 
       {/* Terminal Body */}
-      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 pb-32 sm:pb-36 font-mono text-[13px] sm:text-[13.5px] leading-relaxed">
+      <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 pb-36 sm:pb-40 font-mono text-[13px] sm:text-[13.5px] leading-relaxed">
         {/* Banner */}
         <div className="select-none opacity-90 mb-2">
           <pre
@@ -1098,17 +1077,28 @@ export default function TerminalEmulator() {
           </div>
         </div>
 
-        {/* 1. Neofetch-style Profile Card */}
-        <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6 p-3.5 sm:p-4 rounded-lg border border-cyan-500/20 bg-cyan-950/10 backdrop-blur-sm my-3 max-w-4xl">
-          {/* Left: Cyan Monospace ASCII Portrait */}
-          <div className="shrink-0 select-none">
-            <pre className="font-mono text-cyan-400 text-[10.5px] sm:text-xs leading-none">
-              {ASCII_PORTRAIT}
-            </pre>
+        {/* 1. Refined Profile Section */}
+        <div className="flex flex-col md:flex-row items-center md:items-stretch gap-5 sm:gap-6 my-4 max-w-4xl">
+          {/* Left: Dedicated Portrait Asset (200-230px wide) */}
+          <div className="w-[200px] sm:w-[220px] shrink-0 flex items-center justify-center select-none">
+            <Image
+              src="/images/terminal-portrait.svg"
+              alt="Anish Shirodkar portrait"
+              width={220}
+              height={220}
+              priority
+              className="w-full h-auto object-contain"
+            />
           </div>
 
+          {/* Thin Vertical Divider (Desktop) */}
+          <div className="hidden md:block w-px bg-white/10 self-stretch my-1" />
+
+          {/* Thin Horizontal Divider (Mobile) */}
+          <div className="block md:hidden w-full h-px bg-white/10 my-1" />
+
           {/* Right: Profile Details */}
-          <div className="flex-1 space-y-2 text-xs sm:text-[13px] font-mono leading-relaxed">
+          <div className="flex-1 flex flex-col justify-center space-y-2 text-xs sm:text-[13px] font-mono leading-relaxed">
             <div>
               <h2 className="text-base sm:text-lg font-bold text-cyan-300">
                 Anish Shirodkar
@@ -1152,14 +1142,14 @@ export default function TerminalEmulator() {
               <button
                 type="button"
                 onClick={() => executeCommand("tour")}
-                className="px-3 py-1.5 rounded text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 hover:bg-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+                className="px-3 py-1.5 rounded text-xs font-mono border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/10 transition-colors cursor-pointer"
               >
                 Start guided tour →
               </button>
               <button
                 type="button"
                 onClick={() => executeCommand("projects")}
-                className="px-3 py-1.5 rounded text-xs font-semibold bg-white/5 text-white/90 border border-white/15 hover:bg-white/10 transition-all active:scale-95 cursor-pointer"
+                className="px-3 py-1.5 rounded text-xs font-mono border border-white/15 text-white/80 hover:bg-white/5 transition-colors cursor-pointer"
               >
                 Explore projects
               </button>
@@ -1420,7 +1410,7 @@ export default function TerminalEmulator() {
 
       {/* 6. Mini Anish Perched in Bottom-Right with Dismissible Bubble */}
       <div
-        className="fixed right-3 sm:right-6 bottom-24 z-30 flex flex-col items-end pointer-events-auto select-none"
+        className="fixed right-3 sm:right-6 bottom-28 z-30 flex flex-col items-end pointer-events-auto select-none"
         aria-label="Mini Anish companion"
       >
         {showCompanionBubble && (
@@ -1470,16 +1460,22 @@ export default function TerminalEmulator() {
         </div>
       </div>
 
-      {/* 5. Fixed Bottom Controls & Subtle Hint Row */}
+      {/* 5. Fixed Bottom Controls & Subtle Hint Row (Hints placed ABOVE chips) */}
       <footer
-        className="fixed bottom-0 left-0 right-0 z-30 px-3 sm:px-6 py-2.5 border-t flex flex-col gap-1.5 backdrop-blur-md"
+        className="fixed bottom-0 left-0 right-0 z-30 px-3 sm:px-6 py-2 border-t flex flex-col gap-1.5 backdrop-blur-md"
         style={{
           backgroundColor: `${themeConfig.windowBg}f5`,
           borderColor: themeConfig.border,
         }}
       >
-        {/* Quick action chips row */}
-        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar">
+        {/* Subtle Hint Row (Above quick chips) */}
+        <div className="flex items-center justify-between text-[11px] font-mono text-white/40 pb-1 border-b border-white/5">
+          <span>TAB autocomplete · ↑↓ history · Ctrl+L clear</span>
+          <span className="hidden sm:inline">Type &apos;exit&apos; to return to GUI</span>
+        </div>
+
+        {/* Quick action chips row (Below keyboard hints) */}
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pt-0.5">
           <span className="text-[11px] font-mono opacity-50 uppercase tracking-wider shrink-0 mr-1 hidden sm:inline">
             Quick:
           </span>
@@ -1492,7 +1488,7 @@ export default function TerminalEmulator() {
                 onClick={() => executeCommand(chip.cmd)}
                 className={`px-2.5 py-1 rounded text-xs font-mono transition-all active:scale-95 shrink-0 cursor-pointer ${
                   isTour
-                    ? "border border-cyan-400 text-cyan-300 bg-cyan-950/40 shadow-[0_0_10px_rgba(34,211,238,0.25)] font-bold"
+                    ? "border border-cyan-400/80 text-cyan-300 bg-cyan-950/25 hover:bg-cyan-900/35 font-semibold"
                     : "border border-white/10 bg-white/5 hover:bg-white/15 text-white/90"
                 }`}
               >
@@ -1518,12 +1514,6 @@ export default function TerminalEmulator() {
               </button>
             ))}
           </div>
-        </div>
-
-        {/* Subtle Hint Row */}
-        <div className="flex items-center justify-between text-[11px] font-mono text-white/40 pt-0.5 border-t border-white/5">
-          <span>TAB autocomplete · ↑↓ history · Ctrl+L clear</span>
-          <span className="hidden sm:inline">Type &apos;exit&apos; to return to GUI</span>
         </div>
       </footer>
     </div>
