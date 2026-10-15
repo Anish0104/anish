@@ -1079,15 +1079,15 @@ export default function TerminalEmulator() {
 
         {/* 1. Refined Profile Section */}
         <div className="flex flex-col md:flex-row items-center md:items-stretch gap-5 sm:gap-6 my-4 max-w-4xl">
-          {/* Left: Dedicated Portrait Asset (200-230px wide) */}
-          <div className="w-[200px] sm:w-[220px] shrink-0 flex items-center justify-center select-none">
+          {/* Left: Dedicated Portrait Asset (approx 220px wide, height auto, object-contain) */}
+          <div className="w-[220px] shrink-0 flex items-center justify-center select-none">
             <Image
-              src="/images/terminal-portrait.svg"
-              alt="Anish Shirodkar portrait"
+              src="/images/terminal-portrait.png"
+              alt="Anish Shirodkar"
               width={220}
-              height={220}
+              height={247}
               priority
-              className="w-full h-auto object-contain"
+              className="w-[220px] h-auto object-contain"
             />
           </div>
 
