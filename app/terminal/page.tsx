@@ -17,3 +17,4 @@ export const metadata: Metadata = {
 export default function TerminalPage() {
   return <TerminalEmulator />;
 }
+
