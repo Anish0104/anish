@@ -51,10 +51,10 @@ export default function ProjectGallery({
                 type="button"
                 onClick={() => setFilter(category)}
                 aria-pressed={active}
-                className={`rounded-[6px] border-[2px] border-black dark:border-white/80 px-3.5 py-1.5 font-mono text-[12px] font-bold transition-all ${
+                className={`rounded-full border px-3.5 py-1.5 font-mono text-[11.5px] transition-colors ${
                   active
-                    ? "bg-[#ff7a00] text-black shadow-[2.5px_2.5px_0_#000] -translate-x-0.5 -translate-y-0.5"
-                    : "bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 shadow-[2px_2px_0_#000] dark:shadow-[2px_2px_0_#fff] hover:-translate-y-0.5 hover:text-black dark:hover:text-white"
+                    ? "border-accent bg-accent-soft text-accent font-medium"
+                    : "border-border bg-surface text-muted hover:border-border-strong hover:text-text"
                 }`}
               >
                 {category}

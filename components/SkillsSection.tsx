@@ -10,7 +10,7 @@ export interface SkillCategory {
 export const skillCategories: SkillCategory[] = [
   {
     name: "Languages",
-    skills: ["JavaScript", "TypeScript", "Go", "Python", "C", "C++", "SQL"],
+    skills: ["Python", "TypeScript", "JavaScript", "Go", "C", "C++", "SQL"],
   },
   {
     name: "AI & ML",
@@ -19,18 +19,19 @@ export const skillCategories: SkillCategory[] = [
       "TensorFlow",
       "Hugging Face",
       "Transformers",
+      "LLMs & RAG",
       "Qdrant",
       "ChromaDB",
-      "LLMs & RAG",
       "YOLOv8",
       "OpenCV",
+      "scikit-learn",
     ],
   },
   {
     name: "Backend",
     skills: [
-      "Node.js",
       "FastAPI",
+      "Node.js",
       "Express",
       "Flask",
       "REST APIs",
@@ -41,35 +42,35 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     name: "Frontend",
-    skills: ["React", "Next.js", "Tailwind CSS", "Streamlit", "HTML5", "CSS3"],
+    skills: ["Next.js", "React", "Tailwind CSS", "Streamlit", "HTML5", "CSS3"],
   },
   {
     name: "Databases",
     skills: [
       "PostgreSQL",
+      "Supabase (PostgreSQL + RLS)",
       "MySQL",
       "SQLite",
       "MongoDB",
-      "Supabase",
-      "Firebase",
+      "Qdrant",
     ],
   },
   {
-    name: "Tools",
+    name: "Tools & Cloud",
     skills: [
-      "Git",
       "Docker",
+      "Git",
       "Claude Code",
       "Cursor",
-      "Codex",
       "Linux",
       "AWS",
       "GCP",
+      "Vercel",
     ],
   },
   {
-    name: "Hardware",
-    skills: ["ESP32", "Raspberry Pi", "Arduino"],
+    name: "Hardware & IoT",
+    skills: ["ESP32", "Raspberry Pi", "Arduino", "Sensors", "MQTT"],
   },
 ];
 
@@ -83,25 +84,25 @@ export default function SkillsSection({
   return (
     <div className="w-full">
       <div>
-        <h2 className="text-[32px] sm:text-[38px] font-black tracking-tight text-neutral-900 dark:text-neutral-100">
+        <h2 className="text-[24px] font-semibold tracking-[-0.026em] text-text sm:text-[30px]">
           {title}
         </h2>
         {subtitle ? (
-          <p className="mt-1 text-[15px] sm:text-[16px] text-neutral-600 dark:text-neutral-400">
+          <p className="mt-1.5 text-[15px] text-muted sm:text-[16px]">
             {subtitle}
           </p>
         ) : null}
       </div>
 
-      {/* Main Neo-brutalist Card Container matching bugblazer.dev */}
-      <div className="mt-6 rounded-[12px] border-[2.5px] border-black dark:border-white/80 bg-white dark:bg-[#1a1b1e] px-6 sm:px-8 py-2 shadow-[6px_6px_0_#000] dark:shadow-[6px_6px_0_rgba(255,255,255,0.85)]">
-        <dl className="divide-y-2 divide-neutral-200/80 dark:divide-neutral-800">
+      {/* Structured, editorial card container matching the site theme */}
+      <div className="mt-6 rounded-2xl border border-border bg-surface px-6 py-2 shadow-card sm:px-8 sm:py-3">
+        <dl className="divide-y divide-border">
           {skillCategories.map((category) => (
             <div
               key={category.name}
-              className="grid grid-cols-1 gap-2.5 py-4 sm:grid-cols-[140px_1fr] sm:items-center sm:gap-6 sm:py-4"
+              className="grid grid-cols-1 gap-2.5 py-4 sm:grid-cols-[140px_1fr] sm:items-center sm:gap-6 sm:py-4.5"
             >
-              <dt className="font-extrabold text-[15.5px] sm:text-[16px] text-neutral-900 dark:text-neutral-100 tracking-tight shrink-0">
+              <dt className="font-semibold text-[14.5px] text-text tracking-tight shrink-0 sm:text-[15.5px]">
                 {category.name}
               </dt>
               <dd>
@@ -109,7 +110,7 @@ export default function SkillsSection({
                   {category.skills.map((skill) => (
                     <li
                       key={skill}
-                      className="inline-flex items-center rounded-[6px] border-[2px] border-black dark:border-white/80 bg-white dark:bg-[#121316] px-3 py-1 font-mono text-[13px] sm:text-[13.5px] font-bold text-neutral-900 dark:text-neutral-100 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-default"
+                      className="inline-flex items-center rounded-lg border border-border/80 bg-surface-2 px-3 py-1 font-mono text-[12px] sm:text-[12.5px] font-medium text-text-soft transition-all duration-150 hover:border-border-strong hover:bg-surface hover:text-text cursor-default"
                     >
                       {skill}
                     </li>

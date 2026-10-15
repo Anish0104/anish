@@ -35,9 +35,10 @@ export default function HomePage() {
         <div className="mt-10 flex justify-center">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 rounded-[8px] border-[2px] border-black dark:border-white/80 bg-[#ff7a00] px-6 py-3 font-mono text-[13.5px] font-black text-black shadow-[3.5px_3.5px_0_#000] dark:shadow-[3.5px_3.5px_0_#fff] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5.5px_5.5px_0_#000] dark:hover:shadow-[5.5px_5.5px_0_#fff] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+            className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-5 py-2.5 font-mono text-[13px] font-medium text-text shadow-card transition-all hover:bg-surface-2 hover:border-border-strong hover:shadow-lift motion-safe:hover:-translate-y-0.5"
           >
-            Explore all {projects.length} projects →
+            Explore all {projects.length} projects
+            <span aria-hidden="true" className="text-accent">→</span>
           </Link>
         </div>
       </section>
