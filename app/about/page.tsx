@@ -3,6 +3,7 @@ import CourseworkList from "@/components/CourseworkList";
 import DocumentLinks from "@/components/DocumentLinks";
 import AboutCharacter from "@/components/AboutCharacter";
 import SkillGroups from "@/components/SkillGroups";
+import SkillsSection from "@/components/SkillsSection";
 import { aboutIntro, profile } from "@/data/profile";
 import { certifications, education } from "@/data/skills";
 import { existingDocuments } from "@/lib/documents";
@@ -71,13 +72,7 @@ export default function AboutPage() {
 
       <section className="relative mt-16 sm:mt-20">
         <CompanionSurface id="about-2" height={56} offset={10} />
-        <h2 className="text-[24px] font-semibold tracking-[-0.026em] sm:text-[30px]">
-          What I work with
-        </h2>
-        {/* The supporting line lives in SkillGroups, next to the shelf it introduces. */}
-        <div className="mt-3">
-          <SkillGroups />
-        </div>
+        <SkillsSection title="Skills" subtitle="What I use to build and fix things." />
       </section>
 
       {/* Old /certifications deep link redirects to /about#certifications. */}
