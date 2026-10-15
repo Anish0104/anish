@@ -1,8 +1,7 @@
-import Link from "next/link";
 import AskBar from "@/components/AskBar";
 import ExperienceRow from "@/components/ExperienceRow";
 import Hero from "@/components/Hero";
-import ProjectGallery from "@/components/ProjectGallery";
+import ConcaveCarousel from "@/components/ui/concave-carousel";
 import SkillsSection from "@/components/SkillsSection";
 import SectionHeading from "@/components/SectionHeading";
 import { experience } from "@/data/experience";
@@ -11,9 +10,6 @@ import CompanionSurface from "@/components/companion/CompanionSurface";
 import ImageCursorTrail from "@/components/ui/image-cursor-trail";
 
 export default function HomePage() {
-  // Select top 6 high-impact projects to showcase on homepage
-  const featuredProjects = projects.filter((p) => p.featured || ["vtrack", "quantvision"].includes(p.slug)).slice(0, 6);
-
   return (
     <ImageCursorTrail>
       <Hero />
@@ -22,28 +18,19 @@ export default function HomePage() {
         <AskBar />
       </div>
 
-      {/* Projects Section styled after bugblazer.dev */}
+      {/* 3D Concave Projects Carousel with new hand-painted artwork */}
       <section className="relative mt-16 border-t border-border pt-12 sm:mt-20">
         <CompanionSurface id="home-1" height={56} offset={10} />
         <SectionHeading
           title="Things I’ve built"
           action={{ label: "All projects", href: "/projects" }}
         />
-        <div className="mt-8">
-          <ProjectGallery projects={featuredProjects} columns={2} />
-        </div>
-        <div className="mt-10 flex justify-center">
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-5 py-2.5 font-mono text-[13px] font-medium text-text shadow-card transition-all hover:bg-surface-2 hover:border-border-strong hover:shadow-lift motion-safe:hover:-translate-y-0.5"
-          >
-            Explore all {projects.length} projects
-            <span aria-hidden="true" className="text-accent">→</span>
-          </Link>
+        <div className="mt-6">
+          <ConcaveCarousel projects={projects} />
         </div>
       </section>
 
-      {/* Skills Section styled after bugblazer.dev */}
+      {/* Skills Section */}
       <section className="relative mt-16 border-t border-border pt-12 sm:mt-20">
         <CompanionSurface id="home-skills" height={56} offset={10} />
         <SkillsSection />

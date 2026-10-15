@@ -288,6 +288,7 @@ export default function ConcaveCarousel({
       {/* 3D Stage */}
       <div
         className={styles.stage}
+        suppressHydrationWarning
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
