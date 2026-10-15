@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import TechLogo from "./icons/TechLogo";
 
 export interface SkillCategory {
   name: string;
@@ -11,7 +10,7 @@ export interface SkillCategory {
 export const skillCategories: SkillCategory[] = [
   {
     name: "Languages",
-    skills: ["JavaScript", "TypeScript", "Python", "Go", "C", "C++", "SQL"],
+    skills: ["JavaScript", "TypeScript", "Go", "Python", "C", "C++", "SQL"],
   },
   {
     name: "AI & ML",
@@ -52,7 +51,6 @@ export const skillCategories: SkillCategory[] = [
       "SQLite",
       "MongoDB",
       "Supabase",
-      "Qdrant",
       "Firebase",
     ],
   },
@@ -63,15 +61,15 @@ export const skillCategories: SkillCategory[] = [
       "Docker",
       "Claude Code",
       "Cursor",
+      "Codex",
       "Linux",
       "AWS",
       "GCP",
-      "Vercel",
     ],
   },
   {
     name: "Hardware",
-    skills: ["ESP32", "Raspberry Pi", "Arduino", "Sensors", "MQTT"],
+    skills: ["ESP32", "Raspberry Pi", "Arduino"],
   },
 ];
 
@@ -85,7 +83,7 @@ export default function SkillsSection({
   return (
     <div className="w-full">
       <div>
-        <h2 className="text-[28px] sm:text-[34px] font-black tracking-tight text-neutral-900 dark:text-neutral-100">
+        <h2 className="text-[32px] sm:text-[38px] font-black tracking-tight text-neutral-900 dark:text-neutral-100">
           {title}
         </h2>
         {subtitle ? (
@@ -96,14 +94,14 @@ export default function SkillsSection({
       </div>
 
       {/* Main Neo-brutalist Card Container matching bugblazer.dev */}
-      <div className="mt-6 rounded-[14px] border-[2.5px] border-black dark:border-white/80 bg-white dark:bg-[#1a1b1e] px-5 sm:px-8 py-3 shadow-[6px_6px_0_#000] dark:shadow-[6px_6px_0_rgba(255,255,255,0.85)]">
-        <dl className="divide-y-2 divide-neutral-200 dark:divide-neutral-800">
+      <div className="mt-6 rounded-[12px] border-[2.5px] border-black dark:border-white/80 bg-white dark:bg-[#1a1b1e] px-6 sm:px-8 py-2 shadow-[6px_6px_0_#000] dark:shadow-[6px_6px_0_rgba(255,255,255,0.85)]">
+        <dl className="divide-y-2 divide-neutral-200/80 dark:divide-neutral-800">
           {skillCategories.map((category) => (
             <div
               key={category.name}
-              className="grid grid-cols-1 gap-2.5 py-4 sm:grid-cols-[140px_1fr] sm:items-center sm:gap-6 sm:py-5"
+              className="grid grid-cols-1 gap-2.5 py-4 sm:grid-cols-[140px_1fr] sm:items-center sm:gap-6 sm:py-4"
             >
-              <dt className="font-extrabold text-[15.5px] sm:text-[16.5px] text-neutral-900 dark:text-neutral-100 tracking-tight shrink-0">
+              <dt className="font-extrabold text-[15.5px] sm:text-[16px] text-neutral-900 dark:text-neutral-100 tracking-tight shrink-0">
                 {category.name}
               </dt>
               <dd>
@@ -111,10 +109,9 @@ export default function SkillsSection({
                   {category.skills.map((skill) => (
                     <li
                       key={skill}
-                      className="inline-flex items-center gap-1.5 rounded-[6px] border-[2px] border-black dark:border-white/80 bg-white dark:bg-[#121316] px-2.5 sm:px-3 py-1 font-mono text-[12.5px] sm:text-[13px] font-bold text-neutral-900 dark:text-neutral-100 shadow-[1.5px_1.5px_0_#000] dark:shadow-[1.5px_1.5px_0_#fff] transition-all hover:-translate-y-0.5 hover:shadow-[3px_3px_0_#000] dark:hover:shadow-[3px_3px_0_#fff] cursor-default"
+                      className="inline-flex items-center rounded-[6px] border-[2px] border-black dark:border-white/80 bg-white dark:bg-[#121316] px-3 py-1 font-mono text-[13px] sm:text-[13.5px] font-bold text-neutral-900 dark:text-neutral-100 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-default"
                     >
-                      <TechLogo name={skill} size={14} className="shrink-0 text-neutral-700 dark:text-neutral-300" />
-                      <span>{skill}</span>
+                      {skill}
                     </li>
                   ))}
                 </ul>
@@ -126,4 +123,3 @@ export default function SkillsSection({
     </div>
   );
 }
-
