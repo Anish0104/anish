@@ -164,10 +164,10 @@ export const projects: Project[] = [
       },
     ],
     cover: {
-      src: "/images/projects/cerevia.svg",
+      src: "/images/projects/cerevia.webp",
       kind: "illustration",
-      alt: "Hospital command center screen with telemetry timeline, medical cross, and a doctor receiving an off-shift voice offer alert.",
-      provenance: "Hand-drawn editorial doodle illustration with deep clinical sapphire accent.",
+      alt: "Handcrafted coordination board on a burnt-orange desk with hospital buildings and physician tokens connected by golden threads.",
+      provenance: "Hand-painted gouache and oil painting with rich cobalt blue and burnt orange tones.",
     },
   },
   {
@@ -198,10 +198,10 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/semantic-search.svg",
+      src: "/images/projects/semantic-search.webp",
       kind: "illustration",
-      alt: "Magnifying glass hovering over scattered document cards, picking out one matching card with sorting arrows into a neat stack.",
-      provenance: "Hand-drawn editorial doodle illustration with dusty blue accent.",
+      alt: "Cobalt-blue magnifying glass focusing on a golden-yellow document among scattered cream papers on a burnt-orange wooden desk.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
   {
@@ -233,10 +233,10 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/margin.svg",
+      src: "/images/projects/margin.webp",
       kind: "illustration",
-      alt: "Open university handbook with a tiny campus building and a speech bubble connected directly to an underlined source passage.",
-      provenance: "Hand-drawn editorial doodle illustration with sage green accent.",
+      alt: "Open cream reference book in front of a red-brick university building with a brass desk lamp casting warm light onto the pages.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
   {
@@ -268,10 +268,10 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/vouch.svg",
+      src: "/images/projects/vouch.webp",
       kind: "illustration",
-      alt: "Friendly little robot receiving an old-fashioned key with a permission checkmark tag from a human hand through a small doorway.",
-      provenance: "Hand-drawn editorial doodle illustration with muted lavender accent.",
+      alt: "Cobalt-blue lockbox with an ornate golden key on a burnt-orange desk with wax-sealed cream envelopes and winding ribbon.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
   {
@@ -301,10 +301,10 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/skillgap.svg",
+      src: "/images/projects/skillgap.webp",
       kind: "illustration",
-      alt: "Résumé sheet folding into a staircase with a person carrying a missing step toward a gap, beneath a summit goal flag.",
-      provenance: "Hand-drawn editorial doodle illustration with terracotta accent.",
+      alt: "Wooden workbench with cobalt puzzle pieces and a golden staircase bridged by an orange piece beside a sketchbook.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
   {
@@ -336,10 +336,10 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/redirectiq.svg",
+      src: "/images/projects/redirectiq.webp",
       kind: "illustration",
-      alt: "Three winding pipes carrying envelope requests toward a shared finish line beside a large hand-drawn stopwatch.",
-      provenance: "Hand-drawn editorial doodle illustration with muted mustard accent.",
+      alt: "Curved cobalt-blue and brass pipes channeling streams into a collection basin beside a vintage brass stopwatch.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
   {
@@ -369,10 +369,10 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/docpilot.svg",
+      src: "/images/projects/docpilot.webp",
       kind: "illustration",
-      alt: "Paper airplane lifting off from a document folder with a dotted flight path curving back to a highlighted source passage.",
-      provenance: "Hand-drawn editorial doodle illustration with slate blue accent.",
+      alt: "Open book on a burnt-orange desk with a cobalt-blue paper airplane lifting off, guided by a golden ribbon.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
   {
@@ -396,10 +396,10 @@ export const projects: Project[] = [
     stack: ["YOLOv8", "ByteTrack", "OpenCV", "Ultralytics", "JavaScript"],
     links: [],
     cover: {
-      src: "/images/projects/vtrack.svg",
+      src: "/images/projects/vtrack.webp",
       kind: "illustration",
-      alt: "Curved road viewed from above with three small cars inside rectangular tracking boxes and a roadside camera on a pole.",
-      provenance: "Hand-drawn editorial doodle illustration with olive green accent.",
+      alt: "Miniature city intersection tabletop with cobalt-blue and orange toy cars with golden tracking trails.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
   {
@@ -431,10 +431,10 @@ export const projects: Project[] = [
     ],
     links: [],
     cover: {
-      src: "/images/projects/quantvision.svg",
+      src: "/images/projects/quantvision.webp",
       kind: "illustration",
-      alt: "Small thoughtful robot adjusting a seesaw with different stacks of coins before an undulating hand-drawn market chart.",
-      provenance: "Hand-drawn editorial doodle illustration with dusty teal accent.",
+      alt: "Cobalt-blue chess knight on a checkered board beside golden coin towers and an abstract rising trend line.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
   {
@@ -464,10 +464,10 @@ export const projects: Project[] = [
       },
     ],
     cover: {
-      src: "/images/projects/sunspot-transformer.svg",
+      src: "/images/projects/sunspot-transformer.webp",
       kind: "illustration",
-      alt: "Large sun with irregular ink spots above a curling strip of calendar pages where a pencil extends a solid wave into a dotted forecast.",
-      provenance: "Hand-drawn editorial doodle illustration with muted ochre accent.",
+      alt: "Sculptural cream cloud raining cobalt brushstrokes beside a golden sun and blue watering jug over a landscape.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
   {
@@ -496,10 +496,10 @@ export const projects: Project[] = [
       },
     ],
     cover: {
-      src: "/images/projects/veritasai.svg",
+      src: "/images/projects/veritasai.webp",
       kind: "illustration",
-      alt: "Folded newspapers flowing into a broad hand-drawn funnel with one neatly organized newspaper emerging below beside a magnifying glass.",
-      provenance: "Hand-drawn editorial doodle illustration with faded coral accent.",
+      alt: "Vintage wooden editorial reading table with cream newspapers, a cobalt-blue fountain pen, magnifying glass, and citrus bowl.",
+      provenance: "Hand-painted gouache and oil painting matching Anish Shirodkar's landscape painting style.",
     },
   },
 ];
