@@ -31,7 +31,16 @@ export default function SiteHeader() {
             )}
           </Link>
         </div>
-        <div className="shrink-0 pt-1.5 sm:pt-0">
+        <div className="shrink-0 pt-1.5 sm:pt-0 flex items-center gap-2 sm:gap-2.5">
+          <Link
+            href="/terminal"
+            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1 font-mono text-[11px] sm:text-[12px] text-muted transition-all hover:border-accent hover:text-accent hover:bg-surface-2 active:scale-95"
+            title="Open CLI Terminal Mode"
+            aria-label="Open CLI Terminal Mode"
+          >
+            <span className="font-bold text-accent">&gt;_</span>
+            <span className="hidden sm:inline">terminal</span>
+          </Link>
           <ThemeToggle />
         </div>
       </div>
